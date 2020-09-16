@@ -1,0 +1,6 @@
+{
+  "name": "elemui",
+  "version-string": "0.0.1",
+  "description": "C++ Graphical User Interface Library",
+  "dependencies": ["elemd"]
+}
