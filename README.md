@@ -1,6 +1,5 @@
 # Elemental UI
 
-![C++ Builder](https://github.com/Haeri/ElementalUI/workflows/C++%20Builder/badge.svg)
 ![Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/Haeri/ElementalUI/master/vcpkg.json&label=version&query=$.version-string&color=blue)
 [![License](https://img.shields.io/github/license/Haeri/ElementalUI.svg)](https://github.com/Haeri/ElementalUI/blob/master/LICENSE)
 ![Size](https://img.shields.io/github/languages/code-size/haeri/elementalui)

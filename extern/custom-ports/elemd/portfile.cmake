@@ -8,9 +8,9 @@
 
 vcpkg_download_distfile(ARCHIVE
 #    URLS "https://github.com/Haeri/ElementalDraw/archive/master.zip"
-	URLS https://github.com/Haeri/ElementalDraw/archive/1f5ea599c6bfdf78e7bcb30e5134350f73f2507e.zip
+	URLS https://github.com/Haeri/ElementalDraw/archive/c538360cfcf70de22957fa17a99094b37b72b6fa.zip
 	FILENAME elemd001.zip
-    SHA512 fc2200bb3d0f245563e50332b98ef4932c84d7c9b599e2fe08c29f39e08592b86bcf36b6f165fdc390a6f241159dc7a10fa45a84e8074832b55f0b623cbe4236
+    SHA512 65b8aeac13ce723cf9704a40d83015b1c19f5c78d3d40da4c113f5cd3636b9cbedd0741a5466ee256734704bbe7782b327e84f1fd49d411e9613f9da28a7304e
 )
 
 vcpkg_extract_source_archive_ex(
@@ -25,7 +25,7 @@ vcpkg_configure_cmake(
 
 vcpkg_install_cmake()
 
-file(INSTALL ${SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/elemd RENAME copyright)
+file(INSTALL ${SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/elemd)
 
 # # Moves all .cmake files from /debug/share/elemd/ to /share/elemd/
 # # See /docs/maintainers/vcpkg_fixup_cmake_targets.md for more details
