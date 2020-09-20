@@ -9,7 +9,11 @@ rm -rf build
 mkdir build
 cd build
 
-cmake .. -DVCPKG_TARGET_TRIPLET=x64-osx -DVCPKG_OVERLAY_PORTS=$root_path"/extern/custom-ports"
+if [[ -z "${VCPKG_ROOT}" ]]; then
+	cmake .. -DVCPKG_TARGET_TRIPLET=x64-osx -DVCPKG_OVERLAY_PORTS=$root_path"/extern/custom-ports"
+else
+	cmake .. -DVCPKG_TARGET_TRIPLET=x64-osx -DVCPKG_OVERLAY_PORTS=$root_path"/extern/custom-ports"  -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake"
+fi
 
 err=$?
 
