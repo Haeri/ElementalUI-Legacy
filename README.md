@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/github/license/Haeri/ElementalUI.svg)](https://github.com/Haeri/ElementalUI/blob/master/LICENSE)
 ![Size](https://img.shields.io/github/languages/code-size/haeri/elementalui)
 
-Portable c++ GUI library.
+Portable C++ GUI library.
 
 
 ## Requirements
