@@ -1,7 +1,8 @@
 # Elemental UI
 
+![Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/Haeri/ElementalUI/master/vcpkg.json&label=version&query=$.version-string&color=blue)
 [![License](https://img.shields.io/github/license/Haeri/ElementalUI.svg)](https://github.com/Haeri/ElementalUI/blob/master/LICENSE)
-![size](https://img.shields.io/github/languages/code-size/haeri/elementalui)
+![Size](https://img.shields.io/github/languages/code-size/haeri/elementalui)
 
 Portable c++ GUI library.
 

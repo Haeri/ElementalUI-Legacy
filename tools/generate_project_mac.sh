@@ -4,11 +4,12 @@ old_path=$(pwd)
 cd $(dirname "$0")
 
 cd ..
+root_path=$(pwd)
 rm -rf build
 mkdir build
 cd build
 
-cmake .. -DVCPKG_TARGET_TRIPLET=x64-osx -DOVERLAY_PORTS="../extern/custom-ports"
+cmake .. -DVCPKG_TARGET_TRIPLET=x64-osx -DOVERLAY_PORTS=$root_path"/extern/custom-ports"
 
 err=$?
 
