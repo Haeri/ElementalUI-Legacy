@@ -3,8 +3,6 @@ cmake_minimum_required(VERSION 3.3)
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/extern/vcpkg/scripts/buildsystems/vcpkg.cmake
   CACHE STRING "Vcpkg toolchain file")
 
-message("I GOT IT <${OVERLAY_PORTS}> HERE")
-
 set(PROJECT_NAME elemui)
 project(${PROJECT_NAME} LANGUAGES CXX)
 

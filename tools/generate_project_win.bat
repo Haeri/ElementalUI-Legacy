@@ -15,7 +15,7 @@ rmdir /S /Q "build"
 mkdir "build"
 cd build
 
-cmake .. -DVCPKG_TARGET_TRIPLET=x64-windows -DOVERLAY_PORTS="%root_path%\extern\custom-ports"
+cmake .. -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_OVERLAY_PORTS="%root_path%\extern\custom-ports"
 set /a "err=%err%+%errorlevel%"
 
 
