@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.3)
 
-set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/extern/vcpkg/scripts/buildsystems/vcpkg.cmake
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/external/vcpkg/scripts/buildsystems/vcpkg.cmake
   CACHE STRING "Vcpkg toolchain file")
 
 set(PROJECT_NAME elemui)
@@ -44,20 +44,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC include)
 
 
 
-# ---------------- EXTERN ---------------------#
-
-set(EXTERN_DIR extern/)
-
-
 # ---------------- DEPENDENCIES ---------------------#
 
 # elemd
 find_package(elemd CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE elemd)
-
-
-install(TARGETS ${PROJECT_NAME}
-        EXPORT ${PROJECT_NAME}
-        RUNTIME DESTINATION "bin"
-        ARCHIVE DESTINATION "lib"
-        LIBRARY DESTINATION "lib/static")
