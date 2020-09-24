@@ -48,4 +48,4 @@ target_include_directories(${PROJECT_NAME} PUBLIC include)
 
 # elemd
 find_package(elemd CONFIG REQUIRED)
-target_link_libraries(${PROJECT_NAME} PRIVATE elemd)
+target_link_libraries(${PROJECT_NAME} PRIVATE elemd::elemd)

@@ -1,3 +1,5 @@
+#include <thread>
+
 #include <elemd/window.hpp>
 #include <elemd/context.hpp>
 
@@ -34,13 +36,8 @@ int main(void)
     win->add_mouse_move_listener([&](elemd::mouse_move_event event) {
         mouse_x = event.x;
         mouse_y = event.y;
-
-        draw(ctx);
     });
 
-
-    elemd::image* img = elemd::image::create("./elemd_res/elemd_icon.png");
-    ctx->_tmp_register_image(img);
 
     ctx->set_clear_color({255, 255, 255});
     ctx->_tmp_prepare();
@@ -55,7 +52,6 @@ int main(void)
         ctx->draw_frame();
     }
 
-    img->destroy();
     win->destroy();
 
     return 0;
