@@ -1,9 +1,12 @@
 cmake_minimum_required(VERSION 3.3)
 
+# Define the default vcpkg directory as a submodule.
+# If VCPKG_ROOT is not defined, the setup.py script
+# will download vcpkg as a submodule.
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/external/vcpkg/scripts/buildsystems/vcpkg.cmake
   CACHE STRING "Vcpkg toolchain file")
 
-set(PROJECT_NAME elemui)
+set(PROJECT_NAME elem)
 project(${PROJECT_NAME} LANGUAGES CXX)
 
 if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -24,8 +27,8 @@ set(CMAKE_VISIBILITY_INLINE_HIDDEN YES)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 file(GLOB_RECURSE SOURCE_FILES
-        include/${PROJECT_NAME}/*.hpp
-        src/*.hpp
+        include/${PROJECT_NAME}/*.h
+        src/*.h
         src/*.cpp)
 
 if (BUILD_SHARED_LIBS)
@@ -46,6 +49,33 @@ target_include_directories(${PROJECT_NAME} PUBLIC include)
 
 # ---------------- DEPENDENCIES ---------------------#
 
-# elemd
+# elem
 find_package(elemd CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE elemd::elemd)
+
+
+# ---------------- EXAMPLES ---------------------#
+
+if(APPLE)
+    set(CONVERTER_POSTFIX "mac.sh")
+    set(SHARED_LIB_NAME "lib${PROJECT_NAME}.dylib")
+elseif(WIN32) 
+    set(CONVERTER_POSTFIX "win.bat")
+    set(SHARED_LIB_NAME "${PROJECT_NAME}.dll")
+else()
+    set(CONVERTER_POSTFIX "linux.sh")
+    set(SHARED_LIB_NAME "lib${PROJECT_NAME}.so")
+endif()
+
+if (ELEM_BUILD_EXAMPLES)
+    add_subdirectory(examples/calculator)
+
+    set_target_properties(calculator PROPERTIES FOLDER examples)
+
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        DEPENDS calculator painter
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} examples/calculator/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} 
+        COMMENT "Copy library"
+    )
+endif()
