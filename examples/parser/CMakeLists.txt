@@ -1,4 +1,4 @@
-set(PROJECT_NAME parsing)
+set(PROJECT_NAME parser)
 project(${PROJECT_NAME})
 
 file(GLOB_RECURSE SOURCE_FILES

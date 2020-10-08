@@ -7,7 +7,7 @@
 #)
 
 vcpkg_download_distfile(ARCHIVE
-	URLS https://github.com/Haeri/ElementalDraw/archive/4c74934641274cef33915c66cd5cbb17541484d5.zip
+	URLS https://github.com/Haeri/ElementalDraw/archive/e42e10cf0e4999e12b203c1c292fec328f713cae.zip
 	FILENAME elemd001.zip
     SHA512 daa39a5ec803a81f292b9177b7fd1f1cea3f3850485bc298d8b162ccd45a2ea6bff84ac902785a4d7ef44616b5922a340e50bafc5849653818454985139c69ad
 )
