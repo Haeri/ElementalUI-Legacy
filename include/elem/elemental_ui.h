@@ -1,5 +1,5 @@
-#ifndef ELEM_ELEMENTAL_UI_HPP
-#define ELEM_ELEMENTAL_UI_HPP
+#ifndef ELEM_ELEMENTAL_UI_H
+#define ELEM_ELEMENTAL_UI_H
 
 #define ELEM_LIBRARY_NAME "Elemental UI"
 #define ELEM_VERSION_MAJOR 0
@@ -25,4 +25,4 @@
 #define ELEM_API
 #endif
 
-#endif // ELEM_ELEMENTAL_UI_HPP
+#endif // ELEM_ELEMENTAL_UI_H

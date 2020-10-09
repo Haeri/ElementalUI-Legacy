@@ -1,5 +1,5 @@
-#ifndef ELEM_ELEMENT_H
-#define ELEM_ELEMENT_H
+#ifndef ELEM_HEADING_H
+#define ELEM_HEADING_H
 
 #include <elem/elemental_ui.h>
 #include <vector>
@@ -13,14 +13,21 @@
 
 namespace elem
 {
-    class ELEM_API element : public node
+    class ELEM_API heading : public node
     {
     public:
+        heading();
+
+        void add_child(node* child) = delete;
 
         float layout(elemd::vec2 position, float width) override;
         void paint(elemd::Context* ctx) override;
-    
+
+        void set_text(std::string text);
+        std::string get_text();
+    private:
+        std::string _content;
     };
 } // namespace elem
 
-#endif // ELEM_ELEMENT_H
+#endif // ELEM_HEADING_H

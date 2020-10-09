@@ -22,12 +22,12 @@ jobs:
     - name: Install
       run: ./tools/setup_win.bat -s
     - name: Build
-      run: MSBuild.exe ./build/elemui.sln /p:Configuration=${{ matrix.conf }}
+      run: MSBuild.exe ./build/elem.sln /p:Configuration=${{ matrix.conf }}
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: elemui-win-${{ matrix.conf }}
-        path: ./build/${{ matrix.conf }}/elemui.dll
+        name: elem-win-${{ matrix.conf }}
+        path: ./build/${{ matrix.conf }}/elem.dll
     
   build-linux:
    name: Linux Build
@@ -54,8 +54,8 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: elemui-linux-${{ matrix.conf }}
-        path: ./build/libelemui.so
+        name: elem-linux-${{ matrix.conf }}
+        path: ./build/libelem.so
 
   build-mac:
    name: Mac Build
@@ -80,5 +80,5 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: elemui-mac-${{ matrix.conf }}
-        path: ./build/libelemui.dylib
+        name: elem-mac-${{ matrix.conf }}
+        path: ./build/libelem.dylib

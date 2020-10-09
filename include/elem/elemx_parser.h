@@ -1,5 +1,5 @@
-#ifndef ELEM_ELEMX_PARSER_HPP
-#define ELEM_ELEMX_PARSER_HPP
+#ifndef ELEM_ELEMX_PARSER_H
+#define ELEM_ELEMX_PARSER_H
 
 #include <unordered_map>
 
@@ -20,4 +20,4 @@ namespace elem
     };
 }
 
-#endif // ELEM_ELEMX_PARSER_HPP
+#endif // ELEM_ELEMX_PARSER_H

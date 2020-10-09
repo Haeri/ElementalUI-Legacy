@@ -21,22 +21,31 @@ namespace elem
             });
 
         _context->set_clear_color({ 255, 255, 255 });
-        _context->_tmp_prepare();
     }
 
     document::~document()
     {
+        for (auto& font : _fonts) {
+            font->destroy();
+        }
+
         delete _root;
         _window->destroy();
     }
 
-    void document::add_child(element* child)
+    void document::add_child(node* child)
     {
         _root->add_child(child);
     }
 
     void document::run()
     {
+        for (auto& font : _fonts) {
+            _context->_tmp_register_font(font);
+        }
+
+        _context->_tmp_prepare();
+
         while (_window->is_running())
         {
             _window->poll_events();
@@ -44,6 +53,14 @@ namespace elem
 
             paint();
         }
+    }
+
+    elemd::font* document::load_font(const std::string& font_file)
+    {
+        elemd::font* font = elemd::font::create(font_file);
+        _fonts.push_back(font);
+
+        return font;
     }
 
     int document::get_width()

@@ -1,9 +1,11 @@
-#ifndef ELEM_DOCUMENT_HPP
-#define ELEM_DOCUMENT_HPP
+#ifndef ELEM_DOCUMENT_H
+#define ELEM_DOCUMENT_H
 
 #include <elem/elemental_ui.h>
-#include <elem/element.h>
 
+#include <vector>
+
+#include <elem/element.h>
 #include <elemd/window.hpp>
 #include <elemd/context.hpp>
 
@@ -15,8 +17,10 @@ namespace elem
         document();
         ~document();
         
-        void add_child(element* child);
+        void add_child(node* child);
         void run();
+
+        elemd::font* load_font(const std::string& font_file);
 
         int get_width();
         int get_height();
@@ -25,14 +29,15 @@ namespace elem
         int _width;
         int _height;
 
-        element* _root;
+        node* _root;
 
         elemd::Window* _window;
         elemd::Context* _context;
         
+        std::vector<elemd::font*> _fonts;
         
         void paint();
     };
 } // namespace elem
 
-#endif // ELEM_DOCUMENT_HPP
+#endif // ELEM_DOCUMENT_H
