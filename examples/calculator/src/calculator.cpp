@@ -47,6 +47,10 @@ int main(void)
     button_plus_minus.style.padding[1] = 10;
     button_plus_minus.style.padding[2] = 6;
     button_plus_minus.style.padding[3] = 10;
+    button_plus_minus.style.margin[0] = 1;
+    button_plus_minus.style.margin[1] = 1;
+    button_plus_minus.style.margin[2] = 1;
+    button_plus_minus.style.margin[3] = 1;
     button_plus_minus.style.width = elem::measure_value("25%");
 
     elem::element button_percent;
@@ -55,6 +59,10 @@ int main(void)
     button_percent.style.padding[1] = 10;
     button_percent.style.padding[2] = 6;
     button_percent.style.padding[3] = 10;
+    button_percent.style.margin[0] = 1;
+    button_percent.style.margin[1] = 1;
+    button_percent.style.margin[2] = 1;
+    button_percent.style.margin[3] = 1;
     button_percent.style.width = elem::measure_value("25%");
 
     elem::element button_div;
@@ -63,6 +71,10 @@ int main(void)
     button_div.style.padding[1] = 10;
     button_div.style.padding[2] = 6;
     button_div.style.padding[3] = 10;
+    button_div.style.margin[0] = 1;
+    button_div.style.margin[1] = 1;
+    button_div.style.margin[2] = 1;
+    button_div.style.margin[3] = 1;
     button_div.style.width = elem::measure_value("25%");
 
     // 7    8       9       x
@@ -72,6 +84,10 @@ int main(void)
     button_7.style.padding[1] = 10;
     button_7.style.padding[2] = 6;
     button_7.style.padding[3] = 10;
+    button_7.style.margin[0] = 1;
+    button_7.style.margin[1] = 1;
+    button_7.style.margin[2] = 1;
+    button_7.style.margin[3] = 1;
     button_7.style.width = elem::measure_value("25%");
 
     elem::element button_8;
@@ -80,6 +96,10 @@ int main(void)
     button_8.style.padding[1] = 10;
     button_8.style.padding[2] = 6;
     button_8.style.padding[3] = 10;
+    button_8.style.margin[0] = 1;
+    button_8.style.margin[1] = 1;
+    button_8.style.margin[2] = 1;
+    button_8.style.margin[3] = 1;
     button_8.style.width = elem::measure_value("25%");
 
     elem::element button_9;
@@ -88,6 +108,10 @@ int main(void)
     button_9.style.padding[1] = 10;
     button_9.style.padding[2] = 6;
     button_9.style.padding[3] = 10;
+    button_9.style.margin[0] = 1;
+    button_9.style.margin[1] = 1;
+    button_9.style.margin[2] = 1;
+    button_9.style.margin[3] = 1;
     button_9.style.width = elem::measure_value("25%");
 
     elem::element button_mul;
@@ -96,6 +120,10 @@ int main(void)
     button_mul.style.padding[1] = 10;
     button_mul.style.padding[2] = 6;
     button_mul.style.padding[3] = 10;
+    button_mul.style.margin[0] = 1;
+    button_mul.style.margin[1] = 1;
+    button_mul.style.margin[2] = 1;
+    button_mul.style.margin[3] = 1;
     button_mul.style.width = elem::measure_value("25%");
 
     // 4    5       6       -
@@ -105,6 +133,10 @@ int main(void)
     button_4.style.padding[1] = 10;
     button_4.style.padding[2] = 6;
     button_4.style.padding[3] = 10;
+    button_4.style.margin[0] = 1;
+    button_4.style.margin[1] = 1;
+    button_4.style.margin[2] = 1;
+    button_4.style.margin[3] = 1;
     button_4.style.width = elem::measure_value("25%");
 
     elem::element button_5;
@@ -113,6 +145,10 @@ int main(void)
     button_5.style.padding[1] = 10;
     button_5.style.padding[2] = 6;
     button_5.style.padding[3] = 10;
+    button_5.style.margin[0] = 1;
+    button_5.style.margin[1] = 1;
+    button_5.style.margin[2] = 1;
+    button_5.style.margin[3] = 1;
     button_5.style.width = elem::measure_value("25%");
 
     elem::element button_6;
@@ -121,6 +157,10 @@ int main(void)
     button_6.style.padding[1] = 10;
     button_6.style.padding[2] = 6;
     button_6.style.padding[3] = 10;
+    button_6.style.margin[0] = 1;
+    button_6.style.margin[1] = 1;
+    button_6.style.margin[2] = 1;
+    button_6.style.margin[3] = 1;
     button_6.style.width = elem::measure_value("25%");
 
     elem::element button_sub;
@@ -129,6 +169,10 @@ int main(void)
     button_sub.style.padding[1] = 10;
     button_sub.style.padding[2] = 6;
     button_sub.style.padding[3] = 10;
+    button_sub.style.margin[0] = 1;
+    button_sub.style.margin[1] = 1;
+    button_sub.style.margin[2] = 1;
+    button_sub.style.margin[3] = 1;
     button_sub.style.width = elem::measure_value("25%");
 
     // 1    2       3       +
@@ -138,6 +182,10 @@ int main(void)
     button_1.style.padding[1] = 10;
     button_1.style.padding[2] = 6;
     button_1.style.padding[3] = 10;
+    button_1.style.margin[0] = 1;
+    button_1.style.margin[1] = 1;
+    button_1.style.margin[2] = 1;
+    button_1.style.margin[3] = 1;
     button_1.style.width = elem::measure_value("25%");
 
     elem::element button_2;
@@ -146,6 +194,10 @@ int main(void)
     button_2.style.padding[1] = 10;
     button_2.style.padding[2] = 6;
     button_2.style.padding[3] = 10;
+    button_2.style.margin[0] = 1;
+    button_2.style.margin[1] = 1;
+    button_2.style.margin[2] = 1;
+    button_2.style.margin[3] = 1;
     button_2.style.width = elem::measure_value("25%");
 
     elem::element button_3;
@@ -154,6 +206,10 @@ int main(void)
     button_3.style.padding[1] = 10;
     button_3.style.padding[2] = 6;
     button_3.style.padding[3] = 10;
+    button_3.style.margin[0] = 1;
+    button_3.style.margin[1] = 1;
+    button_3.style.margin[2] = 1;
+    button_3.style.margin[3] = 1;
     button_3.style.width = elem::measure_value("25%");
 
     elem::element button_add;
@@ -162,6 +218,10 @@ int main(void)
     button_add.style.padding[1] = 10;
     button_add.style.padding[2] = 6;
     button_add.style.padding[3] = 10;
+    button_add.style.margin[0] = 1;
+    button_add.style.margin[1] = 1;
+    button_add.style.margin[2] = 1;
+    button_add.style.margin[3] = 1;
     button_add.style.width = elem::measure_value("25%");
 
     // 0    ,      <       =
@@ -171,6 +231,10 @@ int main(void)
     button_0.style.padding[1] = 10;
     button_0.style.padding[2] = 6;
     button_0.style.padding[3] = 10;
+    button_0.style.margin[0] = 1;
+    button_0.style.margin[1] = 1;
+    button_0.style.margin[2] = 1;
+    button_0.style.margin[3] = 1;
     button_0.style.width = elem::measure_value("25%");
 
     elem::element button_comma;
@@ -179,6 +243,10 @@ int main(void)
     button_comma.style.padding[1] = 10;
     button_comma.style.padding[2] = 6;
     button_comma.style.padding[3] = 10;
+    button_comma.style.margin[0] = 1;
+    button_comma.style.margin[1] = 1;
+    button_comma.style.margin[2] = 1;
+    button_comma.style.margin[3] = 1;
     button_comma.style.width = elem::measure_value("25%");
 
     elem::element button_less;
@@ -187,6 +255,10 @@ int main(void)
     button_less.style.padding[1] = 10;
     button_less.style.padding[2] = 6;
     button_less.style.padding[3] = 10;
+    button_less.style.margin[0] = 1;
+    button_less.style.margin[1] = 1;
+    button_less.style.margin[2] = 1;
+    button_less.style.margin[3] = 1;
     button_less.style.width = elem::measure_value("25%");
 
     elem::element button_equ;
@@ -195,6 +267,10 @@ int main(void)
     button_equ.style.padding[1] = 10;
     button_equ.style.padding[2] = 6;
     button_equ.style.padding[3] = 10;
+    button_equ.style.margin[0] = 1;
+    button_equ.style.margin[1] = 1;
+    button_equ.style.margin[2] = 1;
+    button_equ.style.margin[3] = 1;
     button_equ.style.width = elem::measure_value("25%");
 
 
