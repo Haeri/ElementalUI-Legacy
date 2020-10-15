@@ -17,7 +17,11 @@ namespace elem
             _width = event.width / _window->get_scale().get_x();
         });
 
-        _window->add_mouse_move_listener([&](elemd::mouse_move_event event) {            
+        _window->add_mouse_move_listener([&](elemd::mouse_move_event event) {
+            //std::cout << "Point: " << "(" << event.x << ", " << event.y << ") " << std::endl;
+
+            node::clear_hover_list();
+
             _root->bounds_check(elemd::vec2((float)event.x, (float)event.y));
         });
 
@@ -48,9 +52,10 @@ namespace elem
     
         while (_window->is_running())
         {
-        _context->set_clear_color(elemd::color("#f3f4f1"));
+            _context->set_clear_color(elemd::color("#f3f4f1"));
             _window->poll_events();
-            std::this_thread::sleep_for(std::chrono::duration<float, std::ratio<1>>(0.06f));
+
+            std::this_thread::sleep_for(std::chrono::duration<float, std::ratio<1>>(0.01f));
 
             paint();
         }

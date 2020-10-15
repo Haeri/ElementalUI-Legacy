@@ -1,7 +1,12 @@
 #include "..\include\elem\node.h"
 
+#include <iostream>
+
+#include "elem/document.h"
+
 namespace elem
 {
+	std::vector<node*> node::_hover_list;
 
 	void node::add_child(node* child)
 	{
@@ -36,12 +41,31 @@ namespace elem
 		return _position;
 	}
 
+	void node::add_to_hover_list(node* node)
+	{
+		_hover_list.push_back(node);	
+	}
+
+	void node::clear_hover_list()
+	{
+		for (auto& node : _hover_list)
+		{
+			node->hover = false;
+		}
+
+		_hover_list.clear();
+	}
+
 	bool node::bounds_check(elemd::vec2 pos)
 	{
-		if (pos.get_x() > _position.get_x() || pos.get_x() < _position.get_x() + get_width() &&
-			pos.get_y() > _position.get_y() || pos.get_y() < _position.get_y() + get_height())
+		
+		//std::cout << "Node: p" << "(" << _position.get_x() << ", " << _position.get_y() << ") " << " w" << get_width() << " h" << get_height();
+		if ((pos.get_x() > _position.get_x() && pos.get_x() < _position.get_x() + get_width()) &&
+			(pos.get_y() > _position.get_y() && pos.get_y() < _position.get_y() + get_height()))
 		{
 			hover = true;
+			add_to_hover_list(this);
+			//std::cout << " - HOVER" << std::endl;
 
 			for (auto& el : _children)
 			{
@@ -50,8 +74,11 @@ namespace elem
 				}
 			}
 
+
 			return true;
 		}
+
+		//std::cout << std::endl;
 
 		hover = false;
 		return false;

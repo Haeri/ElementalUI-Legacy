@@ -71,10 +71,14 @@ namespace elem
 
 	void element::paint(elemd::Context* ctx)
 	{
+		elemd::color bg = style.background_color;
+		if (hover) {
+			bg = elemd::color(200, 30, 30);
+		}
 
-		if (style.background_color.a() != 0) {
+		if (bg.a() != 0) {
 			if (style.border_radius[0] != 0 || style.border_radius[1] != 0 || style.border_radius[2] != 0 || style.border_radius[3] != 0) {
-				ctx->set_fill_color(style.background_color);
+				ctx->set_fill_color(bg);
 				ctx->fill_rounded_rect(
 					_position.get_x() + style.margin[3],
 					_position.get_y() + style.margin[0],
@@ -83,7 +87,7 @@ namespace elem
 					style.border_radius[0], style.border_radius[1], style.border_radius[2], style.border_radius[3]);
 			}
 			else {
-				ctx->set_fill_color(style.background_color);
+				ctx->set_fill_color(bg);
 				ctx->fill_rect(
 					_position.get_x() + style.margin[3],
 					_position.get_y() + style.margin[0],
@@ -105,7 +109,7 @@ namespace elem
 
 
 		// DEBUG
-		if(hover){
+		if(false){
 			// Margin
 			ctx->set_line_width(1);
 			ctx->set_stroke_color(elemd::color("#ae8152"));

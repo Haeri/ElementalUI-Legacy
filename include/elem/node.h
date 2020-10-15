@@ -11,6 +11,8 @@
 
 #include "measure_value.h"
 
+class document;
+
 namespace elem
 {
     class ELEM_API node
@@ -54,11 +56,16 @@ namespace elem
         int get_height();
         elemd::vec2 get_position();
 
+        static void add_to_hover_list(node* node);
+        static void clear_hover_list();
+
         virtual bool bounds_check(elemd::vec2 pos);
         virtual float layout(elemd::vec2 position, float width) = 0;
         virtual void paint(elemd::Context* ctx) = 0;
 
     protected:
+        static std::vector<node*> _hover_list;
+
         node* _parent = nullptr;
         std::vector<node*> _children;
 
@@ -67,6 +74,8 @@ namespace elem
         float _height = -1;
 
         void set_parent(node* parent);
+
+
     };
 } // namespace elem
 
