@@ -4,21 +4,22 @@
 
 namespace elem
 {
-    document::document()
+    document::document(elemd::Window* window)
     {
         _root = new element();
 
-        int WIDTH = 470;
-        int HEIGHT = 500;
-        _width = 470;
+        _width = window->get_width();
 
-        elemd::WindowConfig winc = elemd::WindowConfig{ "Elemental UI", WIDTH, HEIGHT };
-        _window = elemd::Window::create(winc);
+        _window = window;
         _context = _window->create_context();
 
         _window->add_resize_listener([&](elemd::resize_event event) {
             _width = event.width / _window->get_scale().get_x();
-            });
+        });
+
+        _window->add_mouse_move_listener([&](elemd::mouse_move_event event) {            
+            _root->bounds_check(elemd::vec2((float)event.x, (float)event.y));
+        });
 
         _context->set_clear_color({ 255, 255, 255 });
     }
@@ -30,7 +31,6 @@ namespace elem
         }
 
         delete _root;
-        _window->destroy();
     }
 
     void document::add_child(node* child)
@@ -45,9 +45,10 @@ namespace elem
         }
 
         _context->_tmp_prepare();
-
+    
         while (_window->is_running())
         {
+        _context->set_clear_color(elemd::color("#f3f4f1"));
             _window->poll_events();
             std::this_thread::sleep_for(std::chrono::duration<float, std::ratio<1>>(0.06f));
 

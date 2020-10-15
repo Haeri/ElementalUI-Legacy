@@ -41,6 +41,8 @@ namespace elem
             elemd::image* background_image = nullptr;
         } style;
 
+        bool hover = false;
+
         std::string id;
         std::string class_name;
 
@@ -50,7 +52,9 @@ namespace elem
 
         int get_width();
         int get_height();
+        elemd::vec2 get_position();
 
+        virtual bool bounds_check(elemd::vec2 pos);
         virtual float layout(elemd::vec2 position, float width) = 0;
         virtual void paint(elemd::Context* ctx) = 0;
 

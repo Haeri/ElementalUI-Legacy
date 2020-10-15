@@ -31,6 +31,32 @@ namespace elem
 		return _height;
 	}
 
+	elemd::vec2 node::get_position()
+	{
+		return _position;
+	}
+
+	bool node::bounds_check(elemd::vec2 pos)
+	{
+		if (pos.get_x() > _position.get_x() || pos.get_x() < _position.get_x() + get_width() &&
+			pos.get_y() > _position.get_y() || pos.get_y() < _position.get_y() + get_height())
+		{
+			hover = true;
+
+			for (auto& el : _children)
+			{
+				if (el->bounds_check(pos)) {
+					break;
+				}
+			}
+
+			return true;
+		}
+
+		hover = false;
+		return false;
+	}
+
 	void node::set_parent(node* parent)
 	{
 		_parent = parent;

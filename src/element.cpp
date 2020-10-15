@@ -105,7 +105,7 @@ namespace elem
 
 
 		// DEBUG
-		if(false){
+		if(hover){
 			// Margin
 			ctx->set_line_width(1);
 			ctx->set_stroke_color(elemd::color("#ae8152"));

@@ -14,7 +14,7 @@ namespace elem
     class ELEM_API document
     {
     public:
-        document();
+        document(elemd::Window* window);
         ~document();
         
         void add_child(node* child);
