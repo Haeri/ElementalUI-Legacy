@@ -6,6 +6,7 @@
 #include <elem/document.h>
 #include <elem/element.h>
 #include <elem/heading.h>
+#include <elem/node.h>
 
 int main(void)
 {
@@ -13,18 +14,38 @@ int main(void)
     int HEIGHT = 330;
 
     elemd::WindowConfig winc = elemd::WindowConfig{ "Calculator", WIDTH, HEIGHT };
+    //winc.decorated = false;
     elemd::Window* window = elemd::Window::create(winc);
-    
+
     {
         elem::document doc(window);
         elemd::font* font_urbanist = doc.load_font("./res/font/Urbanist-Regular.ttf");
 
         elemd::color button_color = elemd::color("#374352");
+        elemd::color button_color_hover = elemd::color("#526379");
         elemd::color color_light = elemd::color("#f3f4f1");
         elemd::color color_darker = elemd::color("#7a7979");
 
         elem::element body;
         body.style.background_color = elemd::color("#3a4655");
+
+
+        elem::node::Style button_style_hover;
+        button_style_hover.background_color = button_color_hover;
+
+        elem::node::Style button_style;
+        button_style.background_color = button_color;
+        button_style.padding[0] = 6;
+        button_style.padding[1] = 10;
+        button_style.padding[2] = 6;
+        button_style.padding[3] = 10;
+        button_style.margin[0] = 1;
+        button_style.margin[1] = 1;
+        button_style.margin[2] = 1;
+        button_style.margin[3] = 1;
+        button_style.width = elem::measure_value("25%");
+        button_style.transition_time = 3;
+
 
 
         elem::element display;
@@ -36,248 +57,89 @@ int main(void)
 
         // C    +/-     %       /
         elem::element button_c;
-        button_c.style.background_color = button_color;
-        button_c.style.padding[0] = 6;
-        button_c.style.padding[1] = 10;
-        button_c.style.padding[2] = 6;
-        button_c.style.padding[3] = 10;
-        button_c.style.margin[0] = 1;
-        button_c.style.margin[1] = 1;
-        button_c.style.margin[2] = 1;
-        button_c.style.margin[3] = 1;
-        button_c.style.width = elem::measure_value("25%");
+        button_c.style = button_style;
+        button_c.hover_style = button_style_hover;
+
 
         elem::element button_plus_minus;
-        button_plus_minus.style.background_color = button_color;
-        button_plus_minus.style.padding[0] = 6;
-        button_plus_minus.style.padding[1] = 10;
-        button_plus_minus.style.padding[2] = 6;
-        button_plus_minus.style.padding[3] = 10;
-        button_plus_minus.style.margin[0] = 1;
-        button_plus_minus.style.margin[1] = 1;
-        button_plus_minus.style.margin[2] = 1;
-        button_plus_minus.style.margin[3] = 1;
-        button_plus_minus.style.width = elem::measure_value("25%");
+        button_plus_minus.style = button_style;
+        button_plus_minus.hover_style = button_style_hover;
 
         elem::element button_percent;
-        button_percent.style.background_color = button_color;
-        button_percent.style.padding[0] = 6;
-        button_percent.style.padding[1] = 10;
-        button_percent.style.padding[2] = 6;
-        button_percent.style.padding[3] = 10;
-        button_percent.style.margin[0] = 1;
-        button_percent.style.margin[1] = 1;
-        button_percent.style.margin[2] = 1;
-        button_percent.style.margin[3] = 1;
-        button_percent.style.width = elem::measure_value("25%");
+        button_percent.style = button_style;
+        button_percent.hover_style = button_style_hover;
 
         elem::element button_div;
-        button_div.style.background_color = button_color;
-        button_div.style.padding[0] = 6;
-        button_div.style.padding[1] = 10;
-        button_div.style.padding[2] = 6;
-        button_div.style.padding[3] = 10;
-        button_div.style.margin[0] = 1;
-        button_div.style.margin[1] = 1;
-        button_div.style.margin[2] = 1;
-        button_div.style.margin[3] = 1;
-        button_div.style.width = elem::measure_value("25%");
+        button_div.style = button_style;
+        button_div.hover_style = button_style_hover;
 
         // 7    8       9       x
         elem::element button_7;
-        button_7.style.background_color = button_color;
-        button_7.style.padding[0] = 6;
-        button_7.style.padding[1] = 10;
-        button_7.style.padding[2] = 6;
-        button_7.style.padding[3] = 10;
-        button_7.style.margin[0] = 1;
-        button_7.style.margin[1] = 1;
-        button_7.style.margin[2] = 1;
-        button_7.style.margin[3] = 1;
-        button_7.style.width = elem::measure_value("25%");
+        button_7.style = button_style;
+        button_7.hover_style = button_style_hover;
 
         elem::element button_8;
-        button_8.style.background_color = button_color;
-        button_8.style.padding[0] = 6;
-        button_8.style.padding[1] = 10;
-        button_8.style.padding[2] = 6;
-        button_8.style.padding[3] = 10;
-        button_8.style.margin[0] = 1;
-        button_8.style.margin[1] = 1;
-        button_8.style.margin[2] = 1;
-        button_8.style.margin[3] = 1;
-        button_8.style.width = elem::measure_value("25%");
+        button_8.style = button_style;
+        button_8.hover_style = button_style_hover;
 
         elem::element button_9;
-        button_9.style.background_color = button_color;
-        button_9.style.padding[0] = 6;
-        button_9.style.padding[1] = 10;
-        button_9.style.padding[2] = 6;
-        button_9.style.padding[3] = 10;
-        button_9.style.margin[0] = 1;
-        button_9.style.margin[1] = 1;
-        button_9.style.margin[2] = 1;
-        button_9.style.margin[3] = 1;
-        button_9.style.width = elem::measure_value("25%");
+        button_9.style = button_style;
+        button_9.hover_style = button_style_hover;
 
         elem::element button_mul;
-        button_mul.style.background_color = button_color;
-        button_mul.style.padding[0] = 6;
-        button_mul.style.padding[1] = 10;
-        button_mul.style.padding[2] = 6;
-        button_mul.style.padding[3] = 10;
-        button_mul.style.margin[0] = 1;
-        button_mul.style.margin[1] = 1;
-        button_mul.style.margin[2] = 1;
-        button_mul.style.margin[3] = 1;
-        button_mul.style.width = elem::measure_value("25%");
+        button_mul.style = button_style;
+        button_mul.hover_style = button_style_hover;
 
         // 4    5       6       -
         elem::element button_4;
-        button_4.style.background_color = button_color;
-        button_4.style.padding[0] = 6;
-        button_4.style.padding[1] = 10;
-        button_4.style.padding[2] = 6;
-        button_4.style.padding[3] = 10;
-        button_4.style.margin[0] = 1;
-        button_4.style.margin[1] = 1;
-        button_4.style.margin[2] = 1;
-        button_4.style.margin[3] = 1;
-        button_4.style.width = elem::measure_value("25%");
+        button_4.style = button_style;
+        button_4.hover_style = button_style_hover;
 
         elem::element button_5;
-        button_5.style.background_color = button_color;
-        button_5.style.padding[0] = 6;
-        button_5.style.padding[1] = 10;
-        button_5.style.padding[2] = 6;
-        button_5.style.padding[3] = 10;
-        button_5.style.margin[0] = 1;
-        button_5.style.margin[1] = 1;
-        button_5.style.margin[2] = 1;
-        button_5.style.margin[3] = 1;
-        button_5.style.width = elem::measure_value("25%");
+        button_5.style = button_style;
+        button_5.hover_style = button_style_hover;
 
         elem::element button_6;
-        button_6.style.background_color = button_color;
-        button_6.style.padding[0] = 6;
-        button_6.style.padding[1] = 10;
-        button_6.style.padding[2] = 6;
-        button_6.style.padding[3] = 10;
-        button_6.style.margin[0] = 1;
-        button_6.style.margin[1] = 1;
-        button_6.style.margin[2] = 1;
-        button_6.style.margin[3] = 1;
-        button_6.style.width = elem::measure_value("25%");
+        button_6.style = button_style;
+        button_6.hover_style = button_style_hover;
 
         elem::element button_sub;
-        button_sub.style.background_color = button_color;
-        button_sub.style.padding[0] = 6;
-        button_sub.style.padding[1] = 10;
-        button_sub.style.padding[2] = 6;
-        button_sub.style.padding[3] = 10;
-        button_sub.style.margin[0] = 1;
-        button_sub.style.margin[1] = 1;
-        button_sub.style.margin[2] = 1;
-        button_sub.style.margin[3] = 1;
-        button_sub.style.width = elem::measure_value("25%");
+        button_sub.style = button_style;
+        button_sub.hover_style = button_style_hover;
 
         // 1    2       3       +
         elem::element button_1;
-        button_1.style.background_color = button_color;
-        button_1.style.padding[0] = 6;
-        button_1.style.padding[1] = 10;
-        button_1.style.padding[2] = 6;
-        button_1.style.padding[3] = 10;
-        button_1.style.margin[0] = 1;
-        button_1.style.margin[1] = 1;
-        button_1.style.margin[2] = 1;
-        button_1.style.margin[3] = 1;
-        button_1.style.width = elem::measure_value("25%");
+        button_1.style = button_style;
+        button_1.hover_style = button_style_hover;
 
         elem::element button_2;
-        button_2.style.background_color = button_color;
-        button_2.style.padding[0] = 6;
-        button_2.style.padding[1] = 10;
-        button_2.style.padding[2] = 6;
-        button_2.style.padding[3] = 10;
-        button_2.style.margin[0] = 1;
-        button_2.style.margin[1] = 1;
-        button_2.style.margin[2] = 1;
-        button_2.style.margin[3] = 1;
-        button_2.style.width = elem::measure_value("25%");
+        button_2.style = button_style;
+        button_2.hover_style = button_style_hover;
 
         elem::element button_3;
-        button_3.style.background_color = button_color;
-        button_3.style.padding[0] = 6;
-        button_3.style.padding[1] = 10;
-        button_3.style.padding[2] = 6;
-        button_3.style.padding[3] = 10;
-        button_3.style.margin[0] = 1;
-        button_3.style.margin[1] = 1;
-        button_3.style.margin[2] = 1;
-        button_3.style.margin[3] = 1;
-        button_3.style.width = elem::measure_value("25%");
+        button_3.style = button_style;
+        button_3.hover_style = button_style_hover;
 
         elem::element button_add;
-        button_add.style.background_color = button_color;
-        button_add.style.padding[0] = 6;
-        button_add.style.padding[1] = 10;
-        button_add.style.padding[2] = 6;
-        button_add.style.padding[3] = 10;
-        button_add.style.margin[0] = 1;
-        button_add.style.margin[1] = 1;
-        button_add.style.margin[2] = 1;
-        button_add.style.margin[3] = 1;
-        button_add.style.width = elem::measure_value("25%");
+        button_add.style = button_style;
+        button_add.hover_style = button_style_hover;
 
         // 0    ,      <       =
         elem::element button_0;
-        button_0.style.background_color = button_color;
-        button_0.style.padding[0] = 6;
-        button_0.style.padding[1] = 10;
-        button_0.style.padding[2] = 6;
-        button_0.style.padding[3] = 10;
-        button_0.style.margin[0] = 1;
-        button_0.style.margin[1] = 1;
-        button_0.style.margin[2] = 1;
-        button_0.style.margin[3] = 1;
-        button_0.style.width = elem::measure_value("25%");
+        button_0.style = button_style;
+        button_0.hover_style = button_style_hover;
 
         elem::element button_comma;
-        button_comma.style.background_color = button_color;
-        button_comma.style.padding[0] = 6;
-        button_comma.style.padding[1] = 10;
-        button_comma.style.padding[2] = 6;
-        button_comma.style.padding[3] = 10;
-        button_comma.style.margin[0] = 1;
-        button_comma.style.margin[1] = 1;
-        button_comma.style.margin[2] = 1;
-        button_comma.style.margin[3] = 1;
-        button_comma.style.width = elem::measure_value("25%");
+        button_comma.style = button_style;
+        button_comma.hover_style = button_style_hover;
 
         elem::element button_less;
-        button_less.style.background_color = button_color;
-        button_less.style.padding[0] = 6;
-        button_less.style.padding[1] = 10;
-        button_less.style.padding[2] = 6;
-        button_less.style.padding[3] = 10;
-        button_less.style.margin[0] = 1;
-        button_less.style.margin[1] = 1;
-        button_less.style.margin[2] = 1;
-        button_less.style.margin[3] = 1;
-        button_less.style.width = elem::measure_value("25%");
+        button_less.style = button_style;
+        button_less.hover_style = button_style_hover;
 
         elem::element button_equ;
-        button_equ.style.background_color = button_color;
-        button_equ.style.padding[0] = 6;
-        button_equ.style.padding[1] = 10;
-        button_equ.style.padding[2] = 6;
-        button_equ.style.padding[3] = 10;
-        button_equ.style.margin[0] = 1;
-        button_equ.style.margin[1] = 1;
-        button_equ.style.margin[2] = 1;
-        button_equ.style.margin[3] = 1;
-        button_equ.style.width = elem::measure_value("25%");
+        button_equ.style = button_style;
+        button_equ.hover_style = button_style_hover;
 
 
 

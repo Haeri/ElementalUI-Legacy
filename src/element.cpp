@@ -69,11 +69,31 @@ namespace elem
 		return _height;
 	}
 
+	float lerp(float a, float b, float t)
+	{
+		return (b - a) * t + a;
+	}
+
+	elemd::color color_lerp(elemd::color a, elemd::color b, float t) 
+	{
+		float _r = lerp(a.rf(), b.rf(), t);
+		float _g = lerp(a.gf(), b.gf(), t);
+		float _b = lerp(a.bf(), b.bf(), t);
+		float _a = lerp(a.af(), b.af(), t);
+
+		return elemd::color(_r, _g, _b, _a);
+	}
+
 	void element::paint(elemd::Context* ctx)
 	{
 		elemd::color bg = style.background_color;
-		if (hover) {
-			bg = elemd::color(200, 30, 30);
+		if (hover /*&& style.background_color != hover_style.background_color*/) {
+			float percent = _transition_progress / style.transition_time;
+			percent = std::min(std::max(percent, 0.0f), 1.0f);
+			bg = color_lerp(style.background_color, hover_style.background_color, percent);
+			_transition_progress += 0.1f;
+		} else {
+			_transition_progress = 0;
 		}
 
 		if (bg.a() != 0) {

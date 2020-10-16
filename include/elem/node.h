@@ -24,7 +24,7 @@ namespace elem
         };
 
         // Style
-        struct style {
+        struct Style {
             Display display = Display::BLOCK;
             measure_value width;
             measure_value height;
@@ -41,8 +41,11 @@ namespace elem
             float border_width = 0;
             elemd::color border_color = elemd::color(0, 0, 0, 255);
             elemd::image* background_image = nullptr;
-        } style;
-
+            float transition_time;
+        };
+        
+        Style hover_style;
+        Style style;
         bool hover = false;
 
         std::string id;
@@ -69,6 +72,7 @@ namespace elem
         node* _parent = nullptr;
         std::vector<node*> _children;
 
+        float _transition_progress;
         elemd::vec2 _position = elemd::vec2(-1, -1);
         float _width = -1;
         float _height = -1;

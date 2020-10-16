@@ -60,8 +60,8 @@ namespace elem
 	{
 		
 		//std::cout << "Node: p" << "(" << _position.get_x() << ", " << _position.get_y() << ") " << " w" << get_width() << " h" << get_height();
-		if ((pos.get_x() > _position.get_x() && pos.get_x() < _position.get_x() + get_width()) &&
-			(pos.get_y() > _position.get_y() && pos.get_y() < _position.get_y() + get_height()))
+		if ((pos.get_x() > _position.get_x() + style.margin[3] && pos.get_x() < _position.get_x() + (get_width() - style.margin[1])) &&
+			(pos.get_y() > _position.get_y() + style.margin[0] && pos.get_y() < _position.get_y() + (get_height() - style.margin[2])))
 		{
 			hover = true;
 			add_to_hover_list(this);
