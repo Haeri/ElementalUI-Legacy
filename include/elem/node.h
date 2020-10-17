@@ -4,6 +4,7 @@
 #include "elem/elemental_ui.h"
 
 #include <vector>
+#include <functional>
 
 #include <elemd/vec2.hpp>
 #include <elemd/Context.hpp>
@@ -43,6 +44,13 @@ namespace elem
             elemd::image* background_image = nullptr;
             float transition_time;
         };
+
+
+        struct click_event {
+            node* node;
+        };
+
+
         
         Style hover_style;
         Style style;
@@ -55,6 +63,8 @@ namespace elem
         void remove_child(int index);
         void remove_child(node* child);
 
+        void add_click_listener(std::function<void(click_event)> callback);
+
         int get_width();
         int get_height();
         elemd::vec2 get_position();
@@ -62,7 +72,8 @@ namespace elem
         static void add_to_hover_list(node* node);
         static void clear_hover_list();
 
-        virtual bool bounds_check(elemd::vec2 pos);
+        virtual void emit_click_event();
+        virtual node* bounds_check(elemd::vec2 pos);
         virtual float layout(elemd::vec2 position, float width) = 0;
         virtual void paint(elemd::Context* ctx) = 0;
 
@@ -71,6 +82,8 @@ namespace elem
 
         node* _parent = nullptr;
         std::vector<node*> _children;
+        std::vector<std::function<void(click_event)>> _click_event_callbacks;
+
 
         float _transition_progress;
         elemd::vec2 _position = elemd::vec2(-1, -1);

@@ -8,6 +8,8 @@
 #include <elem/heading.h>
 #include <elem/node.h>
 
+#include "solver.h"
+
 int main(void)
 {
     int WIDTH = 300;
@@ -27,6 +29,7 @@ int main(void)
         elemd::color color_darker = elemd::color("#7a7979");
 
         elem::element body;
+        body.id = "body";
         body.style.background_color = elemd::color("#3a4655");
 
 
@@ -46,14 +49,24 @@ int main(void)
         button_style.width = elem::measure_value("25%");
         button_style.transition_time = 3;
 
-
-
         elem::element display;
+        display.id = "display";
         display.style.padding[0] = 20;
         display.style.padding[2] = 20;
 
         elem::element keypad;
         keypad.style.padding[2] = 30;
+
+        elem::heading solution;
+        solution.set_text("");
+        solution.style.color = color_light;
+        solution.style.font_family = font_urbanist;
+        solution.style.padding[0] = 10;
+        solution.style.padding[1] = 10;
+        solution.style.padding[2] = 10;
+        solution.style.padding[3] = 10;
+        display.add_child(&solution);
+
 
         // C    +/-     %       /
         elem::element button_c;
@@ -147,13 +160,23 @@ int main(void)
         h_c.set_text("c");
         h_c.style.color = elemd::color("#b85953");
         h_c.style.font_family = font_urbanist;
+        h_c.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text("");
+        });
         button_c.add_child(&h_c);
 
-        elem::heading h_plus_minus;
-        h_plus_minus.set_text("+/-");
-        h_plus_minus.style.color = color_darker;
-        h_plus_minus.style.font_family = font_urbanist;
-        button_plus_minus.add_child(&h_plus_minus);
+        elem::heading h_back;
+        h_back.set_text("<");
+        h_back.style.color = color_darker;
+        h_back.style.font_family = font_urbanist;
+        h_back.add_click_listener([&](elem::node::click_event event) {
+            std::string s = solution.get_text();
+            if (s.length() > 0)
+            {
+                solution.set_text(s.substr(0, s.size() - 1));
+            }
+        });
+        button_plus_minus.add_child(&h_back);
 
         elem::heading h_percent;
         h_percent.set_text("%");
@@ -165,6 +188,9 @@ int main(void)
         h_div.set_text("/");
         h_div.style.color = color_darker;
         h_div.style.font_family = font_urbanist;
+        h_div.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text(solution.get_text() + "/");
+        });
         button_div.add_child(&h_div);
 
 
@@ -172,24 +198,36 @@ int main(void)
         h_7.set_text("7");
         h_7.style.color = color_light;
         h_7.style.font_family = font_urbanist;
+        h_7.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text(solution.get_text() + "7");
+        });
         button_7.add_child(&h_7);
 
         elem::heading h_8;
         h_8.set_text("8");
         h_8.style.color = color_light;
         h_8.style.font_family = font_urbanist;
+        h_8.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text(solution.get_text() + "8");
+        });
         button_8.add_child(&h_8);
 
         elem::heading h_9;
         h_9.set_text("9");
         h_9.style.color = color_light;
         h_9.style.font_family = font_urbanist;
+        h_9.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text(solution.get_text() + "9");
+        });
         button_9.add_child(&h_9);
 
         elem::heading h_mul;
         h_mul.set_text("*");
         h_mul.style.color = color_darker;
         h_mul.style.font_family = font_urbanist;
+        h_mul.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text(solution.get_text() + "*");
+        });
         button_mul.add_child(&h_mul);
 
         // 4    5       6       -
@@ -197,24 +235,36 @@ int main(void)
         h_4.set_text("4");
         h_4.style.color = color_light;
         h_4.style.font_family = font_urbanist;
+        h_4.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text(solution.get_text() + "4");
+        });
         button_4.add_child(&h_4);
 
         elem::heading h_5;
         h_5.set_text("5");
         h_5.style.color = color_light;
         h_5.style.font_family = font_urbanist;
+        h_5.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text(solution.get_text() + "5");
+        });
         button_5.add_child(&h_5);
 
         elem::heading h_6;
         h_6.set_text("6");
         h_6.style.color = color_light;
         h_6.style.font_family = font_urbanist;
+        h_6.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text(solution.get_text() + "6");
+        });
         button_6.add_child(&h_6);
 
         elem::heading h_sub;
         h_sub.set_text("-");
         h_sub.style.color = color_darker;
         h_sub.style.font_family = font_urbanist;
+        h_sub.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text(solution.get_text() + "-");
+        });
         button_sub.add_child(&h_sub);
 
 
@@ -222,25 +272,38 @@ int main(void)
         elem::heading h_1;
         h_1.set_text("1");
         h_1.style.color = color_light;
-        h_1.style.font_family = font_urbanist;
+        h_1.style.font_family = font_urbanist;        
+        h_1.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text(solution.get_text() + "1");
+        });
         button_1.add_child(&h_1);
+
 
         elem::heading h_2;
         h_2.set_text("2");
         h_2.style.color = color_light;
         h_2.style.font_family = font_urbanist;
+        h_2.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text(solution.get_text() + "2");
+        });
         button_2.add_child(&h_2);
 
         elem::heading h_3;
         h_3.set_text("3");
         h_3.style.color = color_light;
         h_3.style.font_family = font_urbanist;
+        h_3.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text(solution.get_text() + "3");
+        });
         button_3.add_child(&h_3);
 
         elem::heading h_add;
         h_add.set_text("+");
         h_add.style.color = color_darker;
         h_add.style.font_family = font_urbanist;
+        h_add.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text(solution.get_text() + "+");
+        });
         button_add.add_child(&h_add);
 
 
@@ -249,12 +312,18 @@ int main(void)
         h_0.set_text("0");
         h_0.style.color = color_light;
         h_0.style.font_family = font_urbanist;
+        h_0.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text(solution.get_text() + "0");
+        });
         button_0.add_child(&h_0);
 
         elem::heading h_comma;
         h_comma.set_text(",");
         h_comma.style.color = color_light;
         h_comma.style.font_family = font_urbanist;
+        h_comma.add_click_listener([&](elem::node::click_event event) {
+            solution.set_text(solution.get_text() + ".");
+        });
         button_comma.add_child(&h_comma);
 
         elem::heading h_less;
@@ -267,6 +336,13 @@ int main(void)
         h_equ.set_text("=");
         h_equ.style.color = color_darker;
         h_equ.style.font_family = font_urbanist;
+        h_equ.add_click_listener([&](elem::node::click_event event) {
+
+            std::string val = std::to_string(Solver::eval(solution.get_text()));
+            val.erase(val.find_last_not_of('0') + 1, std::string::npos);
+            solution.set_text(val);
+
+        });
         button_equ.add_child(&h_equ);
 
 
@@ -307,16 +383,6 @@ int main(void)
         keypad.add_child(&row_5);
 
 
-
-        elem::heading solution;
-        solution.set_text("12990");
-        solution.style.color = color_light;
-        solution.style.font_family = font_urbanist;
-        solution.style.padding[0] = 10;
-        solution.style.padding[1] = 10;
-        solution.style.padding[2] = 10;
-        solution.style.padding[3] = 10;
-        display.add_child(&solution);
 
 
         body.add_child(&display);

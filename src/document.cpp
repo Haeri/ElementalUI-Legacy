@@ -25,6 +25,19 @@ namespace elem
             _root->bounds_check(elemd::vec2((float)event.x, (float)event.y));
         });
 
+        _window->add_mouse_click_listener([&](elemd::mouse_button_event event)
+        {
+            if (event.action == elemd::input_action::ACTION_PRESS && event.button == elemd::mouse_button::MOUSE_BUTTON_LEFT)
+            {
+                node* node = _root->bounds_check(elemd::vec2((float)event.x, (float)event.y));
+
+                if (node != nullptr)
+                {
+                    node->emit_click_event();
+                }
+            }
+        });
+
         _context->set_clear_color({ 255, 255, 255 });
     }
 
@@ -53,9 +66,7 @@ namespace elem
         while (_window->is_running())
         {
             _context->set_clear_color(elemd::color("#f3f4f1"));
-            _window->poll_events();
-
-            std::this_thread::sleep_for(std::chrono::duration<float, std::ratio<1>>(0.01f));
+            _window->wait_events();
 
             paint();
         }

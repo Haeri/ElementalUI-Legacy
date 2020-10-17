@@ -26,6 +26,11 @@ namespace elem
 		child->set_parent(nullptr);
 	}
 
+	void node::add_click_listener(std::function<void(click_event)> callback)
+	{
+		_click_event_callbacks.push_back(callback);
+	}
+
 	int node::get_width()
 	{
 		return _width;
@@ -56,7 +61,15 @@ namespace elem
 		_hover_list.clear();
 	}
 
-	bool node::bounds_check(elemd::vec2 pos)
+	void node::emit_click_event()
+	{
+		for (auto& var : _click_event_callbacks)
+		{
+			var({ this });
+		}
+	}
+
+	node* node::bounds_check(elemd::vec2 pos)
 	{
 		
 		//std::cout << "Node: p" << "(" << _position.get_x() << ", " << _position.get_y() << ") " << " w" << get_width() << " h" << get_height();
@@ -67,21 +80,28 @@ namespace elem
 			add_to_hover_list(this);
 			//std::cout << " - HOVER" << std::endl;
 
-			for (auto& el : _children)
+
+			if (_children.size() != 0)
 			{
-				if (el->bounds_check(pos)) {
-					break;
+				for (auto& el : _children)
+				{
+					node* ret = el->bounds_check(pos);
+					if (ret != nullptr) {
+						return ret;
+					}
 				}
+				return this;
 			}
-
-
-			return true;
+			else
+			{
+				return this;
+			}
 		}
 
 		//std::cout << std::endl;
 
 		hover = false;
-		return false;
+		return nullptr;
 	}
 
 	void node::set_parent(node* parent)
