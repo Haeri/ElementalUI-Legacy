@@ -47,7 +47,7 @@ namespace elem
 
 
         struct click_event {
-            node* node;
+            class node* node;   // GCC needs help here. class declaration is required
         };
 
 
