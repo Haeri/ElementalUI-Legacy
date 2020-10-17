@@ -7,7 +7,7 @@
 #include <functional>
 
 #include <elemd/vec2.hpp>
-#include <elemd/Context.hpp>
+#include <elemd/context.hpp>
 #include <elemd/font.hpp>
 
 #include "measure_value.h"

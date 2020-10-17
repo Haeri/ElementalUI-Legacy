@@ -7,7 +7,7 @@
 
 #include <elemd/vec2.hpp>
 #include <elemd/color.hpp>
-#include <elemd/Context.hpp>
+#include <elemd/context.hpp>
 
 #include "elem/node.h"
 
