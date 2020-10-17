@@ -1,4 +1,4 @@
-#include "..\include\elem\heading.h"
+#include "elem/heading.h"
 
 elem::heading::heading()
 {
@@ -26,7 +26,7 @@ void elem::heading::paint(elemd::Context* ctx)
 
 
 	// DEBUG
-	if (hover) {
+	if (false) {
 		// Margin
 		ctx->set_line_width(1);
 		ctx->set_stroke_color(elemd::color("#ae8152"));

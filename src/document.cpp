@@ -1,4 +1,4 @@
-#include "..\include\elem\document.h"
+#include "elem/document.h"
 
 #include <thread>
 
@@ -66,7 +66,7 @@ namespace elem
         while (_window->is_running())
         {
             _context->set_clear_color(elemd::color("#f3f4f1"));
-            _window->wait_events();
+            _window->wait_events(0.03f);
 
             paint();
         }

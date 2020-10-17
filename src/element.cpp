@@ -1,4 +1,4 @@
-#include "..\include\elem\element.h"
+#include "elem/element.h"
 
 #include <algorithm>
 
@@ -106,7 +106,7 @@ namespace elem
 
 
 		// DEBUG
-		if(hover){
+		if(false){
 			ctx->set_line_width(1);
 			// Margin
 			ctx->set_stroke_color(elemd::color("#ae8152"));
