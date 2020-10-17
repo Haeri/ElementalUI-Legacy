@@ -7,9 +7,9 @@
 #)
 
 vcpkg_download_distfile(ARCHIVE
-	URLS https://github.com/Haeri/ElementalDraw/archive/1a857b77051696f50f0398bccee0251e1df8c23a.zip
+	URLS https://github.com/Haeri/ElementalDraw/archive/a3bd92ad419b111a6bbbc442d2c4a6d3c5e71c2e.zip
 	FILENAME elemd001.zip
-    SHA512 9576531d4ac7e7b7df5b7fdbe3f137d0ec7294e8f45fe501aa15214620b330a5fffe9c31e18991f37c9f66126864bf1907d72fe881f6f8840626ea451baae2ac
+    SHA512 5e9b70acc60f0115e3c8f7b2ed4193cd3ceba0e32e52a6e165a0af411dbe98203e43d637eb4aef8a2e7c20ff02480e4367551766297d3d2f5e9ad837fbe54b6e
 )
 
 vcpkg_extract_source_archive_ex(
@@ -19,6 +19,8 @@ vcpkg_extract_source_archive_ex(
 
 vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
+    OPTIONS 
+    	-DELEMD_BUILD_EXAMPLES=false
 #    PREFER_NINJA
 )
 
