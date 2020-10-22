@@ -23,15 +23,43 @@ void add_operation(elem::heading* display, std::string op)
 
 int main(void)
 {
+    enum window_stat {
+        WINDOWED,
+        MAXIMIZED,
+        MINIMIZED
+    } window_status = WINDOWED;
+
     int WIDTH = 300;
     int HEIGHT = 370;
+
+    bool should_move = false;
+    float mouse_to_window_delta_x = 0;
+    float mouse_to_window_delta_y = 0;
+
+    float mouse_x = 0;
+    float mouse_y = 0;
 
     bool parenthesis_flip = false;
 
     elemd::WindowConfig winc = elemd::WindowConfig{ "Calculator", WIDTH, HEIGHT };
-    //winc.decorated = false;
+    winc.decorated = false;
     winc.icon_file = "./res/icon.png";
     elemd::Window* window = elemd::Window::create(winc);
+
+    window->add_mouse_move_listener([&](elemd::mouse_move_event event) {
+        if (should_move)
+        {
+            elemd::vec2 pos = window->get_position();
+            window->set_position(pos.get_x() + event.x - mouse_to_window_delta_x, pos.get_y() + event.y - mouse_to_window_delta_y);
+        }
+    });
+
+    window->add_mouse_click_listener([&](elemd::mouse_button_event event) {
+        if (should_move && event.action == elemd::ACTION_RELEASE)
+        {
+            should_move = false;
+        }
+    });
 
     {
         elem::document doc(window);
@@ -100,6 +128,95 @@ int main(void)
         key_heading_style.padding[3] = 10;
         key_heading_style.color = font_color_num;
         key_heading_style.font_family = font_urbanist;
+        key_heading_style.font_size = 25;
+
+
+
+        elem::element title_bar;
+        title_bar.style.background_color = elemd::color(30, 30, 30);
+        title_bar.style.padding[0] = 10;
+        title_bar.style.padding[1] = 10;
+        title_bar.style.padding[2] = 10;
+        title_bar.style.padding[3] = 10;
+        title_bar.add_click_listener([&](elem::node::click_event event) {
+            mouse_to_window_delta_x = event.event.x;
+            mouse_to_window_delta_y = event.event.y;
+            should_move = true;
+        });
+
+        
+
+        elem::element min_btn;
+        min_btn.style.display = elem::node::INLINE;
+        min_btn.style.background_color = elemd::color(48, 209, 88);
+        min_btn.style.padding[0] = 6;
+        min_btn.style.padding[1] = 6;
+        min_btn.style.padding[2] = 6;
+        min_btn.style.padding[3] = 6;
+        min_btn.style.border_radius[0] = 6;
+        min_btn.style.border_radius[1] = 6;
+        min_btn.style.border_radius[2] = 6;
+        min_btn.style.border_radius[3] = 6;
+        min_btn.style.margin[1] = 5;
+        min_btn.add_click_listener([&](elem::node::click_event event) {
+            if (window_status != MINIMIZED)
+            {
+                window->minimize();
+                window_status = MINIMIZED;
+            }
+            else
+            {
+                window->restore();
+                window_status = WINDOWED;
+            }
+        });
+
+        elem::element max_btn;
+        max_btn.style.display = elem::node::INLINE;
+        max_btn.style.background_color = elemd::color(255, 214, 10);
+        max_btn.style.padding[0] = 6;
+        max_btn.style.padding[1] = 6;
+        max_btn.style.padding[2] = 6;
+        max_btn.style.padding[3] = 6;
+        max_btn.style.border_radius[0] = 6;
+        max_btn.style.border_radius[1] = 6;
+        max_btn.style.border_radius[2] = 6;
+        max_btn.style.border_radius[3] = 6;
+        max_btn.style.margin[1] = 5;
+        max_btn.add_click_listener([&](elem::node::click_event event) {
+            if (window_status != MAXIMIZED)
+            {
+                window->maximize();
+                window_status = MAXIMIZED;
+            }
+            else
+            {
+                window->restore();
+                window_status = WINDOWED;
+            }
+        });
+
+        elem::element close_btn;
+        close_btn.style.display = elem::node::INLINE;
+        close_btn.style.background_color = elemd::color(255, 69, 58);
+        close_btn.style.padding[0] = 6;
+        close_btn.style.padding[1] = 6;
+        close_btn.style.padding[2] = 6;
+        close_btn.style.padding[3] = 6;
+        close_btn.style.border_radius[0] = 6;
+        close_btn.style.border_radius[1] = 6;
+        close_btn.style.border_radius[2] = 6;
+        close_btn.style.border_radius[3] = 6;
+        close_btn.style.margin[1] = 5;
+        close_btn.add_click_listener([&](elem::node::click_event event) {
+            window->close();
+        });
+
+
+        title_bar.add_child(&min_btn);
+        title_bar.add_child(&max_btn);
+        title_bar.add_child(&close_btn);
+
 
 
         elem::element display;
@@ -110,7 +227,7 @@ int main(void)
         display.style.padding[3] = 10;
 
         elem::element keypad;
-        keypad.style.padding[0] = 20;
+        keypad.style.padding[0] = 5;
         keypad.style.padding[1] = 5;
         keypad.style.padding[2] = 20;
         keypad.style.padding[3] = 5;
@@ -119,14 +236,17 @@ int main(void)
         solution.set_text("0");
         solution.style.color = font_color_num;
         solution.style.font_family = font_urbanist;
+        solution.style.font_size = 30;
         solution.style.padding[0] = 10;
         solution.style.padding[2] = 10;
 
 
         elem::heading equation;
         equation.set_text("");
+        equation.style.display = elem::node::BLOCK;
         equation.style.color = button_color_num;
         equation.style.font_family = font_urbanist;
+        equation.style.font_size = 16;
 
         display.add_child(&equation);
         display.add_child(&solution);
@@ -458,7 +578,7 @@ int main(void)
 
 
 
-
+        body.add_child(&title_bar);
         body.add_child(&display);
         body.add_child(&keypad);
 
@@ -473,16 +593,16 @@ int main(void)
                     switch (event.key)
                     {
                     case elemd::keyboard_key::KEY_1:    // +
-                        h_add.emit_click_event();
+                        h_add.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_0:    // =
-                        h_equ.emit_click_event();
+                        h_equ.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_3:    // *
-                        h_mul.emit_click_event();
+                        h_mul.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_7:    // /
-                        h_div.emit_click_event();
+                        h_div.emit_click_event({});
                         break;
                     }
                 }
@@ -492,65 +612,68 @@ int main(void)
                     {
                     case elemd::keyboard_key::KEY_KP_0:
                     case elemd::keyboard_key::KEY_0:
-                        h_0.emit_click_event();
+                        h_0.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_KP_1:
                     case elemd::keyboard_key::KEY_1:
-                        h_1.emit_click_event();
+                        h_1.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_KP_2:
                     case elemd::keyboard_key::KEY_2:
-                        h_2.emit_click_event();
+                        h_2.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_KP_3:
                     case elemd::keyboard_key::KEY_3:
-                        h_3.emit_click_event();
+                        h_3.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_KP_4:
                     case elemd::keyboard_key::KEY_4:
-                        h_4.emit_click_event();
+                        h_4.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_KP_5:
                     case elemd::keyboard_key::KEY_5:
-                        h_5.emit_click_event();
+                        h_5.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_KP_6:
                     case elemd::keyboard_key::KEY_6:
-                        h_6.emit_click_event();
+                        h_6.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_KP_7:
                     case elemd::keyboard_key::KEY_7:
-                        h_7.emit_click_event();
+                        h_7.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_KP_8:
                     case elemd::keyboard_key::KEY_8:
-                        h_8.emit_click_event();
+                        h_8.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_KP_9:
                     case elemd::keyboard_key::KEY_9:
-                        h_9.emit_click_event();
+                        h_9.emit_click_event({});
                         break;
 
 
 
                     case elemd::keyboard_key::KEY_KP_ADD:       // +
-                        h_add.emit_click_event();
+                        h_add.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_KP_SUBTRACT:  // -        
-                        h_sub.emit_click_event();
+                        h_sub.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_KP_MULTIPLY:  // *        
-                        h_mul.emit_click_event();
+                        h_mul.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_KP_DIVIDE:    // /
-                        h_sub.emit_click_event();
+                        h_sub.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_KP_EQUAL:     // =
                     case elemd::keyboard_key::KEY_ENTER:
-                        h_equ.emit_click_event();
+                        h_equ.emit_click_event({});
                         break;
                     case elemd::keyboard_key::KEY_KP_DECIMAL:   // .
-                        h_comma.emit_click_event();
+                        h_comma.emit_click_event({});
+                        break;
+                    case elemd::keyboard_key::KEY_BACKSPACE:   // <-
+                        h_back.emit_click_event({});
                         break;
 
                     }
@@ -561,7 +684,7 @@ int main(void)
             });
 
         doc.add_child(&body);
-        doc.run();
+        doc.main_loop();
 
     }
     window->destroy();

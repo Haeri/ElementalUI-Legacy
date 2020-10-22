@@ -9,6 +9,7 @@
 #include <elemd/vec2.hpp>
 #include <elemd/context.hpp>
 #include <elemd/font.hpp>
+#include <elemd/event.hpp>
 
 #include "measure_value.h"
 
@@ -38,6 +39,7 @@ namespace elem
             elemd::color background_color = elemd::color(0, 0, 0, 0);
             elemd::color color = elemd::color(0, 0, 0, 255);
             elemd::font* font_family = nullptr;
+            float font_size = 10;
             float border_radius[4] = { 0, 0, 0, 0 };
             float border_width = 0;
             elemd::color border_color = elemd::color(0, 0, 0, 255);
@@ -48,6 +50,7 @@ namespace elem
 
         struct click_event {
             class node* node;   // GCC needs help here. class declaration is required
+            elemd::mouse_button_event event;
         };
 
 
@@ -72,7 +75,7 @@ namespace elem
         static void add_to_hover_list(node* node);
         static void clear_hover_list();
 
-        virtual void emit_click_event();
+        virtual void emit_click_event(elemd::mouse_button_event mouse_event);
         virtual node* bounds_check(elemd::vec2 pos);
         virtual float layout(elemd::vec2 position, float width) = 0;
         virtual void paint(elemd::Context* ctx) = 0;

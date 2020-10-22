@@ -61,11 +61,11 @@ namespace elem
 		_hover_list.clear();
 	}
 
-	void node::emit_click_event()
+	void node::emit_click_event(elemd::mouse_button_event mouse_event)
 	{
 		for (auto& var : _click_event_callbacks)
 		{
-			var({ this });
+			var({ this, mouse_event });
 		}
 	}
 

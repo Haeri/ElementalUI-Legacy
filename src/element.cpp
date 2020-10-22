@@ -106,9 +106,10 @@ namespace elem
 
 
 		// DEBUG
-		if(false){
-			ctx->set_line_width(1);
+		if (false) {
+		//if (hover) {
 			// Margin
+			ctx->set_line_width(1);
 			ctx->set_stroke_color(elemd::color("#ae8152"));
 			ctx->stroke_rect(
 				_position.get_x(),
@@ -119,10 +120,19 @@ namespace elem
 			// Padding
 			ctx->set_stroke_color(elemd::color("#b8c47f"));
 			ctx->stroke_rect(
+				_position.get_x() + style.margin[3],
+				_position.get_y() + style.margin[0],
+				_width - (style.margin[3] + style.margin[1]),
+				_height - (style.margin[0] + style.margin[2]));
+
+			// Content
+			ctx->set_stroke_color(elemd::color("#3e3e42"));
+			ctx->stroke_rect(
 				_position.get_x() + style.margin[3] + style.padding[3],
 				_position.get_y() + style.margin[0] + style.padding[0],
 				_width - (style.margin[3] + style.margin[1]) - (style.padding[3] + style.padding[1]),
 				_height - (style.margin[0] + style.margin[2]) - (style.padding[0] + style.padding[2]));
+		
 		}
 
 		for (node* el : _children) {

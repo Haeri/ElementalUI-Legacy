@@ -33,7 +33,7 @@ namespace elem
 
                 if (node != nullptr)
                 {
-                    node->emit_click_event();
+                    node->emit_click_event(event);
                 }
             }
         });
@@ -55,7 +55,7 @@ namespace elem
         _root->add_child(child);
     }
 
-    void document::run()
+    void document::main_loop()
     {
         for (auto& font : _fonts) {
             _context->_tmp_register_font(font);

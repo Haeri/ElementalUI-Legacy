@@ -18,7 +18,7 @@ namespace elem
         ~document();
         
         void add_child(node* child);
-        void run();
+        void main_loop();
 
         elemd::font* load_font(const std::string& font_file);
 
