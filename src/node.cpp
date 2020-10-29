@@ -1,12 +1,14 @@
 #include "elem/node.h"
 
 #include <iostream>
+#include <map>
 
 #include "elem/document.h"
 
 namespace elem
 {
-	std::vector<node*> node::_hover_list;
+	std::map<node*, int> node::_hover_map;
+
 
 	void node::add_child(node* child)
 	{
@@ -24,6 +26,21 @@ namespace elem
 	{
 		_children.erase(std::remove(_children.begin(), _children.end(), child), _children.end());
 		child->set_parent(nullptr);
+	}
+
+	void node::set_state(State state)
+	{
+		_transition_progress = 0;
+
+		if (style.transition_time <= 0) {
+			if (state == HOVER_INITIAL) state = INITIAL;
+			else if (state == INITIAL_HOVER) state = HOVER;
+		}
+		else
+		{
+
+		}
+		_state = state;
 	}
 
 	void node::add_click_listener(std::function<void(click_event)> callback)
@@ -48,17 +65,28 @@ namespace elem
 
 	void node::add_to_hover_list(node* node)
 	{
-		_hover_list.push_back(node);	
+		auto find = _hover_map.find(node);
+		if (find == _hover_map.end()) {
+			node->set_state(INITIAL_HOVER);
+		}
+		_hover_map[node] = 2;
 	}
 
-	void node::clear_hover_list()
+	void node::finish_hover_event()
 	{
-		for (auto& node : _hover_list)
+		for (auto it = _hover_map.begin(); it != _hover_map.end();)
 		{
-			node->hover = false;
+			it->second -= 1;
+			if (it->second <= 0)
+			{
+				it->first->set_state(HOVER_INITIAL);
+				_hover_map.erase(it++);
+			}
+			else
+			{
+				++it;
+			}
 		}
-
-		_hover_list.clear();
 	}
 
 	void node::emit_click_event(elemd::mouse_button_event mouse_event)
@@ -76,10 +104,7 @@ namespace elem
 		if ((pos.get_x() > _position.get_x() + style.margin[3] && pos.get_x() < _position.get_x() + (get_width() - style.margin[1])) &&
 			(pos.get_y() > _position.get_y() + style.margin[0] && pos.get_y() < _position.get_y() + (get_height() - style.margin[2])))
 		{
-			hover = true;
 			add_to_hover_list(this);
-			//std::cout << " - HOVER" << std::endl;
-
 
 			if (_children.size() != 0)
 			{
@@ -100,7 +125,7 @@ namespace elem
 
 		//std::cout << std::endl;
 
-		hover = false;
+		//hover = false;
 		return nullptr;
 	}
 

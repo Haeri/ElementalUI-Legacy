@@ -25,6 +25,13 @@ namespace elem
             INLINE
         };
 
+        enum State {
+            INITIAL,
+            INITIAL_HOVER,
+            HOVER,
+            HOVER_INITIAL
+        };
+
         // Style
         struct Style {
             Display display = Display::BLOCK;
@@ -57,7 +64,6 @@ namespace elem
         
         Style hover_style;
         Style style;
-        bool hover = false;
 
         std::string id;
         std::string class_name;
@@ -66,6 +72,7 @@ namespace elem
         void remove_child(int index);
         void remove_child(node* child);
 
+        void set_state(State state);
         void add_click_listener(std::function<void(click_event)> callback);
 
         int get_width();
@@ -73,7 +80,7 @@ namespace elem
         elemd::vec2 get_position();
 
         static void add_to_hover_list(node* node);
-        static void clear_hover_list();
+        static void finish_hover_event();
 
         virtual void emit_click_event(elemd::mouse_button_event mouse_event);
         virtual node* bounds_check(elemd::vec2 pos);
@@ -81,13 +88,13 @@ namespace elem
         virtual void paint(elemd::Context* ctx) = 0;
 
     protected:
-        static std::vector<node*> _hover_list;
+        static std::map<node*, int> _hover_map;
 
         node* _parent = nullptr;
         std::vector<node*> _children;
         std::vector<std::function<void(click_event)>> _click_event_callbacks;
 
-
+        State _state = INITIAL;
         float _transition_progress;
         elemd::vec2 _position = elemd::vec2(-1, -1);
         float _width = -1;

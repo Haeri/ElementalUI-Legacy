@@ -27,6 +27,7 @@ namespace elem
         std::string get_text();
     private:
         std::string _content;
+        std::string _formated_content;
     };
 } // namespace elem
 

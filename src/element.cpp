@@ -72,14 +72,32 @@ namespace elem
 	void element::paint(elemd::Context* ctx)
 	{
 		elemd::color bg = style.background_color;
-		if (hover && style.background_color != hover_style.background_color) {
+		if ((_state == HOVER || _state == INITIAL_HOVER || _state == HOVER_INITIAL) && style.background_color != hover_style.background_color) {
 			float percent = _transition_progress / style.transition_time;
 			percent = std::min(std::max(percent, 0.0f), 1.0f);
-			bg = elemd::color::color_lerp(style.background_color, hover_style.background_color, percent);
+
+			if (_state == INITIAL_HOVER)
+			{
+				bg = elemd::color::color_lerp(style.background_color, hover_style.background_color, percent);
+			}
+			else if (_state == HOVER_INITIAL)
+			{
+				bg = elemd::color::color_lerp(hover_style.background_color, style.background_color, percent);
+			}
+			else if (_state == HOVER)
+			{
+				bg = hover_style.background_color;
+			}
+
 			_transition_progress += 0.1f;
-		} else {
-			_transition_progress = 0;
 		}
+		
+		
+		if (_transition_progress >= 1) {
+			if (_state == INITIAL_HOVER) _state = HOVER;
+			else if (_state == HOVER_INITIAL) _state = INITIAL;
+		}
+
 
 		// Background
 		if (bg.a() != 0) {
@@ -107,7 +125,7 @@ namespace elem
 
 		// DEBUG
 		if (false) {
-		//if (hover) {
+		//if (_state != INITIAL) {
 			// Margin
 			ctx->set_line_width(1);
 			ctx->set_stroke_color(elemd::color("#ae8152"));

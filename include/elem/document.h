@@ -4,6 +4,7 @@
 #include <elem/elemental_ui.h>
 
 #include <vector>
+#include <chrono>
 
 #include <elem/element.h>
 #include <elemd/window.hpp>
@@ -20,6 +21,8 @@ namespace elem
         void add_child(node* child);
         void main_loop();
 
+        void request_high_frequency(float timestamp);
+
         elemd::font* load_font(const std::string& font_file);
 
         int get_width();
@@ -28,6 +31,8 @@ namespace elem
     private:
         int _width;
         int _height;
+
+        std::chrono::steady_clock::time_point _highFrequencyTill;
 
         node* _root;
 

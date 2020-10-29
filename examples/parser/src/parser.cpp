@@ -16,7 +16,7 @@ int main(void)
         elemd::font* font_urbanist = doc.load_font("./res/font/Urbanist-Regular.ttf");
 
         elem::heading h1;
-        h1.set_text("Das ist ein langer text");
+        h1.set_text("Cras ultricies ligula sed magna dictum porta. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur aliquet quam id dui posuere blandit. ");
         h1.style.margin[0] = 10;
         h1.style.margin[1] = 10;
         h1.style.margin[2] = 10;
@@ -24,7 +24,7 @@ int main(void)
         h1.style.padding[0] = 10;
         h1.style.padding[1] = 10;
         h1.style.padding[2] = 10;
-        h1.style.padding[3] = 10;
+        h1.style.padding[3] = 10; 
         h1.style.font_family = font_urbanist;
 
         doc.add_child(&h1);

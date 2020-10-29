@@ -18,11 +18,8 @@ namespace elem
         });
 
         _window->add_mouse_move_listener([&](elemd::mouse_move_event event) {
-            //std::cout << "Point: " << "(" << event.x << ", " << event.y << ") " << std::endl;
-
-            node::clear_hover_list();
-
             _root->bounds_check(elemd::vec2((float)event.x, (float)event.y));
+            node::finish_hover_event();
         });
 
         _window->add_mouse_click_listener([&](elemd::mouse_button_event event)
@@ -30,6 +27,7 @@ namespace elem
             if (event.action == elemd::input_action::ACTION_PRESS && event.button == elemd::mouse_button::MOUSE_BUTTON_LEFT)
             {
                 node* node = _root->bounds_check(elemd::vec2((float)event.x, (float)event.y));
+                node::finish_hover_event();
 
                 if (node != nullptr)
                 {
@@ -63,13 +61,37 @@ namespace elem
 
         _context->_tmp_prepare();
     
+        using ms = std::chrono::duration<double, std::milli>;
+        std::chrono::steady_clock::time_point last_time = std::chrono::steady_clock::now();
+
         while (_window->is_running())
         {
+            std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
             _context->set_clear_color(elemd::color("#f3f4f1"));
-            _window->wait_events(0.03f);
+
+
+            if (std::chrono::duration_cast<ms>(_highFrequencyTill - begin).count() > 0)
+            {
+                _window->wait_events(0.03f);
+                std::cout << "FAST" << std::endl;
+            }
+            else
+            {
+                _window->wait_events(0.03f);
+                //_window->wait_events();
+                std::cout << "SLOW" << std::endl;
+            }
+
+            //std::cout << "RUNNING" << std::endl;
 
             paint();
         }
+    }
+
+    void document::request_high_frequency(float timestamp)
+    {
+        _highFrequencyTill += std::chrono::milliseconds((int)timestamp * 1000);
     }
 
     elemd::font* document::load_font(const std::string& font_file)

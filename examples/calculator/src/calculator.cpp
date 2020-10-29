@@ -133,7 +133,10 @@ int main(void)
 
 
         elem::element title_bar;
+        title_bar.id = "title_bar";
         title_bar.style.background_color = elemd::color(30, 30, 30);
+        title_bar.hover_style.background_color = elemd::color(40, 40, 40);
+        title_bar.style.transition_time = 2;
         title_bar.style.padding[0] = 10;
         title_bar.style.padding[1] = 10;
         title_bar.style.padding[2] = 10;
@@ -148,7 +151,7 @@ int main(void)
 
         elem::element min_btn;
         min_btn.style.display = elem::node::INLINE;
-        min_btn.style.background_color = elemd::color(48, 209, 88);
+        min_btn.style.background_color = elemd::color(50, 215, 75);
         min_btn.style.padding[0] = 6;
         min_btn.style.padding[1] = 6;
         min_btn.style.padding[2] = 6;
@@ -158,6 +161,9 @@ int main(void)
         min_btn.style.border_radius[2] = 6;
         min_btn.style.border_radius[3] = 6;
         min_btn.style.margin[1] = 5;
+        min_btn.hover_style = min_btn.style;
+        min_btn.hover_style.background_color = elemd::color("#5ddf71");
+        min_btn.style.transition_time = 2;
         min_btn.add_click_listener([&](elem::node::click_event event) {
             if (window_status != MINIMIZED)
             {
@@ -183,6 +189,9 @@ int main(void)
         max_btn.style.border_radius[2] = 6;
         max_btn.style.border_radius[3] = 6;
         max_btn.style.margin[1] = 5;
+        max_btn.hover_style = max_btn.style;
+        max_btn.hover_style.background_color = elemd::color("#ffdf3d");
+        max_btn.style.transition_time = 2;
         max_btn.add_click_listener([&](elem::node::click_event event) {
             if (window_status != MAXIMIZED)
             {
@@ -208,6 +217,9 @@ int main(void)
         close_btn.style.border_radius[2] = 6;
         close_btn.style.border_radius[3] = 6;
         close_btn.style.margin[1] = 5;
+        close_btn.hover_style = close_btn.style;
+        close_btn.hover_style.background_color = elemd::color("#ff726b");
+        close_btn.style.transition_time = 2;
         close_btn.add_click_listener([&](elem::node::click_event event) {
             window->close();
         });
