@@ -15,13 +15,15 @@ namespace elem
     class ELEM_API document
     {
     public:
+        float delta_time;
+
         document(elemd::Window* window);
         ~document();
         
         void add_child(node* child);
         void main_loop();
 
-        void request_high_frequency(float timestamp);
+        void request_high_frequency();
 
         elemd::font* load_font(const std::string& font_file);
 
@@ -32,7 +34,7 @@ namespace elem
         int _width;
         int _height;
 
-        std::chrono::steady_clock::time_point _highFrequencyTill;
+        bool _highFrequencyNext;
 
         node* _root;
 

@@ -13,10 +13,11 @@
 
 #include "measure_value.h"
 
-class document;
 
 namespace elem
 {
+class document;
+
     class ELEM_API node
     {
     public:
@@ -73,6 +74,7 @@ namespace elem
         void remove_child(node* child);
 
         void set_state(State state);
+        void set_document(document* doc);
         void add_click_listener(std::function<void(click_event)> callback);
 
         int get_width();
@@ -89,6 +91,7 @@ namespace elem
 
     protected:
         static std::map<node*, int> _hover_map;
+        document* _document;
 
         node* _parent = nullptr;
         std::vector<node*> _children;

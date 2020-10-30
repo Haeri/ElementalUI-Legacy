@@ -43,6 +43,15 @@ namespace elem
 		_state = state;
 	}
 
+	void node::set_document(document* doc)
+	{
+		_document = doc;
+		for (auto& child : _children)
+		{
+			child->set_document(doc);
+		}
+	}
+
 	void node::add_click_listener(std::function<void(click_event)> callback)
 	{
 		_click_event_callbacks.push_back(callback);
@@ -132,6 +141,7 @@ namespace elem
 	void node::set_parent(node* parent)
 	{
 		_parent = parent;
+		_document = parent->_document;
 	}
 
 }// namespace elem

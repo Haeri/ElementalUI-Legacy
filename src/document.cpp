@@ -7,6 +7,7 @@ namespace elem
     document::document(elemd::Window* window)
     {
         _root = new element();
+        _root->set_document(this);
 
         _width = window->get_width();
 
@@ -51,6 +52,7 @@ namespace elem
     void document::add_child(node* child)
     {
         _root->add_child(child);
+        _root->set_document(this);
     }
 
     void document::main_loop()
@@ -66,32 +68,28 @@ namespace elem
 
         while (_window->is_running())
         {
-            std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+            std::chrono::steady_clock::time_point current_time = std::chrono::steady_clock::now();
+            delta_time = std::chrono::duration_cast<ms>(current_time - last_time).count() / 1000.0f;
+            last_time = current_time;
 
-            _context->set_clear_color(elemd::color("#f3f4f1"));
-
-
-            if (std::chrono::duration_cast<ms>(_highFrequencyTill - begin).count() > 0)
+            if (_highFrequencyNext)
             {
-                _window->wait_events(0.03f);
-                std::cout << "FAST" << std::endl;
+                _highFrequencyNext = false;
+                _window->poll_events();
             }
             else
             {
-                _window->wait_events(0.03f);
-                //_window->wait_events();
-                std::cout << "SLOW" << std::endl;
+                _window->wait_events();
+                last_time = std::chrono::steady_clock::now();
             }
 
-            //std::cout << "RUNNING" << std::endl;
-
-            paint();
+            paint();       
         }
     }
 
-    void document::request_high_frequency(float timestamp)
+    void document::request_high_frequency()
     {
-        _highFrequencyTill += std::chrono::milliseconds((int)timestamp * 1000);
+        _highFrequencyNext = true;
     }
 
     elemd::font* document::load_font(const std::string& font_file)

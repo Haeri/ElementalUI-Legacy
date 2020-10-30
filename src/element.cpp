@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include <elem/document.h>
+
 namespace elem
 {
 	float element::layout(elemd::vec2 position, float width)
@@ -79,21 +81,23 @@ namespace elem
 			if (_state == INITIAL_HOVER)
 			{
 				bg = elemd::color::color_lerp(style.background_color, hover_style.background_color, percent);
+				_document->request_high_frequency();
 			}
 			else if (_state == HOVER_INITIAL)
 			{
 				bg = elemd::color::color_lerp(hover_style.background_color, style.background_color, percent);
+				_document->request_high_frequency();
 			}
 			else if (_state == HOVER)
 			{
 				bg = hover_style.background_color;
 			}
 
-			_transition_progress += 0.1f;
+			_transition_progress += _document->delta_time;
 		}
 		
 		
-		if (_transition_progress >= 1) {
+		if (_transition_progress >= style.transition_time) {
 			if (_state == INITIAL_HOVER) _state = HOVER;
 			else if (_state == HOVER_INITIAL) _state = INITIAL;
 		}
