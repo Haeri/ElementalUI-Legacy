@@ -2,7 +2,7 @@
 
 import os
 
-header_path = "../include/elemd/"
+header_path = "../include/elem/"
 cpp_path 	= "../src/"
 
 all_header 	= []

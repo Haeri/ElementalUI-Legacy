@@ -74,11 +74,13 @@ if (ELEM_BUILD_EXAMPLES)
     set_target_properties(calculator PROPERTIES FOLDER examples)
     set_target_properties(parser PROPERTIES FOLDER examples)
 
-    add_custom_command(
-        TARGET ${PROJECT_NAME} POST_BUILD
-        DEPENDS calculator parser
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} examples/calculator/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} 
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} examples/parser/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} 
-        COMMENT "Copy library"
-    )
+    if (BUILD_SHARED_LIBS)
+        add_custom_command(
+            TARGET ${PROJECT_NAME} POST_BUILD
+            DEPENDS calculator parser
+            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} examples/calculator/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} 
+            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} examples/parser/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} 
+            COMMENT "Copy library"
+        )
+    endif()
 endif()
