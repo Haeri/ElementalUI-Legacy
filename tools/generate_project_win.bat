@@ -15,11 +15,7 @@ rmdir /S /Q "build"
 mkdir "build"
 cd build
 
-if "%VCPKG_ROOT%"=="" (
-	cmake .. -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_OVERLAY_PORTS="%root_path%\external\custom-ports"
-)else (
-	cmake .. -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_OVERLAY_PORTS="%root_path%\external\custom-ports" -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%"/scripts/buildsystems/vcpkg.cmake"
-)
+cmake .. -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_OVERLAY_PORTS="%root_path%\external\custom-ports" -DCMAKE_TOOLCHAIN_FILE=%root_path%"/external/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_DISABLE_METRICS=ON
 
 set /a "err=%err%+%errorlevel%"
 

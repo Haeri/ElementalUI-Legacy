@@ -19,8 +19,8 @@ jobs:
         submodules: 'true'
     - name: Setup Environment
       uses: microsoft/setup-msbuild@v1.0.2
-    - name: Install
-      run: ./tools/setup_win.bat -s
+    - name: Generate Solution
+      run: ./tools/generate_project_win.bat -s
     - name: Build
       run: MSBuild.exe ./build/elem.sln /p:Configuration=${{ matrix.conf }}
     - name: Upload
@@ -45,8 +45,8 @@ jobs:
         sudo chmod +x ./tools/*.sh
         sudo apt update
         sudo apt install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev
-    - name: Install
-      run: sudo ./tools/setup_nix.sh
+    - name: Generate Solution
+      run: sudo ./tools/generate_project_linux.sh
     - name: Build
       run: |
         cd ./build
@@ -71,8 +71,8 @@ jobs:
     - name: Setup Environment
       run: |
         sudo chmod +x ./tools/*.sh
-    - name: Install
-      run: ./tools/setup_nix.sh
+    - name: Generate Solution
+      run: ./tools/generate_project_mac.sh
     - name: Build
       run: |
         cd ./build
