@@ -1,7 +1,17 @@
 {
   "name": "elemd",
-  "version-string": "0.0.1",
-  "homepage": "",
+  "version-string": "0.1.0",
+  "homepage": "https://github.com/Haeri/ElementalDraw",
   "description": "Portable C++ canvas library with a Vulkan backend",
-  "dependencies": ["glfw3", "glslang", "stb", "freetype"]
+  "dependencies": 
+  [
+  	"glfw3", 
+  	"glslang", 
+  	"stb", 
+  	"freetype", 
+  	{
+  		"name": "moltenvk",
+  		"platform": "osx"
+  	}
+  ]
 }
