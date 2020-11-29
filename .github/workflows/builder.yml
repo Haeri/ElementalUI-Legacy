@@ -23,6 +23,12 @@ jobs:
       run: ./tools/generate_project_win.bat -s
     - name: Build
       run: MSBuild.exe ./build/elem.sln /p:Configuration=${{ matrix.conf }}
+    - name: Debug
+      if: ${{ failure() }}
+      run: |
+        cd ./build
+        ls -la
+        tail -n 1000 vcpkg-manifest-install.log      
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
@@ -52,6 +58,12 @@ jobs:
       run: |
         cd ./build
         make config=${{ matrix.conf }}
+    - name: Debug
+      if: ${{ failure() }}
+      run: |
+        cd ./build
+        ls -la
+        tail -n 1000 vcpkg-manifest-install.log        
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
@@ -77,6 +89,12 @@ jobs:
       run: |
         cd ./build
         make config=${{ matrix.conf }}
+    - name: Debug
+      if: ${{ failure() }}
+      run: |
+        cd ./build
+        ls -la
+        tail -n 1000 vcpkg-manifest-install.log        
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
