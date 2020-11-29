@@ -21,14 +21,16 @@ set(CMAKE_VISIBILITY_INLINE_HIDDEN YES)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 file(GLOB_RECURSE SOURCE_FILES
-        include/${PROJECT_NAME}/*.h
-        src/*.h
-        src/*.cpp)
+    include/${PROJECT_NAME}/*.h
+    src/*.h
+    src/*.cpp
+)
 
 if (BUILD_SHARED_LIBS)
     add_compile_definitions(ELEM_BUILD_SHARED)
     add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 else()
+    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
     add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 endif()
 

@@ -6,12 +6,14 @@ on:
     - master
 
 jobs:
+
   build-win:
    name: Windows Build
    runs-on: windows-latest
    strategy:
      matrix: 
        conf: [Release]
+       type: [static, dynamic]
    steps:
     - name: Download Repository
       uses: actions/checkout@v2
@@ -20,21 +22,25 @@ jobs:
     - name: Setup Environment
       uses: microsoft/setup-msbuild@v1.0.2
     - name: Generate Solution
-      run: ./tools/generate_project_win.bat -s
-    - name: Build
-      run: MSBuild.exe ./build/elem.sln /p:Configuration=${{ matrix.conf }}
+      run: ./tools/generate_project_win.bat -${{ matrix.type }} -s
     - name: Debug
       if: ${{ failure() }}
       run: |
         cd ./build
         ls -la
-        tail -n 1000 vcpkg-manifest-install.log      
+        tail -n 1000 vcpkg-manifest-install.log
+    - name: Build
+      run: |
+        MSBuild.exe ./build/elem.sln /p:Configuration=${{ matrix.conf }}
+    - name: Package
+      run: ./tools/package_win.bat -${{ matrix.type }} -s
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: elem-win-${{ matrix.conf }}
+        name: elem_x64-windows
         path: |
-          ./build/${{ matrix.conf }}/*
+          ./lib
+          ./bin
           ./include
     
   build-linux:
@@ -43,6 +49,7 @@ jobs:
    strategy:
      matrix: 
        conf: [Release]
+       type: [static, dynamic]
    steps:
     - name: Download Repository
       uses: actions/checkout@v2
@@ -53,23 +60,26 @@ jobs:
         sudo apt update
         sudo apt install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev
     - name: Generate Solution
-      run: ./tools/generate_project_linux.sh
-    - name: Build
-      run: |
-        cd ./build
-        make config=${{ matrix.conf }}
+      run: ./tools/generate_project_linux.sh -${{ matrix.type }}
     - name: Debug
       if: ${{ failure() }}
       run: |
         cd ./build
         ls -la
-        tail -n 1000 vcpkg-manifest-install.log        
+        tail -n 1000 vcpkg-manifest-install.log
+    - name: Build
+      run: |
+        cd ./build
+        make config=${{ matrix.conf }}
+    - name: Package
+      run: ./tools/package_linux.sh -${{ matrix.type }}
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: elem-linux-${{ matrix.conf }}
+        name: elem_x64-linux
         path: |
-          ./build/libelem*
+          ./bin
+          ./lib
           ./include
 
   build-mac:
@@ -78,27 +88,31 @@ jobs:
    strategy:
      matrix: 
        conf: [Release]
+       type: [static, dynamic]
    steps:
     - name: Download Repository
       uses: actions/checkout@v2
       with:
         submodules: 'true'
     - name: Generate Solution
-      run: ./tools/generate_project_mac.sh
-    - name: Build
-      run: |
-        cd ./build
-        make config=${{ matrix.conf }}
+      run: ./tools/generate_project_mac.sh -${{ matrix.type }}
     - name: Debug
       if: ${{ failure() }}
       run: |
         cd ./build
         ls -la
-        tail -n 1000 vcpkg-manifest-install.log        
+        tail -n 1000 vcpkg-manifest-install.log
+    - name: Build
+      run: |
+        cd ./build
+        make config=${{ matrix.conf }}
+    - name: Package
+      run: ./tools/package_mac.sh -${{ matrix.type }}
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: elem-mac-${{ matrix.conf }}
+        name: elem_x64-macos
         path: |
-          ./build/libelem*
+          ./bin
+          ./lib
           ./include
