@@ -56,9 +56,17 @@ class document;
         };
 
 
-        struct click_event {
+        struct node_click_event {
             class node* node;   // GCC needs help here. class declaration is required
             elemd::mouse_button_event event;
+        };
+        struct node_key_event {
+            class node* node;
+            elemd::key_event event;
+        };
+        struct node_char_event {
+            class node* node;
+            elemd::char_event event;
         };
 
 
@@ -74,8 +82,9 @@ class document;
         void remove_child(node* child);
 
         void set_state(State state);
+        void set_focus(bool focus);
         void set_document(document* doc);
-        void add_click_listener(std::function<void(click_event)> callback);
+        void add_click_listener(std::function<void(node_click_event)> callback);
 
         int get_width();
         int get_height();
@@ -84,10 +93,14 @@ class document;
         static void add_to_hover_list(node* node);
         static void finish_hover_event();
 
-        virtual void emit_click_event(elemd::mouse_button_event mouse_event);
+        virtual void emit_click_event(elemd::mouse_button_event event);
+        virtual void emit_key_event(elemd::key_event event);
+        virtual void emit_char_event(elemd::char_event event);
+
         virtual node* bounds_check(elemd::vec2 pos);
-        virtual float layout(elemd::vec2 position, float width) = 0;
+        virtual float layout(elemd::vec2 position, float width, float height) = 0;
         virtual void paint(elemd::Context* ctx) = 0;
+        virtual void destroy();
 
     protected:
         static std::map<node*, int> _hover_map;
@@ -95,7 +108,10 @@ class document;
 
         node* _parent = nullptr;
         std::vector<node*> _children;
-        std::vector<std::function<void(click_event)>> _click_event_callbacks;
+        std::vector<std::function<void(node_click_event)>> _click_event_callbacks;
+        std::vector<std::function<void(node_key_event)>> _key_event_callbacks;
+        std::vector<std::function<void(node_char_event)>> _char_event_callbacks;
+        bool _focused = false;
 
         State _state = INITIAL;
         float _transition_progress;

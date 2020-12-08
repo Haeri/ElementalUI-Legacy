@@ -6,7 +6,7 @@
 
 namespace elem
 {
-	float element::layout(elemd::vec2 position, float width)
+	float element::layout(elemd::vec2 position, float width, float height)
 	{
 		_position = position;
 
@@ -40,7 +40,7 @@ namespace elem
 
 			//child_pos.y() += height_offset;
 
-			float child_height = el->layout(child_pos + elemd::vec2(width_accum, _height), child_width);
+			float child_height = el->layout(child_pos + elemd::vec2(width_accum, _height), child_width, height);
 
 			width_accum += el->get_width();
 			if (max_line_height < el->get_height()) {
@@ -66,6 +66,18 @@ namespace elem
 		if (style.display == Display::INLINE && style.width.get_type() == measure_value::Type::AUTO)
 		{
 			_width = tmp_width + (style.margin[3] + style.padding[3]) + (style.margin[1] + style.padding[1]);
+		}
+
+		switch (style.height.get_type())
+		{
+		case measure_value::Type::AUTO:
+			break;
+		case measure_value::Type::PERCENT:
+			_height = height * (style.height.get_value() / 100.0f);
+			break;
+		case measure_value::Type::PIXELS:
+			_height = style.height.get_value();
+			break;
 		}
 
 		return _height;

@@ -1,5 +1,5 @@
-#ifndef ELEM_HEADING_H
-#define ELEM_HEADING_H
+#ifndef ELEM_TEXT_FIELD_H
+#define ELEM_TEXT_FIELD_H
 
 #include <elem/elemental_ui.h>
 #include <vector>
@@ -13,13 +13,15 @@
 
 namespace elem
 {
-    class ELEM_API heading : public node
+    class ELEM_API text_field : public node
     {
     public:
-        heading();
+        text_field();
 
         void add_child(node* child) = delete;
 
+        void emit_key_event(elemd::key_event event) override;
+        void emit_char_event(elemd::char_event event) override;
         float layout(elemd::vec2 position, float width, float height) override;
         void paint(elemd::Context* ctx) override;
 
@@ -28,7 +30,9 @@ namespace elem
     private:
         std::string _content;
         std::string _formated_content;
+
+        unsigned int _cursor_pos = 0;
     };
 } // namespace elem
 
-#endif // ELEM_HEADING_H
+#endif // ELEM_TEXT_FIELD_H

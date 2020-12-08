@@ -17,7 +17,7 @@ namespace elem
     {
     public:
 
-        float layout(elemd::vec2 position, float width) override;
+        float layout(elemd::vec2 position, float width, float height) override;
         void paint(elemd::Context* ctx) override;
     
     };

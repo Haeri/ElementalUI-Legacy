@@ -43,6 +43,11 @@ namespace elem
 		_state = state;
 	}
 
+	void node::set_focus(bool focus)
+	{
+		_focused = focus;
+	}
+
 	void node::set_document(document* doc)
 	{
 		_document = doc;
@@ -52,7 +57,7 @@ namespace elem
 		}
 	}
 
-	void node::add_click_listener(std::function<void(click_event)> callback)
+	void node::add_click_listener(std::function<void(node_click_event)> callback)
 	{
 		_click_event_callbacks.push_back(callback);
 	}
@@ -98,11 +103,27 @@ namespace elem
 		}
 	}
 
-	void node::emit_click_event(elemd::mouse_button_event mouse_event)
+	void node::emit_click_event(elemd::mouse_button_event event)
 	{
 		for (auto& var : _click_event_callbacks)
 		{
-			var({ this, mouse_event });
+			var({ this, event });
+		}
+	}
+
+	void node::emit_key_event(elemd::key_event event)
+	{
+		for (auto& var : _key_event_callbacks)
+		{
+			var({ this, event });
+		}
+	}
+
+	void node::emit_char_event(elemd::char_event event)
+	{
+		for (auto& var : _char_event_callbacks)
+		{
+			var({ this, event });
 		}
 	}
 
@@ -136,6 +157,16 @@ namespace elem
 
 		//hover = false;
 		return nullptr;
+	}
+
+	void node::destroy()
+	{
+		for (auto& child : _children)
+		{
+			child->destroy();
+		}
+
+		delete this;
 	}
 
 	void node::set_parent(node* parent)

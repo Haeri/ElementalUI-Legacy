@@ -141,7 +141,7 @@ int main(void)
         title_bar.style.padding[1] = 10;
         title_bar.style.padding[2] = 10;
         title_bar.style.padding[3] = 10;
-        title_bar.add_click_listener([&](elem::node::click_event event) {
+        title_bar.add_click_listener([&](elem::node::node_click_event event) {
             mouse_to_window_delta_x = event.event.x;
             mouse_to_window_delta_y = event.event.y;
             should_move = true;
@@ -164,7 +164,7 @@ int main(void)
         min_btn.hover_style = min_btn.style;
         min_btn.hover_style.background_color = elemd::color("#5ddf71");
         min_btn.style.transition_time = 0.3f;
-        min_btn.add_click_listener([&](elem::node::click_event event) {
+        min_btn.add_click_listener([&](elem::node::node_click_event event) {
             if (window_status != MINIMIZED)
             {
                 window->minimize();
@@ -192,7 +192,7 @@ int main(void)
         max_btn.hover_style = max_btn.style;
         max_btn.hover_style.background_color = elemd::color("#ffdf3d");
         max_btn.style.transition_time = 0.3f;
-        max_btn.add_click_listener([&](elem::node::click_event event) {
+        max_btn.add_click_listener([&](elem::node::node_click_event event) {
             if (window_status != MAXIMIZED)
             {
                 window->maximize();
@@ -220,7 +220,7 @@ int main(void)
         close_btn.hover_style = close_btn.style;
         close_btn.hover_style.background_color = elemd::color("#ff726b");
         close_btn.style.transition_time = 0.3f;
-        close_btn.add_click_listener([&](elem::node::click_event event) {
+        close_btn.add_click_listener([&](elem::node::node_click_event event) {
             window->close();
         });
 
@@ -357,7 +357,7 @@ int main(void)
         h_c.set_text("c");
         h_c.style = key_heading_style;
         h_c.style.color = font_color_op;
-        h_c.add_click_listener([&](elem::node::click_event event) {
+        h_c.add_click_listener([&](elem::node::node_click_event event) {
             solution.set_text("0");
             equation.set_text("");
             });
@@ -367,7 +367,7 @@ int main(void)
         h_back.set_text("<");
         h_back.style = key_heading_style;
         h_back.style.color = font_color_op;
-        h_back.add_click_listener([&](elem::node::click_event event) {
+        h_back.add_click_listener([&](elem::node::node_click_event event) {
             std::string s = solution.get_text();
             if (s.length() > 1)
             {
@@ -387,7 +387,7 @@ int main(void)
         h_div.set_text("/");
         h_div.style = key_heading_style;
         h_div.style.color = font_color_op;
-        h_div.add_click_listener([&](elem::node::click_event event) {
+        h_div.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "/");
             });
         button_div.add_child(&h_div);
@@ -396,7 +396,7 @@ int main(void)
         elem::heading h_7;
         h_7.set_text("7");
         h_7.style = key_heading_style;
-        h_7.add_click_listener([&](elem::node::click_event event) {
+        h_7.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "7");
             });
         button_7.add_child(&h_7);
@@ -404,7 +404,7 @@ int main(void)
         elem::heading h_8;
         h_8.set_text("8");
         h_8.style = key_heading_style;
-        h_8.add_click_listener([&](elem::node::click_event event) {
+        h_8.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "8");
             });
         button_8.add_child(&h_8);
@@ -412,7 +412,7 @@ int main(void)
         elem::heading h_9;
         h_9.set_text("9");
         h_9.style = key_heading_style;
-        h_9.add_click_listener([&](elem::node::click_event event) {
+        h_9.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "9");
             });
         button_9.add_child(&h_9);
@@ -421,7 +421,7 @@ int main(void)
         h_mul.set_text("x");
         h_mul.style = key_heading_style;
         h_mul.style.color = font_color_op;
-        h_mul.add_click_listener([&](elem::node::click_event event) {
+        h_mul.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "*");
             });
         button_mul.add_child(&h_mul);
@@ -430,7 +430,7 @@ int main(void)
         elem::heading h_4;
         h_4.set_text("4");
         h_4.style = key_heading_style;
-        h_4.add_click_listener([&](elem::node::click_event event) {
+        h_4.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "4");
             });
         button_4.add_child(&h_4);
@@ -438,7 +438,7 @@ int main(void)
         elem::heading h_5;
         h_5.set_text("5");
         h_5.style = key_heading_style;
-        h_5.add_click_listener([&](elem::node::click_event event) {
+        h_5.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "5");
             });
         button_5.add_child(&h_5);
@@ -446,7 +446,7 @@ int main(void)
         elem::heading h_6;
         h_6.set_text("6");
         h_6.style = key_heading_style;
-        h_6.add_click_listener([&](elem::node::click_event event) {
+        h_6.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "6");
             });
         button_6.add_child(&h_6);
@@ -455,7 +455,7 @@ int main(void)
         h_sub.set_text("-");
         h_sub.style = key_heading_style;
         h_sub.style.color = font_color_op;
-        h_sub.add_click_listener([&](elem::node::click_event event) {
+        h_sub.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "-");
             });
         button_sub.add_child(&h_sub);
@@ -465,7 +465,7 @@ int main(void)
         elem::heading h_1;
         h_1.set_text("1");
         h_1.style = key_heading_style;
-        h_1.add_click_listener([&](elem::node::click_event event) {
+        h_1.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "1");
             });
         button_1.add_child(&h_1);
@@ -474,7 +474,7 @@ int main(void)
         elem::heading h_2;
         h_2.set_text("2");
         h_2.style = key_heading_style;
-        h_2.add_click_listener([&](elem::node::click_event event) {
+        h_2.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "2");
             });
         button_2.add_child(&h_2);
@@ -482,7 +482,7 @@ int main(void)
         elem::heading h_3;
         h_3.set_text("3");
         h_3.style = key_heading_style;
-        h_3.add_click_listener([&](elem::node::click_event event) {
+        h_3.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "3");
             });
         button_3.add_child(&h_3);
@@ -491,7 +491,7 @@ int main(void)
         h_add.set_text("+");
         h_add.style = key_heading_style;
         h_add.style.color = font_color_op;
-        h_add.add_click_listener([&](elem::node::click_event event) {
+        h_add.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "+");
             });
         button_add.add_child(&h_add);
@@ -501,7 +501,7 @@ int main(void)
         elem::heading h_0;
         h_0.set_text("0");
         h_0.style = key_heading_style;
-        h_0.add_click_listener([&](elem::node::click_event event) {
+        h_0.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "0");
             });
         button_0.add_child(&h_0);
@@ -509,7 +509,7 @@ int main(void)
         elem::heading h_comma;
         h_comma.set_text(".");
         h_comma.style = key_heading_style;
-        h_comma.add_click_listener([&](elem::node::click_event event) {
+        h_comma.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, ".");
             });
         button_comma.add_child(&h_comma);
@@ -518,7 +518,7 @@ int main(void)
         h_parenthesis.set_text("()");
         h_parenthesis.style = key_heading_style;
         h_parenthesis.style.color = font_color_op;
-        h_parenthesis.add_click_listener([&](elem::node::click_event event) {
+        h_parenthesis.add_click_listener([&](elem::node::node_click_event event) {
             if (parenthesis_flip)
             {
                 add_operation(&solution, ")");
@@ -534,7 +534,7 @@ int main(void)
         elem::heading h_equ;
         h_equ.set_text("=");
         h_equ.style = key_heading_style;
-        h_equ.add_click_listener([&](elem::node::click_event event) {
+        h_equ.add_click_listener([&](elem::node::node_click_event event) {
 
             equation.set_text(solution.get_text());
 

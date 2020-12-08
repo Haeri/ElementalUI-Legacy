@@ -34,12 +34,14 @@ namespace elem
         int _width;
         int _height;
 
-        bool _highFrequencyNext;
+        bool _highFrequencyNext = false;
 
-        node* _root;
+        node* _root = nullptr;
 
-        elemd::Window* _window;
-        elemd::Context* _context;
+        elemd::Window* _window = nullptr;
+        elemd::Context* _context = nullptr;
+        
+        node* _focused_node = nullptr;
         
         std::vector<elemd::font*> _fonts;
         

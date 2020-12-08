@@ -32,10 +32,32 @@ namespace elem
 
                 if (node != nullptr)
                 {
+                    if (_focused_node != nullptr)
+                    {
+                        _focused_node->set_focus(false);
+                    }
+                    _focused_node = node;
+                    _focused_node->set_focus(true);
+
                     node->emit_click_event(event);
                 }
             }
         });
+
+        _window->add_key_listener([&](elemd::key_event event) {
+            if (_focused_node != nullptr)
+            {
+                _focused_node->emit_key_event(event);
+            }
+        });
+
+        _window->add_char_listener([&](elemd::char_event event) {
+            if (_focused_node != nullptr)
+            {
+                _focused_node->emit_char_event(event);
+            }
+        });
+        
 
         _context->set_clear_color({ 255, 255, 255 });
     }
@@ -112,7 +134,7 @@ namespace elem
 
     void document::paint()
     {
-        _height = _root->layout(elemd::vec2(0, 0), _width);
+        _height = _root->layout(elemd::vec2(0, 0), _width, _height);
         _root->paint(_context);
 
         _context->draw_frame();
