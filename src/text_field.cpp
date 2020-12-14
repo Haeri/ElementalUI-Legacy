@@ -1,6 +1,7 @@
 #include "elem/text_field.h"
 
 #include <algorithm>
+#include <math.h>
 
 #include <elem/document.h>
 

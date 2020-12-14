@@ -35,41 +35,27 @@ namespace elem
 
 	void heading::paint(elemd::Context* ctx)
 	{
+		// Background
+		if (style.background_color.a() != 0)
+		{
+			ctx->set_fill_color(style.background_color);
+			ctx->fill_rounded_rect(
+				_position.get_x() + style.margin[3],
+				_position.get_y() + style.margin[0],
+				_width - (style.margin[3] + style.margin[1]),
+				_height - (style.margin[0] + style.margin[2]),
+				style.border_radius[0], style.border_radius[1], style.border_radius[2], style.border_radius[3]);
+		}
+
 		ctx->set_font(style.font_family);
 		ctx->set_font_size(style.font_size);
 		ctx->set_fill_color(style.color);
 		ctx->draw_text(_position.get_x() + style.margin[3] + style.padding[3], _position.get_y() + style.margin[0] + style.padding[0], _formated_content);
 
 
-
-		// DEBUG
-		if (false) {
-			//if (_state != INITIAL) {
-				// Margin
-			ctx->set_line_width(1);
-			ctx->set_stroke_color(elemd::color("#ae8152"));
-			ctx->stroke_rect(
-				_position.get_x(),
-				_position.get_y(),
-				_width,
-				_height);
-
-			// Padding
-			ctx->set_stroke_color(elemd::color("#b8c47f"));
-			ctx->stroke_rect(
-				_position.get_x() + style.margin[3],
-				_position.get_y() + style.margin[0],
-				_width - (style.margin[3] + style.margin[1]),
-				_height - (style.margin[0] + style.margin[2]));
-
-			// Content
-			ctx->set_stroke_color(elemd::color("#3e3e42"));
-			ctx->stroke_rect(
-				_position.get_x() + style.margin[3] + style.padding[3],
-				_position.get_y() + style.margin[0] + style.padding[0],
-				_width - (style.margin[3] + style.margin[1]) - (style.padding[3] + style.padding[1]),
-				_height - (style.margin[0] + style.margin[2]) - (style.padding[0] + style.padding[2]));
-		}
+		
+		if (_state == HOVER || _state == HOVER_INITIAL)
+			debug_paint(ctx);
 	}
 
 	void heading::set_text(std::string text)

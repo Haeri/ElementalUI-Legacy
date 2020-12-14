@@ -20,11 +20,10 @@ public:
         incompleteTasks.erase(incompleteTasks.begin() + index);
         completedTasks.push_back(t);
     }
-
 };
 
 
-void create_task(std::string task, elem::node* project_list, int index, elemd::font* font)
+void render_task(std::string task, elem::node* project_list, int index, elemd::font* font)
 {
     elem::node::Style task_wrapper;
     //  task_wrapper.background_color = elemd::color(90, 90, 90);
@@ -65,36 +64,41 @@ void create_task(std::string task, elem::node* project_list, int index, elemd::f
     });
 }
 
+void render_all_tasks(Project* project, elem::node* project_list, elemd::font* font)
+{
+    int index = 0;
+    for (auto& task : project->incompleteTasks)
+    {
+        render_task(task, project_list, index, font);
+        ++index;
+    }
+}
+
 
 int main(void)
 {
     int WIDTH = 800;
     int HEIGHT = 500;
 
+    std::vector<Project> projects;
+
     Project p1;
+    p1.name = "ToDos For University";
     p1.addTask("I have to fix my thesis");
     p1.addTask("Clean the room. Its dirty!");
     p1.addTask("Research unlimited energy");
     p1.addTask("World dominance.");
-    std::vector<Project> projects;
     projects.push_back(p1);
+
+    Project p2;
+    p2.name = "Personal Tasks";
+    p2.addTask("I have to fix my thesis");
+    p2.addTask("I have to fix my thesis2");
+    projects.push_back(p2);
 
     elemd::WindowConfig winc = elemd::WindowConfig{ "Tasker", WIDTH, HEIGHT };
     elemd::Window* window = elemd::Window::create(winc);
 
-
-    // Style
-    //elem::node::Style task_wrapper;
-  //  task_wrapper.background_color = elemd::color(90, 90, 90);
-    //task_wrapper.padding[0] = 10;
-    //task_wrapper.padding[1] = 10;
-    //task_wrapper.padding[2] = 10;
-    //task_wrapper.padding[3] = 10;
-/*    task_wrapper.border_radius[0] = 6;
-    task_wrapper.border_radius[1] = 6;
-    task_wrapper.border_radius[2] = 6;
-    task_wrapper.border_radius[3] = 6;
-  */  
 
     {
         elem::document doc(window);
@@ -105,6 +109,7 @@ int main(void)
         project_panel.style.width = elem::measure_value("30%");
         project_panel.style.height = elem::measure_value("100%");
         project_panel.style.background_color = elemd::color(240, 240, 240);
+        project_panel.hover_style.background_color = elemd::color(240, 240, 240);
 
         elem::element project_view;
         project_view.id = "project_view";
@@ -113,15 +118,29 @@ int main(void)
         elem::element* project_list = new elem::element;
         project_list->id = "project_list";
 
-        int index = 0;
-        for (auto task : projects[0].incompleteTasks)
+        for (auto& project : projects)
         {
-            
-            create_task(task, project_list, index, font_urbanist);
-            ++index;
+            elem::heading* project_btn = new elem::heading;
+            project_btn->set_text(project.name);
+            project_btn->style.display = elem::node::Display::BLOCK;
+            project_btn->style.font_size = 16;
+            project_btn->style.font_family = font_urbanist;
+            project_btn->style.padding[0] = 4;
+            project_btn->style.padding[1] = 4;
+            project_btn->style.padding[2] = 4;
+            project_btn->style.padding[3] = 4;
+            project_btn->hover_style.background_color = elemd::color(255, 255, 255);
+
+
+            project_btn->add_click_listener([&](elem::node::node_click_event event) {
+                render_all_tasks(&project, project_list, font_urbanist);
+            });
+
+
+            project_panel.add_child(project_btn);
         }
 
-     
+        render_all_tasks(&projects[0], project_list, font_urbanist);
 
 
         project_view.add_child(project_list);
@@ -161,16 +180,12 @@ int main(void)
         
 
 
-
-
         // Events
         add_btn->add_click_listener([&](elem::node::node_click_event event) {
-            create_task(add_text->get_text(), project_list, index, font_urbanist);
+            render_task(add_text->get_text(), project_list, 0, font_urbanist);
 
             add_text->set_text("");
         });
-
-
 
 
         doc.main_loop();

@@ -208,24 +208,27 @@ namespace elem
 	{
 		_position = position;
 
+		float available_core_width = width - (style.margin[3] + style.padding[3]) - (style.margin[1] + style.padding[1]);
+		float available_core_height = height - (style.margin[0] + style.padding[0]) - (style.margin[2] + style.padding[2]);
 
 		// Handle Width
 
 		switch (style.width.get_type())
 		{
 		case measure_value::Type::PERCENT:
-			_width = width * (style.width.get_value() / 100.0f) + (style.margin[3]) + (style.margin[1]);;
+			_width = width * (style.width.get_value() / 100.0f) + (style.margin[3]) + (style.margin[1]);
+			available_core_width = _width;
 			break;
 		case measure_value::Type::PIXELS:
 			_width = style.width.get_value() + (style.margin[3] + (style.margin[1]));
+			available_core_width = _width;
 			break;
 		}
 
 		
 		// Handle minimum dimensions
 
-		float available_core_width = width - (style.margin[3] + style.padding[3]) - (style.margin[1] + style.padding[1]);
-		float available_core_height = height - (style.margin[0] + style.padding[0]) - (style.margin[2] + style.padding[2]);
+
 		elemd::vec2 min_dims = get_minimum_dimensions(available_core_width, available_core_height);
 
 
@@ -262,28 +265,28 @@ namespace elem
 	void node::debug_paint(elemd::Context* ctx)
 	{
 		// DEBUG
-		if (true) {
+		if (false) {
 			//if (_state != INITIAL) {
 				// Margin
-			ctx->set_line_width(1);
-			ctx->set_stroke_color(elemd::color("#ae8152"));
-			ctx->stroke_rect(
+			//ctx->set_line_width(1);
+			ctx->set_fill_color(elemd::color("#ae815221"));
+			ctx->fill_rect(
 				_position.get_x(),
 				_position.get_y(),
 				_width,
 				_height);
 
 			// Padding
-			ctx->set_stroke_color(elemd::color("#b8c47f"));
-			ctx->stroke_rect(
+			ctx->set_fill_color(elemd::color("#b8c47f21"));
+			ctx->fill_rect(
 				_position.get_x() + style.margin[3],
 				_position.get_y() + style.margin[0],
 				_width - (style.margin[3] + style.margin[1]),
 				_height - (style.margin[0] + style.margin[2]));
 
 			// Content
-			ctx->set_stroke_color(elemd::color("#3e3e42"));
-			ctx->stroke_rect(
+			ctx->set_fill_color(elemd::color("#3e3e4221"));
+			ctx->fill_rect(
 				_position.get_x() + style.margin[3] + style.padding[3],
 				_position.get_y() + style.margin[0] + style.padding[0],
 				_width - (style.margin[3] + style.margin[1]) - (style.padding[3] + style.padding[1]),
