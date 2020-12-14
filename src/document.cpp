@@ -30,18 +30,19 @@ namespace elem
                 node* node = _root->bounds_check(elemd::vec2((float)event.x, (float)event.y));
                 node::finish_hover_event();
 
+                if (_focused_node != nullptr)
+                {
+                    _focused_node->set_focus(false);
+                }
+                _focused_node = node;
+
                 if (node != nullptr)
                 {
-                    if (_focused_node != nullptr)
-                    {
-                        _focused_node->set_focus(false);
-                    }
-                    _focused_node = node;
                     _focused_node->set_focus(true);
 
                     node->emit_click_event(event);
                 }
-            }
+             }
         });
 
         _window->add_key_listener([&](elemd::key_event event) {

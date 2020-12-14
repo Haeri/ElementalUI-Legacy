@@ -97,7 +97,7 @@ int main(void)
         button_num_style.border_radius[1] = 6;
         button_num_style.border_radius[2] = 6;
         button_num_style.border_radius[3] = 6;
-        button_num_style.width = elem::measure_value("25%");
+        button_num_style.width = elem::measure_value("24%");
         button_num_style.transition_time = 0.3f;
 
         elem::node::Style button_num_style_hover = button_num_style;
@@ -256,7 +256,7 @@ int main(void)
         elem::heading equation;
         equation.set_text("");
         equation.style.display = elem::node::BLOCK;
-        equation.style.color = button_color_num;
+        equation.style.color = button_color_op;
         equation.style.font_family = font_urbanist;
         equation.style.font_size = 16;
 
@@ -336,7 +336,7 @@ int main(void)
         // 0    ,      <       =
         elem::element button_0;
         button_0.style = button_num_style;
-        button_0.style.width = elem::measure_value("50%");
+        button_0.style.width = elem::measure_value("48%");
         button_0.hover_style = button_num_style_hover;
 
         elem::element button_comma;

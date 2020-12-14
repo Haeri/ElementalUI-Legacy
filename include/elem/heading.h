@@ -20,7 +20,8 @@ namespace elem
 
         void add_child(node* child) = delete;
 
-        float layout(elemd::vec2 position, float width, float height) override;
+        //float layout(elemd::vec2 position, float width, float height) override;
+        elemd::vec2 get_minimum_dimensions(float width, float height) override;
         void paint(elemd::Context* ctx) override;
 
         void set_text(std::string text);

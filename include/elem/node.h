@@ -98,13 +98,17 @@ class document;
         virtual void emit_char_event(elemd::char_event event);
 
         virtual node* bounds_check(elemd::vec2 pos);
-        virtual float layout(elemd::vec2 position, float width, float height) = 0;
+        virtual elemd::vec2 get_minimum_dimensions(float width, float height);
+        virtual float layout(elemd::vec2 position, float width, float height);
         virtual void paint(elemd::Context* ctx) = 0;
+        virtual void debug_paint(elemd::Context* ctx);
         virtual void destroy();
+        void destroy_immediately();
 
     protected:
         static std::map<node*, int> _hover_map;
         document* _document;
+        bool _should_destroy = false;
 
         node* _parent = nullptr;
         std::vector<node*> _children;

@@ -7,6 +7,7 @@ namespace elem
 		style.display = Display::INLINE;
 	}
 
+	/*
 	float heading::layout(elemd::vec2 position, float width, float height)
 	{
 		_position = position;
@@ -24,6 +25,12 @@ namespace elem
 		}
 
 		return _height;
+	}*/
+
+	elemd::vec2 heading::get_minimum_dimensions(float width, float height)
+	{
+		_formated_content = style.font_family->fit_substring(get_text(), width, style.font_size);
+		return style.font_family->measure_dimensions(_formated_content, style.font_size);
 	}
 
 	void heading::paint(elemd::Context* ctx)

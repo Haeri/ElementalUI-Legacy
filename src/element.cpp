@@ -6,82 +6,6 @@
 
 namespace elem
 {
-	float element::layout(elemd::vec2 position, float width, float height)
-	{
-		_position = position;
-
-		if (style.display == Display::BLOCK && style.width.get_type() == measure_value::Type::AUTO)
-		{
-			_width = width;
-		}
-
-		switch (style.width.get_type())
-		{
-		case measure_value::Type::AUTO:
-			break;
-		case measure_value::Type::PERCENT:
-			_width = width * (style.width.get_value() / 100.0f);
-			break;
-		case measure_value::Type::PIXELS:
-			_width = style.width.get_value();
-			break;
-		}
-
-		elemd::vec2 child_pos = position + elemd::vec2(style.margin[3] + style.padding[3], style.margin[0] + style.padding[0]);
-		float child_width = width - (style.margin[3] + style.padding[3]) - (style.margin[1] + style.padding[1]);
-		float height_offset = 0;
-		int index = 0;
-		float width_accum = 0;
-		float max_line_height = 0;
-		float tmp_width = 0;
-		_height = 0;
-
-		for (node* el : _children) {
-
-			//child_pos.y() += height_offset;
-
-			float child_height = el->layout(child_pos + elemd::vec2(width_accum, _height), child_width, height);
-
-			width_accum += el->get_width();
-			if (max_line_height < el->get_height()) {
-				max_line_height = el->get_height();
-			}
-
-			// Check if line is full
-			if (_children.size() == (index + 1) || width_accum + _children[index + 1]->get_width() > child_width) {
-
-				if (width_accum > tmp_width) {
-					tmp_width = width_accum;
-				}
-				_height += max_line_height;
-
-				width_accum = 0;
-				max_line_height = 0;
-			}
-
-			++index;
-		}
-		_height += (style.margin[0] + style.padding[0]) + (style.margin[2] + style.padding[2]);
-
-		if (style.display == Display::INLINE && style.width.get_type() == measure_value::Type::AUTO)
-		{
-			_width = tmp_width + (style.margin[3] + style.padding[3]) + (style.margin[1] + style.padding[1]);
-		}
-
-		switch (style.height.get_type())
-		{
-		case measure_value::Type::AUTO:
-			break;
-		case measure_value::Type::PERCENT:
-			_height = height * (style.height.get_value() / 100.0f);
-			break;
-		case measure_value::Type::PIXELS:
-			_height = style.height.get_value();
-			break;
-		}
-
-		return _height;
-	}
 
 	void element::paint(elemd::Context* ctx)
 	{
@@ -136,39 +60,11 @@ namespace elem
 				_width - (style.margin[3] + style.margin[1]) - (style.padding[3] + style.padding[1]),
 				_height - (style.margin[0] + style.margin[2]) - (style.padding[0] + style.padding[2]));
 		}
+
+
+		if(_state == HOVER || _state == INITIAL_HOVER)
+			debug_paint(ctx);
 		
-
-
-		// DEBUG
-		if (false) {
-		//if (_state != INITIAL) {
-			// Margin
-			ctx->set_line_width(1);
-			ctx->set_stroke_color(elemd::color("#ae8152"));
-			ctx->stroke_rect(
-				_position.get_x(),
-				_position.get_y(),
-				_width,
-				_height);
-
-			// Padding
-			ctx->set_stroke_color(elemd::color("#b8c47f"));
-			ctx->stroke_rect(
-				_position.get_x() + style.margin[3],
-				_position.get_y() + style.margin[0],
-				_width - (style.margin[3] + style.margin[1]),
-				_height - (style.margin[0] + style.margin[2]));
-
-			// Content
-			ctx->set_stroke_color(elemd::color("#3e3e42"));
-			ctx->stroke_rect(
-				_position.get_x() + style.margin[3] + style.padding[3],
-				_position.get_y() + style.margin[0] + style.padding[0],
-				_width - (style.margin[3] + style.margin[1]) - (style.padding[3] + style.padding[1]),
-				_height - (style.margin[0] + style.margin[2]) - (style.padding[0] + style.padding[2]));
-		
-		}
-
 		for (node* el : _children) {
 			el->paint(ctx);
 		}

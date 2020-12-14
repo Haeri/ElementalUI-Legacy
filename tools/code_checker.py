@@ -38,8 +38,8 @@ def indexCpp(item):
 	cpp_loc += sum(1 for i in open(item, 'rb'))
 
 def indexAll():
-	pathwalk(header_path, (".hpp"), indexHeader)
-	pathwalk(cpp_path, (".cpp", ".hpp"), indexCpp)
+	pathwalk(header_path, (".h"), indexHeader)
+	pathwalk(cpp_path, (".cpp", ".h"), indexCpp)
 
 def countFiles():
 	print("Total lines of code: \t\t\t" + str(header_loc + cpp_loc))

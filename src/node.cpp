@@ -14,6 +14,7 @@ namespace elem
 	{
 		_children.push_back(child);
 		child->set_parent(this);
+		set_document(_document);
 	}
 
 	void node::remove_child(int index)
@@ -109,6 +110,11 @@ namespace elem
 		{
 			var({ this, event });
 		}
+
+		if (_parent != nullptr)
+		{
+			_parent->emit_click_event(event);
+		}
 	}
 
 	void node::emit_key_event(elemd::key_event event)
@@ -159,12 +165,151 @@ namespace elem
 		return nullptr;
 	}
 
+	elemd::vec2 node::get_minimum_dimensions(float available_width, float available_height)
+	{
+		elemd::vec2 child_pos = _position + elemd::vec2(style.margin[3] + style.padding[3], style.margin[0] + style.padding[0]);
+		
+		int index = 0;
+		float width_accum = 0;
+		float max_line_height = 0;
+
+		float camc_width = 0;
+		float calc_height = 0;
+
+		for (node* el : _children) {
+
+			//child_pos.y() += height_offset;
+
+			float child_height = el->layout(child_pos + elemd::vec2(width_accum, calc_height), available_width, available_height);
+
+			width_accum += el->get_width();
+			if (max_line_height < el->get_height()) {
+				max_line_height = el->get_height();
+			}
+
+			// Check if line is full
+			if (_children.size() == (index + 1) || width_accum + _children[index + 1]->get_width() > available_width) {
+
+				if (width_accum > camc_width) {
+					camc_width = width_accum;
+				}
+				calc_height += max_line_height;
+
+				width_accum = 0;
+				max_line_height = 0;
+			}
+
+			++index;
+		}
+		return elemd::vec2(camc_width, calc_height);
+	}
+
+	float node::layout(elemd::vec2 position, float width, float height)
+	{
+		_position = position;
+
+
+		// Handle Width
+
+		switch (style.width.get_type())
+		{
+		case measure_value::Type::PERCENT:
+			_width = width * (style.width.get_value() / 100.0f) + (style.margin[3]) + (style.margin[1]);;
+			break;
+		case measure_value::Type::PIXELS:
+			_width = style.width.get_value() + (style.margin[3] + (style.margin[1]));
+			break;
+		}
+
+		
+		// Handle minimum dimensions
+
+		float available_core_width = width - (style.margin[3] + style.padding[3]) - (style.margin[1] + style.padding[1]);
+		float available_core_height = height - (style.margin[0] + style.padding[0]) - (style.margin[2] + style.padding[2]);
+		elemd::vec2 min_dims = get_minimum_dimensions(available_core_width, available_core_height);
+
+
+		if (style.display == Display::BLOCK && style.width.get_type() == measure_value::Type::AUTO)
+		{
+			_width = width;
+		}
+		else if (style.display == Display::INLINE && style.width.get_type() == measure_value::Type::AUTO)
+		{
+			_width = min_dims.x() + (style.margin[3] + style.padding[3]) + (style.margin[1] + style.padding[1]);
+		}
+		
+
+		
+		// Handle Height
+
+
+		switch (style.height.get_type())
+		{
+		case measure_value::Type::AUTO:
+			_height = min_dims.y() + (style.margin[0] + style.padding[0]) + (style.margin[2] + style.padding[2]);
+			break;
+		case measure_value::Type::PERCENT:
+			_height = height * (style.height.get_value() / 100.0f);
+			break;
+		case measure_value::Type::PIXELS:
+			_height = style.height.get_value();
+			break;
+		}
+
+		return _height;
+	}
+
+	void node::debug_paint(elemd::Context* ctx)
+	{
+		// DEBUG
+		if (true) {
+			//if (_state != INITIAL) {
+				// Margin
+			ctx->set_line_width(1);
+			ctx->set_stroke_color(elemd::color("#ae8152"));
+			ctx->stroke_rect(
+				_position.get_x(),
+				_position.get_y(),
+				_width,
+				_height);
+
+			// Padding
+			ctx->set_stroke_color(elemd::color("#b8c47f"));
+			ctx->stroke_rect(
+				_position.get_x() + style.margin[3],
+				_position.get_y() + style.margin[0],
+				_width - (style.margin[3] + style.margin[1]),
+				_height - (style.margin[0] + style.margin[2]));
+
+			// Content
+			ctx->set_stroke_color(elemd::color("#3e3e42"));
+			ctx->stroke_rect(
+				_position.get_x() + style.margin[3] + style.padding[3],
+				_position.get_y() + style.margin[0] + style.padding[0],
+				_width - (style.margin[3] + style.margin[1]) - (style.padding[3] + style.padding[1]),
+				_height - (style.margin[0] + style.margin[2]) - (style.padding[0] + style.padding[2]));
+
+			ctx->set_fill_color(elemd::color(200, 200, 200));
+			ctx->set_font_size(9);
+			ctx->draw_text(_position.get_x()+2.0f,
+				_position.get_y(), id);
+
+		}
+
+	}
+
 	void node::destroy()
+	{
+		_should_destroy = true;
+	}
+
+	void node::destroy_immediately()
 	{
 		for (auto& child : _children)
 		{
 			child->destroy();
 		}
+		_parent = nullptr;
 
 		delete this;
 	}
@@ -172,7 +317,11 @@ namespace elem
 	void node::set_parent(node* parent)
 	{
 		_parent = parent;
-		_document = parent->_document;
+
+		if (parent != nullptr)
+		{
+			_document = parent->_document;
+		}
 	}
 
 }// namespace elem
