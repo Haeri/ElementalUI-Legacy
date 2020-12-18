@@ -133,6 +133,11 @@ namespace elem
         return _height;
     }
 
+    elemd::Window* document::get_window()
+    {
+        return _window;
+    }
+
     void document::paint()
     {
         _height = _root->layout(elemd::vec2(0, 0), _width, _height);

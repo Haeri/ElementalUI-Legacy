@@ -62,6 +62,19 @@ namespace elem
 		++_cursor_pos;
 	}
 
+	void text_field::set_state(State state)
+	{
+		node::set_state(state);
+		if (_state == HOVER || _state == INITIAL_HOVER)
+		{
+			_document->get_window()->set_cursor(elemd::CURSOR_TYPE::IBEAM_CURSOR);
+		}
+		else
+		{
+			_document->get_window()->set_cursor(nullptr);
+		}
+	}
+
 	/*
 	float text_field::layout(elemd::vec2 position, float width, float height)
 	{

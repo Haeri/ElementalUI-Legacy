@@ -81,7 +81,7 @@ class document;
         void remove_child(int index);
         void remove_child(node* child);
 
-        void set_state(State state);
+        virtual void set_state(State state);
         void set_focus(bool focus);
         void set_document(document* doc);
         void add_click_listener(std::function<void(node_click_event)> callback);

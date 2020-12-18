@@ -22,6 +22,7 @@ namespace elem
 
         void emit_key_event(elemd::key_event event) override;
         void emit_char_event(elemd::char_event event) override;
+        void set_state(State state) override;
         //float layout(elemd::vec2 position, float width, float height) override;
         elemd::vec2 get_minimum_dimensions(float width, float height) override;
         void paint(elemd::Context* ctx) override;

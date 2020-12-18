@@ -30,6 +30,8 @@ namespace elem
         int get_width();
         int get_height();
 
+        elemd::Window* get_window();
+
     private:
         int _width;
         int _height;
