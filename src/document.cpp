@@ -60,7 +60,7 @@ namespace elem
         });
         
 
-        _context->set_clear_color({ 255, 255, 255 });
+        _context->set_clear_color({ 0, 0, 0, 0 });
     }
 
     document::~document()
@@ -77,6 +77,12 @@ namespace elem
         _root->add_child(child);
         _root->set_document(this);
     }
+
+    node* document::get_root()
+    {
+        return _root;
+    }
+
 
     void document::main_loop()
     {

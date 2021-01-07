@@ -23,11 +23,7 @@ void add_operation(elem::heading* display, std::string op)
 
 int main(void)
 {
-    enum window_stat {
-        WINDOWED,
-        MAXIMIZED,
-        MINIMIZED
-    } window_status = WINDOWED;
+    bool maximized = false;
 
     int WIDTH = 300;
     int HEIGHT = 370;
@@ -43,6 +39,7 @@ int main(void)
 
     elemd::WindowConfig winc = elemd::WindowConfig{ "Calculator", WIDTH, HEIGHT };
     winc.decorated = false;
+    winc.transparent = true;
     winc.icon_file = "./res/icon.png";
     elemd::Window* window = elemd::Window::create(winc);
 
@@ -85,6 +82,10 @@ int main(void)
         body.id = "body";
         body.style.background_color = elemd::color("#1d1d1d");
         body.hover_style.background_color = elemd::color("#1d1d1d");
+        body.style.border_radius[0] = 5;
+        body.style.border_radius[1] = 5;
+        body.style.border_radius[2] = 5;
+        body.style.border_radius[3] = 5;
 
 
         elem::node::Style button_num_style;
@@ -135,12 +136,14 @@ int main(void)
         elem::element title_bar;
         title_bar.id = "title_bar";
         title_bar.style.background_color = elemd::color(30, 30, 30);
-        title_bar.hover_style.background_color = elemd::color(40, 40, 40);
-        title_bar.style.transition_time = 0.3f;
-        title_bar.style.padding[0] = 10;
-        title_bar.style.padding[1] = 10;
-        title_bar.style.padding[2] = 10;
-        title_bar.style.padding[3] = 10;
+        title_bar.hover_style.background_color = elemd::color(36, 36, 36);
+        title_bar.style.transition_time = 0.2f;
+        title_bar.style.padding[0] = 14;
+        title_bar.style.padding[1] = 14;
+        title_bar.style.padding[2] = 14;
+        title_bar.style.padding[3] = 14;
+        title_bar.style.border_radius[0] = 5;
+        title_bar.style.border_radius[1] = 5;
         title_bar.add_click_listener([&](elem::node::node_click_event event) {
             mouse_to_window_delta_x = event.event.x;
             mouse_to_window_delta_y = event.event.y;
@@ -160,21 +163,12 @@ int main(void)
         min_btn.style.border_radius[1] = 6;
         min_btn.style.border_radius[2] = 6;
         min_btn.style.border_radius[3] = 6;
-        min_btn.style.margin[1] = 5;
+        min_btn.style.margin[1] = 8;
         min_btn.hover_style = min_btn.style;
         min_btn.hover_style.background_color = elemd::color("#5ddf71");
-        min_btn.style.transition_time = 0.3f;
-        min_btn.add_click_listener([&](elem::node::node_click_event event) {
-            if (window_status != MINIMIZED)
-            {
-                window->minimize();
-                window_status = MINIMIZED;
-            }
-            else
-            {
-                window->restore();
-                window_status = WINDOWED;
-            }
+        min_btn.style.transition_time = 0.2f;
+        min_btn.add_click_listener([&](elem::node::node_click_event event) {            
+            window->minimize();            
         });
 
         elem::element max_btn;
@@ -188,21 +182,20 @@ int main(void)
         max_btn.style.border_radius[1] = 6;
         max_btn.style.border_radius[2] = 6;
         max_btn.style.border_radius[3] = 6;
-        max_btn.style.margin[1] = 5;
+        max_btn.style.margin[1] = 8;
         max_btn.hover_style = max_btn.style;
         max_btn.hover_style.background_color = elemd::color("#ffdf3d");
-        max_btn.style.transition_time = 0.3f;
+        max_btn.style.transition_time = 0.2f;
         max_btn.add_click_listener([&](elem::node::node_click_event event) {
-            if (window_status != MAXIMIZED)
+            if (!maximized)
             {
                 window->maximize();
-                window_status = MAXIMIZED;
             }
             else
             {
                 window->restore();
-                window_status = WINDOWED;
             }
+            maximized != maximized;
         });
 
         elem::element close_btn;
@@ -216,18 +209,18 @@ int main(void)
         close_btn.style.border_radius[1] = 6;
         close_btn.style.border_radius[2] = 6;
         close_btn.style.border_radius[3] = 6;
-        close_btn.style.margin[1] = 5;
+        close_btn.style.margin[1] = 8;
         close_btn.hover_style = close_btn.style;
         close_btn.hover_style.background_color = elemd::color("#ff726b");
-        close_btn.style.transition_time = 0.3f;
+        close_btn.style.transition_time = 0.2f;
         close_btn.add_click_listener([&](elem::node::node_click_event event) {
             window->close();
         });
 
 
-        title_bar.add_child(&min_btn);
-        title_bar.add_child(&max_btn);
         title_bar.add_child(&close_btn);
+        title_bar.add_child(&max_btn);
+        title_bar.add_child(&min_btn);
 
 
 
@@ -239,6 +232,7 @@ int main(void)
         display.style.padding[3] = 10;
 
         elem::element keypad;
+        keypad.style.background_color = elemd::color(0, 0, 0, 0);
         keypad.style.padding[0] = 5;
         keypad.style.padding[1] = 5;
         keypad.style.padding[2] = 20;

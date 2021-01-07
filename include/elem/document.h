@@ -21,6 +21,7 @@ namespace elem
         ~document();
         
         void add_child(node* child);
+        node* get_root();
         void main_loop();
 
         void request_high_frequency();

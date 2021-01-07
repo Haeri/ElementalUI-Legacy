@@ -99,10 +99,11 @@ int main(void)
     elemd::WindowConfig winc = elemd::WindowConfig{ "Tasker", WIDTH, HEIGHT };
     elemd::Window* window = elemd::Window::create(winc);
 
-
     {
         elem::document doc(window);
         elemd::font* font_urbanist = doc.load_font("./res/font/Urbanist-Regular.ttf");
+
+        doc.get_root()->style.background_color = elemd::color(255, 255, 255);
 
         elem::element project_panel;
         project_panel.id = "project_panel";

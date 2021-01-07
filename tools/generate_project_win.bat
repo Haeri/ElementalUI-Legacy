@@ -11,14 +11,24 @@ cd "%~dp0"
 
 cd ..
 set root_path=%cd%
-rmdir /S /Q "build"
+
+if not exist "build/" (
+	echo INFO: First time setup will take longer as the dependencies need to be downloaded and compiled.
+) else (
+	rmdir /S /Q "build"
+)
+
 mkdir "build"
 cd build
 
 set build_type=
-if "%1" == "-static" set build_type=-DBUILD_SHARED_LIBS=OFF
+set triplet_value=x64-windows
+if "%1" == "-static" (
+	set build_type=-DBUILD_SHARED_LIBS=OFF
+	set triplet_value=x64-windows-static
+)
 
-cmake .. -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_OVERLAY_PORTS="%root_path%\external\custom-ports" -DCMAKE_TOOLCHAIN_FILE="%root_path%/external/vcpkg/scripts/buildsystems/vcpkg.cmake" %build_type%
+cmake .. -DVCPKG_TARGET_TRIPLET="%triplet_value%" -DVCPKG_OVERLAY_PORTS="%root_path%\external\custom-ports" -DCMAKE_TOOLCHAIN_FILE="%root_path%/external/vcpkg/scripts/buildsystems/vcpkg.cmake" %build_type%
 set /a "err=%err%+%errorlevel%"
 
 

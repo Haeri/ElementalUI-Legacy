@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 3.15)
 
 set(PROJECT_NAME elem)
 project(${PROJECT_NAME} LANGUAGES CXX)
@@ -10,12 +10,14 @@ endif()
 # Options
 option(BUILD_SHARED_LIBS "Build as shared/dynamic library" ON)
 option(ELEM_BUILD_EXAMPLES "Build the example programs" ${ELEM_STANDALONE})
+option(DYNAMIC_RUNTIME_LIBRARY "Set runtime library to dynamic" ${BUILD_SHARED_LIBS})
 
 # Settings
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINE_HIDDEN YES)
+
 
 # Enable folder view in solution explorer
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -25,6 +27,11 @@ file(GLOB_RECURSE SOURCE_FILES
     src/*.h
     src/*.cpp
 )
+
+# Microsoft Runtime Library shenanigens
+if(NOT DYNAMIC_RUNTIME_LIBRARY) 
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
 
 if (BUILD_SHARED_LIBS)
     add_compile_definitions(ELEM_BUILD_SHARED)
@@ -45,7 +52,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC include)
 
 # ---------------- DEPENDENCIES ---------------------#
 
-# elem
+# elemd
 find_package(elemd CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE elemd::elemd)
 
