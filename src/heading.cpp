@@ -36,9 +36,9 @@ namespace elem
 	void heading::paint(elemd::Context* ctx)
 	{
 		// Background
-		if (style.background_color.a() != 0)
+		if (style.background_color.is_set && style.background_color.value.a() != 0)
 		{
-			ctx->set_fill_color(style.background_color);
+			ctx->set_fill_color(style.background_color.value);
 			ctx->fill_rounded_rect(
 				_position.get_x() + style.margin[3],
 				_position.get_y() + style.margin[0],

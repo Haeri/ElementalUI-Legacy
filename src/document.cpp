@@ -68,8 +68,13 @@ namespace elem
         for (auto& font : _fonts) {
             font->destroy();
         }
+        for (auto& img : _images) {
+            img->destroy();
+        }
 
         delete _root;
+
+        _window->destroy();
     }
 
     void document::add_child(node* child)
@@ -88,6 +93,9 @@ namespace elem
     {
         for (auto& font : _fonts) {
             _context->_tmp_register_font(font);
+        }
+        for (auto& image : _images) {
+            _context->_tmp_register_image(image);
         }
 
         _context->_tmp_prepare();
@@ -127,6 +135,14 @@ namespace elem
         _fonts.push_back(font);
 
         return font;
+    }
+
+    elemd::image* document::load_image(const std::string& image)
+    {
+        elemd::image* img = elemd::image::create(image);
+        _images.push_back(img);
+
+        return img;
     }
 
     int document::get_width()

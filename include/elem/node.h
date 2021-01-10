@@ -16,7 +16,19 @@
 
 namespace elem
 {
-class document;
+    class document;
+
+    template <typename T>
+    struct maybe {
+        bool is_set = false;
+        T value;
+
+        maybe<T>& operator=(const T& other) {
+            is_set = true;
+            value = other;
+            return *this;
+        }
+    };
 
     class ELEM_API node
     {
@@ -32,26 +44,26 @@ class document;
             HOVER,
             HOVER_INITIAL
         };
-
+        
         // Style
         struct Style {
             Display display = Display::BLOCK;
             measure_value width;
             measure_value height;
-            float min_width = -1;
+            maybe<float> min_width;
             float min_height = -1;
             float max_width = std::numeric_limits<float>::max();
             float max_height = std::numeric_limits<float>::max();
             float padding[4] = { 0, 0, 0, 0 };
             float margin[4] = { 0, 0, 0, 0 };
-            elemd::color background_color = elemd::color(0, 0, 0, 0);
+            float border_width[4] = { 0, 0, 0, 0 };
+            maybe<elemd::color> background_color;
             elemd::color color = elemd::color(0, 0, 0, 255);
             elemd::font* font_family = nullptr;
             float font_size = 10;
             float border_radius[4] = { 0, 0, 0, 0 };
-            float border_width = 0;
             elemd::color border_color = elemd::color(0, 0, 0, 255);
-            elemd::image* background_image = nullptr;
+            maybe<elemd::image*> background_image;
             float transition_time;
         };
 
@@ -84,7 +96,7 @@ class document;
         virtual void set_state(State state);
         void set_focus(bool focus);
         void set_document(document* doc);
-        void add_click_listener(std::function<void(node_click_event)> callback);
+        void add_click_listener(std::function<bool(node_click_event)> callback);
 
         int get_width();
         int get_height();
@@ -112,9 +124,9 @@ class document;
 
         node* _parent = nullptr;
         std::vector<node*> _children;
-        std::vector<std::function<void(node_click_event)>> _click_event_callbacks;
-        std::vector<std::function<void(node_key_event)>> _key_event_callbacks;
-        std::vector<std::function<void(node_char_event)>> _char_event_callbacks;
+        std::vector<std::function<bool(node_click_event)>> _click_event_callbacks;
+        std::vector<std::function<bool(node_key_event)>> _key_event_callbacks;
+        std::vector<std::function<bool(node_char_event)>> _char_event_callbacks;
         bool _focused = false;
 
         State _state = INITIAL;

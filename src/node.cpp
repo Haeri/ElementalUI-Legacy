@@ -58,7 +58,7 @@ namespace elem
 		}
 	}
 
-	void node::add_click_listener(std::function<void(node_click_event)> callback)
+	void node::add_click_listener(std::function<bool(node_click_event)> callback)
 	{
 		_click_event_callbacks.push_back(callback);
 	}
@@ -106,12 +106,13 @@ namespace elem
 
 	void node::emit_click_event(elemd::mouse_button_event event)
 	{
+		bool bubble = true;
 		for (auto& var : _click_event_callbacks)
 		{
-			var({ this, event });
+			if (!var({ this, event })) bubble = false;
 		}
 
-		if (_parent != nullptr)
+		if (bubble && _parent != nullptr)
 		{
 			_parent->emit_click_event(event);
 		}
@@ -119,17 +120,29 @@ namespace elem
 
 	void node::emit_key_event(elemd::key_event event)
 	{
+		bool bubble = true;
 		for (auto& var : _key_event_callbacks)
 		{
-			var({ this, event });
+			if (!var({ this, event })) bubble = false;
+		}
+
+		if (bubble && _parent != nullptr)
+		{
+			_parent->emit_key_event(event);
 		}
 	}
 
 	void node::emit_char_event(elemd::char_event event)
 	{
+		bool bubble = true;
 		for (auto& var : _char_event_callbacks)
 		{
-			var({ this, event });
+			if (!var({ this, event })) bubble = false;
+		}
+
+		if (bubble && _parent != nullptr)
+		{
+			_parent->emit_char_event(event);
 		}
 	}
 
@@ -292,10 +305,10 @@ namespace elem
 				_width - (style.margin[3] + style.margin[1]) - (style.padding[3] + style.padding[1]),
 				_height - (style.margin[0] + style.margin[2]) - (style.padding[0] + style.padding[2]));
 
-			ctx->set_fill_color(elemd::color(200, 200, 200));
-			ctx->set_font_size(9);
+			ctx->set_fill_color(elemd::color(160, 160, 160));
+			ctx->set_font_size(10);
 			ctx->draw_text(_position.get_x()+2.0f,
-				_position.get_y(), id);
+				_position.get_y(), (id + "\n" + std::to_string((int)(_width+0.5)) +"x" + std::to_string((int)(_height + 0.5))));
 
 		}
 

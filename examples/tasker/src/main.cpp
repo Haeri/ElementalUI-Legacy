@@ -41,7 +41,7 @@ void render_task(std::string task, elem::node* project_list, int index, elemd::f
     box->style.display = elem::node::Display::INLINE;
     box->style.border_color = elemd::color(30, 30, 200);
     box->hover_style.background_color = elemd::color(30, 200, 30);
-    box->style.border_width = 1;
+    box->style.border_width[0] = 1;
     box->style.width = elem::measure_value(20, elem::measure_value::Type::PIXELS);
     box->style.height = elem::measure_value(20, elem::measure_value::Type::PIXELS);
     box->style.margin[1] = 10;
@@ -61,6 +61,7 @@ void render_task(std::string task, elem::node* project_list, int index, elemd::f
     box->add_click_listener([project_list, wrapper](elem::node::node_click_event event) mutable {
         project_list->remove_child(wrapper);
         wrapper->destroy();
+        return true;
     });
 }
 
@@ -99,100 +100,100 @@ int main(void)
     elemd::WindowConfig winc = elemd::WindowConfig{ "Tasker", WIDTH, HEIGHT };
     elemd::Window* window = elemd::Window::create(winc);
 
+
+    elem::document doc(window);
+    elemd::font* font_urbanist = doc.load_font("./res/font/Urbanist-Regular.ttf");
+
+    doc.get_root()->style.background_color = elemd::color(255, 255, 255);
+
+    elem::element project_panel;
+    project_panel.id = "project_panel";
+    project_panel.style.width = elem::measure_value("30%");
+    project_panel.style.height = elem::measure_value("100%");
+    project_panel.style.background_color = elemd::color(240, 240, 240);
+    project_panel.hover_style.background_color = elemd::color(240, 240, 240);
+
+    elem::element project_view;
+    project_view.id = "project_view";
+    project_view.style.width = elem::measure_value("70%");
+
+    elem::element* project_list = new elem::element;
+    project_list->id = "project_list";
+
+    for (auto& project : projects)
     {
-        elem::document doc(window);
-        elemd::font* font_urbanist = doc.load_font("./res/font/Urbanist-Regular.ttf");
-
-        doc.get_root()->style.background_color = elemd::color(255, 255, 255);
-
-        elem::element project_panel;
-        project_panel.id = "project_panel";
-        project_panel.style.width = elem::measure_value("30%");
-        project_panel.style.height = elem::measure_value("100%");
-        project_panel.style.background_color = elemd::color(240, 240, 240);
-        project_panel.hover_style.background_color = elemd::color(240, 240, 240);
-
-        elem::element project_view;
-        project_view.id = "project_view";
-        project_view.style.width = elem::measure_value("70%");
-
-        elem::element* project_list = new elem::element;
-        project_list->id = "project_list";
-
-        for (auto& project : projects)
-        {
-            elem::heading* project_btn = new elem::heading;
-            project_btn->set_text(project.name);
-            project_btn->style.display = elem::node::Display::BLOCK;
-            project_btn->style.font_size = 16;
-            project_btn->style.font_family = font_urbanist;
-            project_btn->style.padding[0] = 4;
-            project_btn->style.padding[1] = 4;
-            project_btn->style.padding[2] = 4;
-            project_btn->style.padding[3] = 4;
-            project_btn->hover_style.background_color = elemd::color(255, 255, 255);
+        elem::heading* project_btn = new elem::heading;
+        project_btn->set_text(project.name);
+        project_btn->style.display = elem::node::Display::BLOCK;
+        project_btn->style.font_size = 16;
+        project_btn->style.font_family = font_urbanist;
+        project_btn->style.padding[0] = 4;
+        project_btn->style.padding[1] = 4;
+        project_btn->style.padding[2] = 4;
+        project_btn->style.padding[3] = 4;
+        project_btn->hover_style.background_color = elemd::color(255, 255, 255);
 
 
-            project_btn->add_click_listener([&](elem::node::node_click_event event) {
-                render_all_tasks(&project, project_list, font_urbanist);
+        project_btn->add_click_listener([&](elem::node::node_click_event event) {
+            render_all_tasks(&project, project_list, font_urbanist);
+            return true;
             });
 
 
-            project_panel.add_child(project_btn);
-        }
+        project_panel.add_child(project_btn);
+    }
 
-        render_all_tasks(&projects[0], project_list, font_urbanist);
-
-
-        project_view.add_child(project_list);
-
-        elem::element* bottom_panel = new elem::element;
-        bottom_panel->style.margin[0] = 30;
-
-        elem::element* add_btn = new elem::element;
-        add_btn->style.display = elem::node::Display::INLINE;
-        add_btn->style.background_color = elemd::color(30, 30, 200);
-        add_btn->style.width = elem::measure_value(20, elem::measure_value::Type::PIXELS);
-        add_btn->style.height = elem::measure_value(20, elem::measure_value::Type::PIXELS);
-        add_btn->style.margin[1] = 10;
-        
-        elem::heading* add_btn_text = new elem::heading;
-        add_btn_text->set_text("+");
-        add_btn_text->style.color = elemd::color("#ffffff");
-        add_btn_text->style.font_size = 20;
-        add_btn_text->style.font_family = font_urbanist;
-        add_btn->add_child(add_btn_text);
-
-        elem::text_field* add_text = new elem::text_field;
-        add_text->style.display = elem::node::Display::INLINE;
-        add_text->style.font_family = font_urbanist;
-        add_text->style.font_size = 16;
-        add_text->style.color = elemd::color(60, 60, 60);
-        add_text->style.background_color = elemd::color(200, 200, 200);
-        add_text->style.width = elem::measure_value(100, elem::measure_value::Type::PERCENT);
-
-        bottom_panel->add_child(add_btn);
-        bottom_panel->add_child(add_text);
-        
-        project_view.add_child(bottom_panel);
-
-        doc.add_child(&project_panel);
-        doc.add_child(&project_view);
-        
+    render_all_tasks(&projects[0], project_list, font_urbanist);
 
 
-        // Events
-        add_btn->add_click_listener([&](elem::node::node_click_event event) {
-            render_task(add_text->get_text(), project_list, 0, font_urbanist);
+    project_view.add_child(project_list);
 
-            add_text->set_text("");
+    elem::element* bottom_panel = new elem::element;
+    bottom_panel->style.margin[0] = 30;
+
+    elem::element* add_btn = new elem::element;
+    add_btn->style.display = elem::node::Display::INLINE;
+    add_btn->style.background_color = elemd::color(30, 30, 200);
+    add_btn->style.width = elem::measure_value(20, elem::measure_value::Type::PIXELS);
+    add_btn->style.height = elem::measure_value(20, elem::measure_value::Type::PIXELS);
+    add_btn->style.margin[1] = 10;
+
+    elem::heading* add_btn_text = new elem::heading;
+    add_btn_text->set_text("+");
+    add_btn_text->style.color = elemd::color("#ffffff");
+    add_btn_text->style.font_size = 20;
+    add_btn_text->style.font_family = font_urbanist;
+    add_btn->add_child(add_btn_text);
+
+    elem::text_field* add_text = new elem::text_field;
+    add_text->style.display = elem::node::Display::INLINE;
+    add_text->style.font_family = font_urbanist;
+    add_text->style.font_size = 16;
+    add_text->style.color = elemd::color(60, 60, 60);
+    add_text->style.background_color = elemd::color(200, 200, 200);
+    add_text->style.width = elem::measure_value(100, elem::measure_value::Type::PERCENT);
+
+    bottom_panel->add_child(add_btn);
+    bottom_panel->add_child(add_text);
+
+    project_view.add_child(bottom_panel);
+
+    doc.add_child(&project_panel);
+    doc.add_child(&project_view);
+
+
+
+    // Events
+    add_btn->add_click_listener([&](elem::node::node_click_event event) {
+        render_task(add_text->get_text(), project_list, 0, font_urbanist);
+
+        add_text->set_text("");
+        return true;
         });
 
 
-        doc.main_loop();
-    }
+    doc.main_loop();
 
-    window->destroy();
 
 
     return 0;

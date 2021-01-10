@@ -148,6 +148,7 @@ int main(void)
             mouse_to_window_delta_x = event.event.x;
             mouse_to_window_delta_y = event.event.y;
             should_move = true;
+            return true;
         });
 
         
@@ -168,7 +169,9 @@ int main(void)
         min_btn.hover_style.background_color = elemd::color("#5ddf71");
         min_btn.style.transition_time = 0.2f;
         min_btn.add_click_listener([&](elem::node::node_click_event event) {            
-            window->minimize();            
+            should_move = false;
+            window->minimize();    
+            return false;
         });
 
         elem::element max_btn;
@@ -195,7 +198,8 @@ int main(void)
             {
                 window->restore();
             }
-            maximized != maximized;
+            maximized = !maximized;
+            return false;
         });
 
         elem::element close_btn;
@@ -215,6 +219,7 @@ int main(void)
         close_btn.style.transition_time = 0.2f;
         close_btn.add_click_listener([&](elem::node::node_click_event event) {
             window->close();
+            return false;
         });
 
 
@@ -354,6 +359,7 @@ int main(void)
         h_c.add_click_listener([&](elem::node::node_click_event event) {
             solution.set_text("0");
             equation.set_text("");
+            return true;
             });
         button_c.add_child(&h_c);
 
@@ -373,6 +379,7 @@ int main(void)
                 solution.set_text("0");
             }
             equation.set_text("");
+            return true;
             });
         button_plus_minus.add_child(&h_back);
 
@@ -383,6 +390,7 @@ int main(void)
         h_div.style.color = font_color_op;
         h_div.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "/");
+            return true;
             });
         button_div.add_child(&h_div);
 
@@ -392,6 +400,7 @@ int main(void)
         h_7.style = key_heading_style;
         h_7.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "7");
+            return true;
             });
         button_7.add_child(&h_7);
 
@@ -400,6 +409,7 @@ int main(void)
         h_8.style = key_heading_style;
         h_8.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "8");
+            return true;
             });
         button_8.add_child(&h_8);
 
@@ -408,6 +418,7 @@ int main(void)
         h_9.style = key_heading_style;
         h_9.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "9");
+            return true;
             });
         button_9.add_child(&h_9);
 
@@ -417,6 +428,7 @@ int main(void)
         h_mul.style.color = font_color_op;
         h_mul.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "*");
+            return true;
             });
         button_mul.add_child(&h_mul);
 
@@ -426,6 +438,7 @@ int main(void)
         h_4.style = key_heading_style;
         h_4.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "4");
+            return true;
             });
         button_4.add_child(&h_4);
 
@@ -434,6 +447,7 @@ int main(void)
         h_5.style = key_heading_style;
         h_5.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "5");
+            return true;
             });
         button_5.add_child(&h_5);
 
@@ -442,6 +456,7 @@ int main(void)
         h_6.style = key_heading_style;
         h_6.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "6");
+            return true;
             });
         button_6.add_child(&h_6);
 
@@ -451,6 +466,7 @@ int main(void)
         h_sub.style.color = font_color_op;
         h_sub.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "-");
+            return true;
             });
         button_sub.add_child(&h_sub);
 
@@ -461,6 +477,7 @@ int main(void)
         h_1.style = key_heading_style;
         h_1.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "1");
+            return true;
             });
         button_1.add_child(&h_1);
 
@@ -470,6 +487,7 @@ int main(void)
         h_2.style = key_heading_style;
         h_2.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "2");
+            return true;
             });
         button_2.add_child(&h_2);
 
@@ -478,6 +496,7 @@ int main(void)
         h_3.style = key_heading_style;
         h_3.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "3");
+            return true;
             });
         button_3.add_child(&h_3);
 
@@ -487,6 +506,7 @@ int main(void)
         h_add.style.color = font_color_op;
         h_add.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "+");
+            return true;
             });
         button_add.add_child(&h_add);
 
@@ -497,6 +517,7 @@ int main(void)
         h_0.style = key_heading_style;
         h_0.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, "0");
+            return true;
             });
         button_0.add_child(&h_0);
 
@@ -505,6 +526,7 @@ int main(void)
         h_comma.style = key_heading_style;
         h_comma.add_click_listener([&](elem::node::node_click_event event) {
             add_operation(&solution, ".");
+            return true;
             });
         button_comma.add_child(&h_comma);
 
@@ -522,6 +544,7 @@ int main(void)
                 add_operation(&solution, "(");
             }
             parenthesis_flip = !parenthesis_flip;
+            return true;
             });
         button_parenthesis.add_child(&h_parenthesis);
 
@@ -542,7 +565,7 @@ int main(void)
 
 
             solution.set_text(val);
-
+            return true;
             });
         button_equ.add_child(&h_equ);
 
@@ -693,7 +716,7 @@ int main(void)
         doc.main_loop();
 
     }
-    window->destroy();
+    //window->destroy();
 
     return 0;
 }

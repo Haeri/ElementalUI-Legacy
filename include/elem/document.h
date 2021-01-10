@@ -27,6 +27,7 @@ namespace elem
         void request_high_frequency();
 
         elemd::font* load_font(const std::string& font_file);
+        elemd::image* load_image(const std::string& image);
 
         int get_width();
         int get_height();
@@ -47,6 +48,7 @@ namespace elem
         node* _focused_node = nullptr;
         
         std::vector<elemd::font*> _fonts;
+        std::vector<elemd::image*> _images;
         
         void paint();
     };

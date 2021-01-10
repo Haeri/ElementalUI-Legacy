@@ -9,24 +9,24 @@ namespace elem
 
 	void element::paint(elemd::Context* ctx)
 	{
-		elemd::color bg = style.background_color;
-		if ((_state == HOVER || _state == INITIAL_HOVER || _state == HOVER_INITIAL) && style.background_color != hover_style.background_color) {
+		elemd::color bg = style.background_color.is_set ? style.background_color.value : elemd::color(255, 255, 255, 0);
+		if (hover_style.background_color.is_set && (_state == HOVER || _state == INITIAL_HOVER || _state == HOVER_INITIAL) && style.background_color.value != hover_style.background_color.value) {
 			float percent = _transition_progress / style.transition_time;
 			percent = std::min(std::max(percent, 0.0f), 1.0f);
 
 			if (_state == INITIAL_HOVER)
 			{
-				bg = elemd::color::color_lerp(style.background_color, hover_style.background_color, percent);
+				bg = elemd::color::color_lerp(style.background_color.value, hover_style.background_color.value, percent);
 				_document->request_high_frequency();
 			}
 			else if (_state == HOVER_INITIAL)
 			{
-				bg = elemd::color::color_lerp(hover_style.background_color, style.background_color, percent);
+				bg = elemd::color::color_lerp(hover_style.background_color.value, style.background_color.value, percent);
 				_document->request_high_frequency();
 			}
 			else if (_state == HOVER)
 			{
-				bg = hover_style.background_color;
+				bg = hover_style.background_color.value;
 			}
 
 			_transition_progress += _document->delta_time;
@@ -38,9 +38,19 @@ namespace elem
 			else if (_state == HOVER_INITIAL) _state = INITIAL;
 		}
 
+		// Background image
+		if (style.background_image.is_set) {
+			ctx->draw_rounded_image(
+				_position.get_x() + style.margin[3],
+				_position.get_y() + style.margin[0],
+				_width - (style.margin[3] + style.margin[1]),
+				_height - (style.margin[0] + style.margin[2]),
+				style.background_image.value,
+				style.border_radius[0], style.border_radius[1], style.border_radius[2], style.border_radius[3]);
+		}
 
-		// Background
-		if (bg.a() != 0) {
+		// Background Color
+		if (style.background_color.is_set && bg.a() > 0.0f) {
 			ctx->set_fill_color(bg);
 			ctx->fill_rounded_rect(
 				_position.get_x() + style.margin[3],
@@ -50,15 +60,17 @@ namespace elem
 				style.border_radius[0], style.border_radius[1], style.border_radius[2], style.border_radius[3]);
 		}
 
+		
 		// Border
-		if (style.border_color.a() != 0 && style.border_width != 0) {
+		if (style.border_color.a() > 0.0f && style.border_width[0] > 0.0f) {
 			ctx->set_stroke_color(style.border_color);
-			ctx->set_line_width(style.border_width);
-			ctx->stroke_rect(
+			ctx->set_line_width(style.border_width[0]);
+			ctx->stroke_rounded_rect(
 				_position.get_x() + style.margin[3] + style.padding[3],
 				_position.get_y() + style.margin[0] + style.padding[0],
 				_width - (style.margin[3] + style.margin[1]) - (style.padding[3] + style.padding[1]),
-				_height - (style.margin[0] + style.margin[2]) - (style.padding[0] + style.padding[2]));
+				_height - (style.margin[0] + style.margin[2]) - (style.padding[0] + style.padding[2]),
+				style.border_radius[0], style.border_radius[1], style.border_radius[2], style.border_radius[3]);
 		}
 
 

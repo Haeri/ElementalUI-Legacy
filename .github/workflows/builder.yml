@@ -22,7 +22,7 @@ jobs:
     - name: Setup Environment
       uses: microsoft/setup-msbuild@v1.0.2
     - name: Generate Solution
-      run: ./tools/generate_project_win.bat -${{ matrix.type }} -s
+      run: ./scripts/generate_project_win.bat -${{ matrix.type }} -s
     - name: Debug
       if: ${{ failure() }}
       run: |
@@ -33,7 +33,7 @@ jobs:
       run: |
         MSBuild.exe ./build/elem.sln /p:Configuration=${{ matrix.conf }}
     - name: Package
-      run: ./tools/package_win.bat -${{ matrix.type }} -s
+      run: ./scripts/package_win.bat -${{ matrix.type }} -s
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
@@ -60,7 +60,7 @@ jobs:
         sudo apt update
         sudo apt install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev
     - name: Generate Solution
-      run: ./tools/generate_project_linux.sh -${{ matrix.type }}
+      run: ./scripts/generate_project_linux.sh -${{ matrix.type }}
     - name: Debug
       if: ${{ failure() }}
       run: |
@@ -72,7 +72,7 @@ jobs:
         cd ./build
         make config=${{ matrix.conf }}
     - name: Package
-      run: ./tools/package_linux.sh -${{ matrix.type }}
+      run: ./scripts/package_linux.sh -${{ matrix.type }}
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
@@ -95,7 +95,7 @@ jobs:
       with:
         submodules: 'true'
     - name: Generate Solution
-      run: ./tools/generate_project_mac.sh -${{ matrix.type }}
+      run: ./scripts/generate_project_mac.sh -${{ matrix.type }}
     - name: Debug
       if: ${{ failure() }}
       run: |
@@ -107,7 +107,7 @@ jobs:
         cd ./build
         make config=${{ matrix.conf }}
     - name: Package
-      run: ./tools/package_mac.sh -${{ matrix.type }}
+      run: ./scripts/package_mac.sh -${{ matrix.type }}
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
