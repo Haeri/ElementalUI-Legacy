@@ -54,9 +54,24 @@ int main(void)
     );
 
 
+
+    /* Style */
+    elem::node::Style sidebar_element_css;
+    sidebar_element_css.padding[0] = 6;
+    sidebar_element_css.padding[1] = 16;
+    sidebar_element_css.padding[2] = 6;
+    sidebar_element_css.padding[3] = 16;
+    sidebar_element_css.transition_time = 0.1;
+    sidebar_element_css.background_color = sidebar_blue;
+
+
+
     elem::document doc(window);
     elemd::image* _template = doc.load_image("./res/template.png");
-    elemd::font* font_urbanist = doc.load_font("./res/font/Urbanist-Regular.ttf");
+    elemd::font* lato_regular = doc.load_font("./res/font/Lato-Regular.ttf");
+    elemd::font* lato_black = doc.load_font("./res/font/Lato-Black.ttf");
+    elemd::font* slack_icons = doc.load_font("./res/font/slack-icons.ttf");
+    //elemd::font* slack_icons = doc.load_font("./res/font/slack-icons.woff2");
 
     elem::node* root = doc.get_root();
 
@@ -90,9 +105,9 @@ int main(void)
     close_btn.style.padding[1] = 6;
     close_btn.style.padding[2] = 6;
     close_btn.style.padding[3] = 6;
-    close_btn.style.margin[0] = 4;
+    close_btn.style.margin[0] = 6;
     close_btn.style.margin[1] = 4;
-    close_btn.style.margin[2] = 4;
+    close_btn.style.margin[2] = 6;
     close_btn.style.margin[3] = 4;
     close_btn.style.border_radius[0] = 6;
     close_btn.style.border_radius[1] = 6;
@@ -116,9 +131,9 @@ int main(void)
     min_btn.style.padding[1] = 6;
     min_btn.style.padding[2] = 6;
     min_btn.style.padding[3] = 6;
-    min_btn.style.margin[0] = 4;
+    min_btn.style.margin[0] = 6;
     min_btn.style.margin[1] = 4;
-    min_btn.style.margin[2] = 4;
+    min_btn.style.margin[2] = 6;
     min_btn.style.margin[3] = 4;
     min_btn.style.border_radius[0] = 6;
     min_btn.style.border_radius[1] = 6;
@@ -142,9 +157,9 @@ int main(void)
     max_btn.style.padding[1] = 6;
     max_btn.style.padding[2] = 6;
     max_btn.style.padding[3] = 6;
-    max_btn.style.margin[0] = 4;
+    max_btn.style.margin[0] = 6;
     max_btn.style.margin[1] = 4;
-    max_btn.style.margin[2] = 4;
+    max_btn.style.margin[2] = 6;
     max_btn.style.margin[3] = 4;
     max_btn.style.border_radius[0] = 6;
     max_btn.style.border_radius[1] = 6;
@@ -184,6 +199,209 @@ int main(void)
     sidebar.style.width.set_percent(23);
     sidebar.style.height.set_pixels(HEIGHT - 40);
     body.add_child(&sidebar);
+
+    elem::element workspace;
+    workspace.id = "workspace";
+    workspace.style.padding[0] = 12;
+    workspace.style.padding[1] = 16;
+    workspace.style.padding[2] = 12;
+    workspace.style.padding[3] = 16;
+    sidebar.add_child(&workspace);
+
+    elem::element workspace_left;
+    workspace_left.id = "workspace_left";
+    //workspace_left.style.width.set_percent(80);
+    workspace.add_child(&workspace_left);
+
+    elem::heading workspace_title;
+    workspace_title.id = "workspace_title";
+    workspace_title.style.color = elemd::color("#ffffff");
+    workspace_title.style.font_size = 15;
+    workspace_title.style.font_family = lato_black;
+    workspace_title.style.margin[2] = 6;
+    workspace_title.set_text("Fiktion GmbH");
+    workspace_left.add_child(&workspace_title);
+
+    elem::heading workspace_title_arrow;
+    workspace_title_arrow.id = "workspace_title_arrow";
+    workspace_title_arrow.style.color = elemd::color("#ffffff");
+    workspace_title_arrow.style.font_size = 18;
+    workspace_title_arrow.style.font_family = slack_icons;
+    workspace_title_arrow.style.margin[3] = 2;
+    workspace_title_arrow.style.width.set_pixels(80);
+    workspace_title_arrow.set_text("\xee\x89\x92");
+    workspace_left.add_child(&workspace_title_arrow);
+    
+
+    elem::element workspace_user_status;
+    workspace_user_status.id = "workspace_user_status";
+    workspace_user_status.style.display = elem::node::INLINE;
+    workspace_user_status.style.background_color = elemd::color("#2aa772");
+    workspace_user_status.style.padding[0] = 4;
+    workspace_user_status.style.padding[1] = 4;
+    workspace_user_status.style.padding[2] = 4;
+    workspace_user_status.style.padding[3] = 4;
+    workspace_user_status.style.border_radius[0] = 4;
+    workspace_user_status.style.border_radius[1] = 4;
+    workspace_user_status.style.border_radius[2] = 4;
+    workspace_user_status.style.border_radius[3] = 4;
+    workspace_user_status.style.margin[0] = 4;
+    workspace_user_status.style.margin[1] = 5;
+    workspace_left.add_child(&workspace_user_status);
+
+    elem::heading workspace_user;
+    workspace_user.id = "workspace_user";
+    workspace_user.style.color = elemd::color("#ffffff");
+    workspace_user.style.font_size = 13;
+    workspace_user.style.font_family = lato_regular;
+    workspace_user.set_text("Nikki Kroll");
+    workspace_left.add_child(&workspace_user);
+
+
+    elem::element separator;
+    separator.style.background_color = elemd::color("#34393F");
+    separator.style.padding[0] = 1;
+    sidebar.add_child(&separator);
+
+
+    elem::element fixed_list;
+    fixed_list.id = "fixed_list";
+    fixed_list.style.padding[0] = 10;
+    fixed_list.style.padding[2] = 10;
+    sidebar.add_child(&fixed_list);
+
+
+    elem::element fixed_list_1;
+    fixed_list_1.id = "fixed_list_1";
+    fixed_list_1.style = sidebar_element_css;
+    fixed_list_1.hover_style.background_color = title_dark;
+    fixed_list.add_child(&fixed_list_1);
+
+    elem::heading fixed_list_1_icon;
+    fixed_list_1_icon.id = "fixed_list_1_icon";
+    fixed_list_1_icon.style.color = elemd::color("#D2D3D4");
+    fixed_list_1_icon.style.font_size = 16;
+    fixed_list_1_icon.style.font_family = slack_icons;
+    fixed_list_1_icon.style.margin[1] = 26;
+    fixed_list_1_icon.set_text("\xee\x84\x83");
+    fixed_list_1.add_child(&fixed_list_1_icon);
+
+    elem::heading fixed_list_1_title;
+    fixed_list_1_title.id = "fixed_list_1_title";
+    fixed_list_1_title.style.color = elemd::color("#ffffff");
+    fixed_list_1_title.style.font_size = 15;
+    fixed_list_1_title.style.font_family = lato_black;
+    fixed_list_1_title.set_text("Ungelesenes");
+    fixed_list_1.add_child(&fixed_list_1_title);
+
+
+
+    elem::element fixed_list_2;
+    fixed_list_2.id = "fixed_list_2";
+    fixed_list_2.style = sidebar_element_css;
+    fixed_list_2.hover_style.background_color = title_dark;
+    fixed_list.add_child(&fixed_list_2);
+
+    elem::heading fixed_list_2_icon;
+    fixed_list_2_icon.id = "fixed_list_2_icon";
+    fixed_list_2_icon.style.color = elemd::color("#D2D3D4");
+    fixed_list_2_icon.style.font_size = 16;
+    fixed_list_2_icon.style.font_family = slack_icons;
+    fixed_list_2_icon.style.margin[1] = 26;
+    fixed_list_2_icon.set_text("\xee\x85\xb1");
+    fixed_list_2.add_child(&fixed_list_2_icon);
+
+    elem::heading fixed_list_2_title;
+    fixed_list_2_title.id = "fixed_list_2_title";
+    fixed_list_2_title.style.color = elemd::color("#D2D3D4");
+    fixed_list_2_title.style.font_size = 15;
+    fixed_list_2_title.style.font_family = lato_regular;
+    fixed_list_2_title.set_text("Threads");
+    fixed_list_2.add_child(&fixed_list_2_title);
+
+
+
+
+    elem::element fixed_list_3;
+    fixed_list_2.id = "fixed_list_3";
+    fixed_list_3.style = sidebar_element_css;
+    fixed_list_3.hover_style.background_color = title_dark;
+    fixed_list.add_child(&fixed_list_3);
+
+    elem::heading fixed_list_3_icon;
+    fixed_list_3_icon.id = "fixed_list_3_icon";
+    fixed_list_3_icon.style.color = elemd::color("#D2D3D4");
+    fixed_list_3_icon.style.font_size = 16;
+    fixed_list_3_icon.style.font_family = slack_icons;
+    fixed_list_3_icon.style.margin[1] = 26;
+    fixed_list_3_icon.set_text("\xee\x80\x89");
+    fixed_list_3.add_child(&fixed_list_3_icon);
+
+    elem::heading fixed_list_3_title;
+    fixed_list_3_title.id = "fixed_list_3_title";
+    fixed_list_3_title.style.color = elemd::color("#D2D3D4");
+    fixed_list_3_title.style.font_size = 15;
+    fixed_list_3_title.style.font_family = lato_regular;
+    fixed_list_3_title.set_text("Erw\xc3\xa4hnungen & Re...");
+    fixed_list_3.add_child(&fixed_list_3_title);
+
+
+
+    elem::element fixed_list_4;
+    fixed_list_2.id = "fixed_list_4";
+    fixed_list_4.style = sidebar_element_css;
+    fixed_list_4.hover_style.background_color = title_dark;
+    fixed_list.add_child(&fixed_list_4);
+
+    elem::heading fixed_list_4_icon;
+    fixed_list_4_icon.id = "fixed_list_4_icon";
+    fixed_list_4_icon.style.color = elemd::color("#D2D3D4");
+    fixed_list_4_icon.style.font_size = 16;
+    fixed_list_4_icon.style.font_family = slack_icons;
+    fixed_list_4_icon.style.margin[1] = 26;
+    fixed_list_4_icon.set_text("\xee\x81\x99");
+    fixed_list_4.add_child(&fixed_list_4_icon);
+
+    elem::heading fixed_list_4_title;
+    fixed_list_4_title.id = "fixed_list_4_title";
+    fixed_list_4_title.style.color = elemd::color("#ffffff");
+    fixed_list_4_title.style.font_size = 15;
+    fixed_list_4_title.style.font_family = lato_black;
+    fixed_list_4_title.set_text("Entw\xc3\xbcrfe");
+    fixed_list_4.add_child(&fixed_list_4_title);
+
+
+
+    elem::element fixed_list_5;
+    fixed_list_2.id = "fixed_list_5";
+    fixed_list_5.style = sidebar_element_css;
+    fixed_list_5.hover_style.background_color = title_dark;
+    fixed_list.add_child(&fixed_list_5);
+
+    elem::heading fixed_list_5_icon;
+    fixed_list_5_icon.id = "fixed_list_5_icon";
+    fixed_list_5_icon.style.color = elemd::color("#D2D3D4");
+    fixed_list_5_icon.style.font_size = 16;
+    fixed_list_5_icon.style.font_family = slack_icons;
+    fixed_list_5_icon.style.margin[1] = 26;
+    //fixed_list_5_icon.set_text("\xee\x8a\x93");
+    fixed_list_5_icon.set_text("\xee\x85\x88");
+    fixed_list_5.add_child(&fixed_list_5_icon);
+
+    elem::heading fixed_list_5_title;
+    fixed_list_5_title.id = "fixed_list_5_title";
+    fixed_list_5_title.style.color = elemd::color("#D2D3D4");
+    fixed_list_5_title.style.font_size = 15;
+    fixed_list_5_title.style.font_family = lato_regular;
+    fixed_list_5_title.set_text("Mehr anzeigen");
+    fixed_list_5.add_child(&fixed_list_5_title);
+
+
+    elem::element separator2;
+    separator2.style.background_color = elemd::color("#34393F");
+    separator2.style.padding[0] = 1;
+    sidebar.add_child(&separator2);
+
 
 
     elem::element body_content;

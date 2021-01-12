@@ -5,6 +5,9 @@ file(GLOB_RECURSE SOURCE_FILES
         src/*.h
         src/*.cpp)
 
+
+#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} $<$<CONFIG:RELEASE>:/SUBSYSTEM:WINDOWS /ENTRY\:mainCRTStartup>")
+
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE elem)
