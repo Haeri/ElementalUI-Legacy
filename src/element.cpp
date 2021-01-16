@@ -50,7 +50,7 @@ namespace elem
 		}
 
 		// Background Color
-		if (style.background_color.is_set && bg.a() > 0.0f) {
+		if (bg.a() > 0.0f) {
 			ctx->set_fill_color(bg);
 			ctx->fill_rounded_rect(
 				_position.get_x() + style.margin[3],

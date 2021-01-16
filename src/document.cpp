@@ -19,6 +19,9 @@ namespace elem
         });
 
         _window->add_mouse_move_listener([&](elemd::mouse_move_event event) {
+            _mouse_x = event.x;
+            _mouse_y = event.y;
+
             _root->bounds_check(elemd::vec2((float)event.x, (float)event.y));
             node::finish_hover_event();
         });
@@ -44,6 +47,19 @@ namespace elem
                 }
              }
         });
+
+        _window->add_scroll_listener([&](elemd::scroll_event event)
+            {
+                node* node = _root->bounds_check(elemd::vec2(_mouse_x, _mouse_y));
+                node::finish_hover_event();
+
+                elemd::scroll_event event_override = { event.xoffset * 10.f, event.yoffset * 10.f };
+
+                if (node != nullptr)
+                {
+                    node->emit_scroll_event(event_override);
+                }
+            });
 
         _window->add_key_listener([&](elemd::key_event event) {
             if (_focused_node != nullptr)

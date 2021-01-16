@@ -37,6 +37,8 @@ namespace elem
     private:
         int _width;
         int _height;
+        float _mouse_x;
+        float _mouse_y;
 
         bool _highFrequencyNext = false;
 

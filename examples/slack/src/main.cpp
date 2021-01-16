@@ -409,7 +409,52 @@ int main(void)
     body_content.style.background_color = elemd::color(255, 255, 255);
     body_content.style.width.set_percent(77);
     body_content.style.height.set_pixels(HEIGHT - 40);
+    body_content.style.padding[0] = 10;
+    body_content.style.padding[1] = 10;
+    body_content.style.padding[2] = 10;
+    body_content.style.padding[3] = 10;
     body.add_child(&body_content);
+
+
+
+
+    for (size_t i = 0; i < 20; i++)
+    {
+
+
+        elem::element* item = new elem::element();
+        item->id = "scroll_item_" + std::to_string(i);
+        item->style.padding[0] = 20;
+        item->style.padding[2] = 20;
+
+        elem::heading* head = new elem::heading();
+        head->id = "scroll_item_content_" + std::to_string(i);
+        head->style.font_size = 15;
+        head->style.font_family = lato_regular;
+        head->set_text("Some Text herer!");
+        item->add_child(head);
+
+        if (i == 10) {
+            for (size_t i = 0; i < 10; i++)
+            {
+                elem::element* item_inside = new elem::element();
+                item_inside->id = "scroll_item_" + std::to_string(i);
+                item_inside->style.padding[0] = 20;
+                item_inside->style.padding[2] = 20;
+
+                elem::heading* head_inside = new elem::heading();
+                head_inside->id = "scroll_item_content_" + std::to_string(i);
+                head_inside->style.font_size = 15;
+                head_inside->style.font_family = lato_regular;
+                head_inside->set_text("Inside text!");
+                item_inside->add_child(head_inside);
+
+                item->add_child(item_inside);
+
+            }
+        }
+        body_content.add_child(item);
+    }
 
 
 

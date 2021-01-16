@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <map>
+#include <algorithm>
 
 #include "elem/document.h"
 
@@ -63,6 +64,11 @@ namespace elem
 		_click_event_callbacks.push_back(callback);
 	}
 
+	void node::add_scroll_listener(std::function<bool(node_scroll_event)> callback) 
+	{
+		_scroll_event_callbacks.push_back(callback);
+	}
+
 	int node::get_width()
 	{
 		return _width;
@@ -115,6 +121,51 @@ namespace elem
 		if (bubble && _parent != nullptr)
 		{
 			_parent->emit_click_event(event);
+		}
+	}
+
+	void node::emit_scroll_event(elemd::scroll_event event)
+	{
+		bool bubble = true;
+		
+
+		if (_scrollable_x) {
+			if (event.xoffset < 0 && _scroll_percent.get_x() >= 1)
+			{
+			}
+			else if (event.xoffset > 0 && _scroll_percent.get_x() <= 0)
+			{
+			}
+			else if(event.xoffset )
+			{
+				bubble = false;
+				_scroll_offset = _scroll_offset + elemd::vec2((float)event.xoffset, 0.f);
+			}
+		}
+		if (_scrollable_y) {
+			if (event.yoffset < 0 && _scroll_percent.get_y() >= 1)
+			{
+			}
+			else if (event.yoffset > 0 && _scroll_percent.get_y() <= 0)
+			{
+			}
+			else if (event.yoffset)
+			{
+				bubble = false;
+				_scroll_offset = _scroll_offset + elemd::vec2(0.f, (float)event.yoffset);
+			}
+		}
+
+
+
+		for (auto& var : _scroll_event_callbacks)
+		{
+			if (!var({ this, event })) bubble = false;
+		}
+
+		if (bubble && _parent != nullptr)
+		{
+			_parent->emit_scroll_event(event);
 		}
 	}
 
@@ -243,7 +294,20 @@ namespace elem
 
 
 		elemd::vec2 min_dims = get_minimum_dimensions(available_core_width, available_core_height);
+		_scrollable_x = min_dims.get_x() > available_core_width;
+		_scrollable_y = min_dims.get_y() > available_core_height;
 
+		if (min_dims.get_y() > available_core_height || min_dims.get_x() > available_core_width) 
+		{
+			float clmp_x = std::clamp(_scroll_offset.get_x(), available_core_width - min_dims.get_x(), 0.f);
+			float clmp_y = std::clamp(_scroll_offset.get_y(), available_core_height - min_dims.get_y(), 0.f);
+			_scroll_offset = elemd::vec2(clmp_x, clmp_y);
+			_scroll_percent = elemd::vec2(clmp_x / (available_core_width - min_dims.get_x()), clmp_y / (available_core_height - min_dims.get_y()));
+
+			//std::cout << _scroll_offset.get_x() << " " << _scroll_offset.get_y() << "\t" << _scroll_percent.get_x() << " " << _scroll_percent.get_y() << "\n";
+			offset(_scroll_offset.get_x(), _scroll_offset.get_y());
+		}
+		
 
 		if (style.display == Display::BLOCK && style.width.get_type() == measure_value::Type::AUTO)
 		{
@@ -328,6 +392,15 @@ namespace elem
 		_parent = nullptr;
 
 		delete this;
+	}
+
+	void node::offset(float x, float y)
+	{
+		for (node* el : _children) 
+		{
+			el->_position = el->_position + elemd::vec2(x, y);
+			el->offset(x, y);
+		}
 	}
 
 	void node::set_parent(node* parent)

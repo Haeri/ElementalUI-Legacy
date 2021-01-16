@@ -72,6 +72,10 @@ namespace elem
             class node* node;   // GCC needs help here. class declaration is required
             elemd::mouse_button_event event;
         };
+        struct node_scroll_event {
+            class node* node;
+            elemd::scroll_event event;
+        };
         struct node_key_event {
             class node* node;
             elemd::key_event event;
@@ -97,6 +101,7 @@ namespace elem
         void set_focus(bool focus);
         void set_document(document* doc);
         void add_click_listener(std::function<bool(node_click_event)> callback);
+        void add_scroll_listener(std::function<bool(node_scroll_event)> callback);
 
         int get_width();
         int get_height();
@@ -106,12 +111,14 @@ namespace elem
         static void finish_hover_event();
 
         virtual void emit_click_event(elemd::mouse_button_event event);
+        virtual void emit_scroll_event(elemd::scroll_event event);
         virtual void emit_key_event(elemd::key_event event);
         virtual void emit_char_event(elemd::char_event event);
 
         virtual node* bounds_check(elemd::vec2 pos);
         virtual elemd::vec2 get_minimum_dimensions(float width, float height);
         virtual float layout(elemd::vec2 position, float width, float height);
+        virtual void offset(float x, float y);
         virtual void paint(elemd::Context* ctx) = 0;
         virtual void debug_paint(elemd::Context* ctx);
         virtual void destroy();
@@ -125,6 +132,7 @@ namespace elem
         node* _parent = nullptr;
         std::vector<node*> _children;
         std::vector<std::function<bool(node_click_event)>> _click_event_callbacks;
+        std::vector<std::function<bool(node_scroll_event)>> _scroll_event_callbacks;
         std::vector<std::function<bool(node_key_event)>> _key_event_callbacks;
         std::vector<std::function<bool(node_char_event)>> _char_event_callbacks;
         bool _focused = false;
@@ -134,6 +142,11 @@ namespace elem
         elemd::vec2 _position = elemd::vec2(-1, -1);
         float _width = -1;
         float _height = -1;
+
+        elemd::vec2 _scroll_offset;
+        elemd::vec2 _scroll_percent;
+        bool _scrollable_x = false;
+        bool _scrollable_y = false;
 
         void set_parent(node* parent);
 
