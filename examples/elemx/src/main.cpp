@@ -33,9 +33,13 @@ int main(void)
     h1.style.padding[3] = 10;
     h1.style.font_family = font_urbanist;
     h1.style.font_size = 16;
-    h1.style.color = elemd::color("#fffff1");
+    //h1.style.color = elemd::color("#fffff1");
 
-    doc.add_child(&h1);
+    elem::element wrapper;
+    wrapper.style.background_color = elemd::color(255, 255, 255);
+    wrapper.add_child(&h1);
+
+    doc.add_child(&wrapper);
 
     doc.main_loop();
 

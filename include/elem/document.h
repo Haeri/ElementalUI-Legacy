@@ -35,10 +35,11 @@ namespace elem
         elemd::Window* get_window();
 
     private:
-        int _width;
-        int _height;
-        float _mouse_x;
-        float _mouse_y;
+        int _width = 0;
+        int _height = 0;
+        int _document_height = 0;
+        float _mouse_x = -100;
+        float _mouse_y= -100;
 
         bool _highFrequencyNext = false;
 

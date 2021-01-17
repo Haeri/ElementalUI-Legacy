@@ -9,13 +9,18 @@ namespace elem
         _root = new element();
         _root->set_document(this);
 
-        _width = window->get_width();
+        _width = window->get_width() / window->get_dpi_scale();
+        _height = window->get_height() / window->get_dpi_scale();
 
         _window = window;
         _context = _window->create_context();
 
         _window->add_resize_listener([&](elemd::resize_event event) {
             _width = event.width / _window->get_scale().get_x();
+            _height = event.height / _window->get_scale().get_y();
+
+            _root->style.width.set_pixels(_width);
+            _root->style.height.set_pixels(_height);
         });
 
         _window->add_mouse_move_listener([&](elemd::mouse_move_event event) {
@@ -136,6 +141,7 @@ namespace elem
                 last_time = std::chrono::steady_clock::now();
             }
 
+            // TODO: Check dirty
             paint();       
         }
     }
@@ -178,7 +184,7 @@ namespace elem
 
     void document::paint()
     {
-        _height = _root->layout(elemd::vec2(0, 0), _width, _height);
+        _document_height = _root->layout(elemd::vec2(0, 0), _width, _height);
         _root->paint(_context);
 
         _context->draw_frame();

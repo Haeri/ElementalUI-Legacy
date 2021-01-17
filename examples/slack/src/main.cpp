@@ -76,8 +76,8 @@ int main(void)
     elem::node* root = doc.get_root();
 
     //root->style.background_image = _template;
-    root->style.width.set_pixels(WIDTH);
-    root->style.height.set_pixels(HEIGHT);
+    //root->style.width.set_pixels(WIDTH);
+    //root->style.height.set_pixels(HEIGHT);
 
 
     elem::element title_bar;
@@ -191,13 +191,15 @@ int main(void)
     title_bar.add_child(&min_btn);
 
     elem::element body;
+    body.style.background_color = elemd::color(255, 30, 30);
+    body.style.height.set_percent(90);
     body.id = "body";
 
     elem::element sidebar;
     sidebar.id = "sidebar";
     sidebar.style.background_color = sidebar_blue;
     sidebar.style.width.set_percent(23);
-    sidebar.style.height.set_pixels(HEIGHT - 40);
+    sidebar.style.height.set_percent(100);
     body.add_child(&sidebar);
 
     elem::element workspace;
@@ -408,11 +410,12 @@ int main(void)
     body_content.id = "body_content";
     body_content.style.background_color = elemd::color(255, 255, 255);
     body_content.style.width.set_percent(77);
-    body_content.style.height.set_pixels(HEIGHT - 40);
+    body_content.style.height.set_percent(100);
     body_content.style.padding[0] = 10;
     body_content.style.padding[1] = 10;
     body_content.style.padding[2] = 10;
     body_content.style.padding[3] = 10;
+    body_content.style.transition_time = 0.2;
     body.add_child(&body_content);
 
 

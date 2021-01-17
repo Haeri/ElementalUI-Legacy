@@ -65,6 +65,7 @@ namespace elem
             elemd::color border_color = elemd::color(0, 0, 0, 255);
             maybe<elemd::image*> background_image;
             float transition_time;
+            elemd::color scroll_bar_color = elemd::color(30, 30, 30, 100);
         };
 
 
@@ -145,6 +146,7 @@ namespace elem
 
         elemd::vec2 _scroll_offset;
         elemd::vec2 _scroll_percent;
+        elemd::vec2 _min_dims;
         bool _scrollable_x = false;
         bool _scrollable_y = false;
 

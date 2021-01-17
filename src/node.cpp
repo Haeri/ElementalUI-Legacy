@@ -128,7 +128,7 @@ namespace elem
 	{
 		bool bubble = true;
 		
-
+		// only bubble event if we are not scrollable or hit a scroll stop
 		if (_scrollable_x) {
 			if (event.xoffset < 0 && _scroll_percent.get_x() >= 1)
 			{
@@ -237,7 +237,7 @@ namespace elem
 		float width_accum = 0;
 		float max_line_height = 0;
 
-		float camc_width = 0;
+		float calc_width = 0;
 		float calc_height = 0;
 
 		for (node* el : _children) {
@@ -254,8 +254,8 @@ namespace elem
 			// Check if line is full
 			if (_children.size() == (index + 1) || width_accum + _children[index + 1]->get_width() > available_width) {
 
-				if (width_accum > camc_width) {
-					camc_width = width_accum;
+				if (width_accum > calc_width) {
+					calc_width = width_accum;
 				}
 				calc_height += max_line_height;
 
@@ -265,49 +265,75 @@ namespace elem
 
 			++index;
 		}
-		return elemd::vec2(camc_width, calc_height);
+		return elemd::vec2(calc_width, calc_height);
 	}
 
 	float node::layout(elemd::vec2 position, float width, float height)
 	{
 		_position = position;
 
-		float available_core_width = width - (style.margin[3] + style.padding[3]) - (style.margin[1] + style.padding[1]);
-		float available_core_height = height - (style.margin[0] + style.padding[0]) - (style.margin[2] + style.padding[2]);
+		float available_core_width = (width - (style.margin[3] + style.padding[3])) - (style.margin[1] + style.padding[1]);
+		float available_core_height = (height - (style.margin[0] + style.padding[0])) - (style.margin[2] + style.padding[2]);
 
 		// Handle Width
 
 		switch (style.width.get_type())
 		{
 		case measure_value::Type::PERCENT:
-			_width = width * (style.width.get_value() / 100.0f) + (style.margin[3]) + (style.margin[1]);
-			available_core_width = _width;
+			_width = width * (style.width.get_value() / 100.0f);
+			available_core_width = _width - (style.margin[1] + style.padding[1] + style.margin[3] + style.padding[3]);
 			break;
 		case measure_value::Type::PIXELS:
-			_width = style.width.get_value() + (style.margin[3] + (style.margin[1]));
-			available_core_width = _width;
+			available_core_width = style.width.get_value();
+			_width = available_core_width + style.margin[1] + style.padding[1] + style.margin[3] + style.padding[3];
 			break;
 		}
+
+		switch (style.height.get_type())
+		{
+		case measure_value::Type::PERCENT: // Percent defines the outer dimensions (This makes layouting much easier)
+			_height = height * (style.height.get_value() / 100.0f);
+			available_core_height = _height - (style.margin[0] + style.padding[0] + style.margin[2] + style.padding[2]);
+			break; 
+		case measure_value::Type::PIXELS: // Pixels defines the inner dimensions
+			available_core_height = style.height.get_value();
+			_height = available_core_height + style.margin[0] + style.padding[0] + style.margin[2] + style.padding[2];
+			break;
+		}
+	
 
 		
 		// Handle minimum dimensions
 
 
-		elemd::vec2 min_dims = get_minimum_dimensions(available_core_width, available_core_height);
-		_scrollable_x = min_dims.get_x() > available_core_width;
-		_scrollable_y = min_dims.get_y() > available_core_height;
+		_min_dims = get_minimum_dimensions(available_core_width, available_core_height);
+		_scrollable_x = _min_dims.get_x() > available_core_width;
+		_scrollable_y = _min_dims.get_y() > available_core_height;
 
-		if (min_dims.get_y() > available_core_height || min_dims.get_x() > available_core_width) 
+		float clmp_x = 0;
+		float clmp_y = 0;
+
+		if (_min_dims.get_x() > available_core_width)
 		{
-			float clmp_x = std::clamp(_scroll_offset.get_x(), available_core_width - min_dims.get_x(), 0.f);
-			float clmp_y = std::clamp(_scroll_offset.get_y(), available_core_height - min_dims.get_y(), 0.f);
+			clmp_x = std::clamp(_scroll_offset.get_x(), available_core_width - _min_dims.get_x(), 0.f);
 			_scroll_offset = elemd::vec2(clmp_x, clmp_y);
-			_scroll_percent = elemd::vec2(clmp_x / (available_core_width - min_dims.get_x()), clmp_y / (available_core_height - min_dims.get_y()));
-
-			//std::cout << _scroll_offset.get_x() << " " << _scroll_offset.get_y() << "\t" << _scroll_percent.get_x() << " " << _scroll_percent.get_y() << "\n";
-			offset(_scroll_offset.get_x(), _scroll_offset.get_y());
+			_scroll_percent = elemd::vec2(clmp_x / (available_core_width - _min_dims.get_x()), clmp_y / (available_core_height - _min_dims.get_y()));
+		}
+		if (_min_dims.get_y() > available_core_height) 
+		{
+			clmp_y = std::clamp(_scroll_offset.get_y(), available_core_height - _min_dims.get_y(), 0.f);
+			_scroll_offset = elemd::vec2(clmp_x, clmp_y);
+			_scroll_percent = elemd::vec2(clmp_x / (available_core_width - _min_dims.get_x()), clmp_y / (available_core_height - _min_dims.get_y()));
 		}
 		
+		if (clmp_x != 0 || clmp_y != 0)
+		{
+			//std::cout << _scroll_offset.get_x() << " " << _scroll_offset.get_y() << "\t" << _scroll_percent.get_x() << " " << _scroll_percent.get_y() << "\n";
+		offset(_scroll_offset.get_x(), _scroll_offset.get_y());
+		}
+
+
+
 
 		if (style.display == Display::BLOCK && style.width.get_type() == measure_value::Type::AUTO)
 		{
@@ -315,7 +341,7 @@ namespace elem
 		}
 		else if (style.display == Display::INLINE && style.width.get_type() == measure_value::Type::AUTO)
 		{
-			_width = min_dims.x() + (style.margin[3] + style.padding[3]) + (style.margin[1] + style.padding[1]);
+			_width = _min_dims.x() + (style.margin[3] + style.padding[3]) + (style.margin[1] + style.padding[1]);
 		}
 		
 
@@ -326,13 +352,7 @@ namespace elem
 		switch (style.height.get_type())
 		{
 		case measure_value::Type::AUTO:
-			_height = min_dims.y() + (style.margin[0] + style.padding[0]) + (style.margin[2] + style.padding[2]);
-			break;
-		case measure_value::Type::PERCENT:
-			_height = height * (style.height.get_value() / 100.0f);
-			break;
-		case measure_value::Type::PIXELS:
-			_height = style.height.get_value();
+			_height = _min_dims.y() + (style.margin[0] + style.padding[0]) + (style.margin[2] + style.padding[2]);
 			break;
 		}
 

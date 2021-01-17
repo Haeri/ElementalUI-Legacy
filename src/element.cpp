@@ -73,6 +73,40 @@ namespace elem
 				style.border_radius[0], style.border_radius[1], style.border_radius[2], style.border_radius[3]);
 		}
 
+		if ((_scrollable_y || _scrollable_x) && (_state == HOVER || _state == INITIAL_HOVER || _state == HOVER_INITIAL))
+		{
+			float percent = _transition_progress / style.transition_time;
+			percent = std::min(std::max(percent, 0.0f), 1.0f);
+
+			elemd::color handle_color = style.scroll_bar_color;
+			elemd::color handle_color_0 = elemd::color(style.scroll_bar_color.r(), style.scroll_bar_color.g(), style.scroll_bar_color.b(), 0);
+
+			if (_state == INITIAL_HOVER)
+			{
+				handle_color = elemd::color::color_lerp(handle_color_0, handle_color, percent);
+				_document->request_high_frequency();
+			}
+			else if (_state == HOVER_INITIAL)
+			{
+				handle_color = elemd::color::color_lerp(handle_color, handle_color_0, percent);
+				_document->request_high_frequency();
+			}
+
+			ctx->set_fill_color(handle_color);
+
+			if (_scrollable_y) {
+				float bar_length = _height * ((_height - (style.margin[0] + style.padding[0] + style.margin[2] + style.padding[2])) / _min_dims.get_y());
+				bar_length = std::max(bar_length, 10.0f);
+				ctx->fill_rounded_rect(_position.get_x() + _width - 6, _position.get_y() + 1 + ((_height - (bar_length+2)) * _scroll_percent.get_y()), 5, bar_length, 2);
+			}
+			if (_scrollable_x) {
+				float bar_length = _width * ((_width - (style.margin[1] + style.padding[1] + style.margin[3] + style.padding[3])) / _min_dims.get_x());
+				bar_length = std::max(bar_length, 10.0f);
+				ctx->fill_rounded_rect(_position.get_x() + 1 + ((_width - (bar_length+2)) * _scroll_percent.get_x()), _position.get_y() + _height - 6, bar_length, 5, 2);
+			}
+			_transition_progress += _document->delta_time;
+		}
+
 
 		if(_state == HOVER || _state == INITIAL_HOVER)
 			debug_paint(ctx);
