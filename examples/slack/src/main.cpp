@@ -423,8 +423,6 @@ int main(void)
 
     for (size_t i = 0; i < 20; i++)
     {
-
-
         elem::element* item = new elem::element();
         item->id = "scroll_item_" + std::to_string(i);
         item->style.padding[0] = 20;

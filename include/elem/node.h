@@ -44,6 +44,12 @@ namespace elem
             HOVER,
             HOVER_INITIAL
         };
+
+        enum Overflow {
+            SHOW,
+            HIDDEN,
+            SCROLL
+        };
         
         // Style
         struct Style {
@@ -66,6 +72,7 @@ namespace elem
             maybe<elemd::image*> background_image;
             float transition_time;
             elemd::color scroll_bar_color = elemd::color(30, 30, 30, 100);
+            Overflow overflow = Overflow::SCROLL;
         };
 
 

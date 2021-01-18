@@ -111,8 +111,19 @@ namespace elem
 		if(_state == HOVER || _state == INITIAL_HOVER)
 			debug_paint(ctx);
 		
+		if (_scrollable_x || _scrollable_y) {
+			ctx->set_rect_mask(_position.get_x() + style.margin[3],
+				_position.get_y() + style.margin[0],
+				_width - (style.margin[3] + style.margin[1]),
+				_height - (style.margin[0] + style.margin[2]));
+		}
 		for (node* el : _children) {
 			el->paint(ctx);
+		}
+
+		if (_scrollable_x || _scrollable_y) 
+		{
+			ctx->remove_rect_mask();
 		}
 	}
 }
