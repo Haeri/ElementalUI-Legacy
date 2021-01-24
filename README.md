@@ -9,7 +9,7 @@ Portable C++ GUI library.
 
 
 ## Build Requirements
-- [CMake 3.3^](https://cmake.org/download/) 
+- [CMake 3.16^](https://cmake.org/download/) 
 - [Python 3^](https://www.python.org/downloads/)
 
 ## Setup
