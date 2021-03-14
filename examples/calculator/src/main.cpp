@@ -25,7 +25,7 @@ int main(void)
 {
     bool maximized = false;
 
-    int WIDTH = 300;
+    int WIDTH = 500;
     int HEIGHT = 380;
 
     bool should_move = false;

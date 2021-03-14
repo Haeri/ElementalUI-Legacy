@@ -2,6 +2,12 @@
 #include <elem/element.h>
 #include <elem/heading.h>
 
+elemd::font* lato_regular;
+elemd::font* lato_black;
+elemd::font* slack_icons;
+
+void add_item(elem::node*, std::string, elemd::image*, std::string);
+
 int main(void)
 {
     int WIDTH = 1920 / 2;
@@ -68,9 +74,12 @@ int main(void)
 
     elem::document doc(window);
     elemd::image* _template = doc.load_image("./res/template.png");
-    elemd::font* lato_regular = doc.load_font("./res/font/Lato-Regular.ttf");
-    elemd::font* lato_black = doc.load_font("./res/font/Lato-Black.ttf");
-    elemd::font* slack_icons = doc.load_font("./res/font/slack-icons.ttf");
+    elemd::image* p1 = doc.load_image("./res/p1.jfif");
+    elemd::image* p2 = doc.load_image("./res/p2.jfif");
+    elemd::image* p3 = doc.load_image("./res/p3.jfif");
+    lato_regular = doc.load_font("./res/font/Lato-Regular.ttf");
+    lato_black = doc.load_font("./res/font/Lato-Black.ttf");
+    slack_icons = doc.load_font("./res/font/slack-icons.ttf");
     //elemd::font* slack_icons = doc.load_font("./res/font/slack-icons.woff2");
 
     elem::node* root = doc.get_root();
@@ -191,7 +200,7 @@ int main(void)
     title_bar.add_child(&min_btn);
 
     elem::element body;
-    body.style.background_color = elemd::color(255, 30, 30);
+    //body.style.background_color = elemd::color(255, 30, 30);
     body.style.height.set_percent(90);
     body.id = "body";
 
@@ -411,17 +420,32 @@ int main(void)
     body_content.style.background_color = elemd::color(255, 255, 255);
     body_content.style.width.set_percent(77);
     body_content.style.height.set_percent(100);
-    body_content.style.padding[0] = 10;
+    /*body_content.style.padding[0] = 10;
     body_content.style.padding[1] = 10;
     body_content.style.padding[2] = 10;
     body_content.style.padding[3] = 10;
+    */
     body_content.style.transition_time = 0.2;
     body.add_child(&body_content);
 
 
 
+    add_item(&body_content, "Jim Carpenter", p1, "What did the janitor say when he jumped out of the closet? - Supplies!");
+    add_item(&body_content, "Ella Bridger", p2, "Two kids were beating up a kid in an ally, so I stepped into help. He didn't stand a chance against the three of us.");
+    add_item(&body_content, "Elizabeth Lee", p3, "What did the ocean say to the beach? - Nothing, it just waved");
+    add_item(&body_content, "Jim Carpenter", p1, "Why do seagulls fly over the ocean? - Because if they flew over the bay, we'd call them bagels.");
+    add_item(&body_content, "Ella Bridger", p2, "How do you get a squirrel to like you? Act like a nut.");
+    add_item(&body_content, "Elizabeth Lee", p3, "If a child refuses to sleep during nap time, are they guilty of resisting a rest?");
+    add_item(&body_content, "Ella Bridger", p2, "What did Baby Corn say to Mama Corn? - Where's Pop Corn?");
+    add_item(&body_content, "Ella Bridger", p2, "What's the best thing about Switzerland? - I don't know, but the flag is a big plus.");
+    add_item(&body_content, "Ella Bridger", p2, "What did the janitor say when he jumped out of the closet? - Supplies!");
+    add_item(&body_content, "Ella Bridger", p2, "What did the janitor say when he jumped out of the closet? - Supplies!");
+    /*------------------------------------------*/
+    
 
-    for (size_t i = 0; i < 20; i++)
+
+    /*
+    for (size_t i = 0; i < 5; i++)
     {
         elem::element* item = new elem::element();
         item->id = "scroll_item_" + std::to_string(i);
@@ -432,7 +456,7 @@ int main(void)
         head->id = "scroll_item_content_" + std::to_string(i);
         head->style.font_size = 15;
         head->style.font_family = lato_regular;
-        head->set_text("Some Text herer!");
+        head->set_text("Sed porttitor lectus nibh. Vivamus suscipit tortor eget felis porttitor volutpat. Nulla quis lorem ut libero malesuada feugiat. Curabitur aliquet quam id dui posuere blandit. Sed porttitor lectus nibh. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Nulla quis lorem ut libero malesuada feugiat. Cras ultricies ligula sed magna dictum porta. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.");
         item->add_child(head);
 
         if (i == 10) {
@@ -456,7 +480,7 @@ int main(void)
         }
         body_content.add_child(item);
     }
-
+    */
 
 
 
@@ -467,4 +491,48 @@ int main(void)
 
 
     return 0;
+}
+
+
+
+void add_item(elem::node* parent, std::string _name, elemd::image* img, std::string text)
+{
+    elem::element* item = new elem::element();
+    item->style.padding[0] = 12;
+    item->style.padding[1] = 20;
+    item->style.padding[2] = 12;
+    item->style.padding[3] = 20;
+    item->hover_style.background_color = elemd::color(250, 250, 250);
+
+    elem::element* pic = new elem::element();
+    pic->style.background_image = img;
+    pic->style.width.set_pixels(50);
+    pic->style.height.set_pixels(50);
+    pic->style.margin[1] = 14;
+    pic->style.border_radius[0] = 5;
+    pic->style.border_radius[1] = 5;
+    pic->style.border_radius[2] = 5;
+    pic->style.border_radius[3] = 5;
+    item->add_child(pic);
+
+    elem::element* item_body = new elem::element();
+    item_body->style.width.set_percent(80);
+    item->add_child(item_body);
+
+    elem::heading* name = new elem::heading();
+    name->style.display = elem::node::Display::BLOCK;
+    name->style.font_size = 15;
+    name->style.font_family = lato_black;
+    name->style.padding[2] = 5;
+    name->set_text(_name);
+    item_body->add_child(name);
+
+    elem::heading* head = new elem::heading();
+    head->style.font_size = 14;
+    head->style.font_family = lato_regular;
+    head->style.color = elemd::color(100, 100, 100);
+    head->set_text(text);
+    item_body->add_child(head);
+
+    parent->add_child(item);
 }

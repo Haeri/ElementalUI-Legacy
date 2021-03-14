@@ -3,8 +3,8 @@
 
 #define ELEM_LIBRARY_NAME "Elemental UI"
 #define ELEM_VERSION_MAJOR 0
-#define ELEM_VERSION_MINOR 0
-#define ELEM_VERSION_PATCH 0
+#define ELEM_VERSION_MINOR 1
+#define ELEM_VERSION_PATCH 1
 
 #define TO_STR2(x) #x
 #define TO_STR(x) TO_STR2(x)
