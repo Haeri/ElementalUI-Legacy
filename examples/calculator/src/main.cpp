@@ -25,8 +25,8 @@ int main(void)
 {
     bool maximized = false;
 
-    int WIDTH = 500;
-    int HEIGHT = 380;
+    int WIDTH = 300;
+    int HEIGHT = 330;
 
     bool should_move = false;
     float mouse_to_window_delta_x = 0;
@@ -38,8 +38,8 @@ int main(void)
     bool parenthesis_flip = false;
 
     elemd::WindowConfig winc = elemd::WindowConfig{ "Calculator", WIDTH, HEIGHT };
-    winc.decorated = false;
-    winc.transparent = true;
+    //winc.decorated = false;
+    //winc.transparent = true;
     winc.icon_file = "./res/icon.png";
     elemd::Window* window = elemd::Window::create(winc);
 
@@ -608,7 +608,7 @@ int main(void)
 
 
 
-    body.add_child(&title_bar);
+    //body.add_child(&title_bar);
     body.add_child(&display);
     body.add_child(&keypad);
 

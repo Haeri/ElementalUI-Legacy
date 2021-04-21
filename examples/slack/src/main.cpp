@@ -82,7 +82,7 @@ int main(void)
     slack_icons = doc.load_font("./res/font/slack-icons.ttf");
     //elemd::font* slack_icons = doc.load_font("./res/font/slack-icons.woff2");
 
-    elem::node* root = doc.get_root();
+    elem::node* root = doc.get_root();    
 
     //root->style.background_image = _template;
     //root->style.width.set_pixels(WIDTH);
@@ -201,7 +201,7 @@ int main(void)
 
     elem::element body;
     //body.style.background_color = elemd::color(255, 30, 30);
-    body.style.height.set_percent(90);
+    body.style.height.set_percent(93.5f);
     body.id = "body";
 
     elem::element sidebar;
@@ -433,7 +433,7 @@ int main(void)
     add_item(&body_content, "Jim Carpenter", p1, "What did the janitor say when he jumped out of the closet? - Supplies!");
     add_item(&body_content, "Ella Bridger", p2, "Two kids were beating up a kid in an ally, so I stepped into help. He didn't stand a chance against the three of us.");
     add_item(&body_content, "Elizabeth Lee", p3, "What did the ocean say to the beach? - Nothing, it just waved");
-    add_item(&body_content, "Jim Carpenter", p1, "Why do seagulls fly over the ocean? - Because if they flew over the bay, we'd call them bagels.");
+    add_item(&body_content, "Jim Carpenter", p1, "Why do seagulls fly over the ocean? - Because if they flew over the bay, we'd call them bagels. This one is great!");
     add_item(&body_content, "Ella Bridger", p2, "How do you get a squirrel to like you? Act like a nut.");
     add_item(&body_content, "Elizabeth Lee", p3, "If a child refuses to sleep during nap time, are they guilty of resisting a rest?");
     add_item(&body_content, "Ella Bridger", p2, "What did Baby Corn say to Mama Corn? - Where's Pop Corn?");
