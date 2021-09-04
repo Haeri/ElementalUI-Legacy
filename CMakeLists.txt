@@ -59,17 +59,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE elemd::elemd)
 
 # ---------------- EXAMPLES ---------------------#
 
-if(APPLE)
-    set(CONVERTER_POSTFIX "mac.sh")
-    set(SHARED_LIB_NAME "lib${PROJECT_NAME}.dylib")
-elseif(WIN32) 
-    set(CONVERTER_POSTFIX "win.bat")
-    set(SHARED_LIB_NAME "${PROJECT_NAME}.dll")
-else()
-    set(CONVERTER_POSTFIX "linux.sh")
-    set(SHARED_LIB_NAME "lib${PROJECT_NAME}.so")
-endif()
-
 if (ELEM_BUILD_EXAMPLES)
     add_subdirectory(examples/calculator)
     add_subdirectory(examples/elemx)
@@ -84,11 +73,11 @@ if (ELEM_BUILD_EXAMPLES)
     if (BUILD_SHARED_LIBS)
         add_custom_command(
             TARGET ${PROJECT_NAME} POST_BUILD
-            DEPENDS calculator parser
-            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} examples/calculator/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} 
-            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} examples/elemx/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} 
-            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} examples/tasker/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME}
-            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} examples/slack/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/${SHARED_LIB_NAME} 
+            DEPENDS calculator elemx parser slack            
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/examples/calculator/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/$<TARGET_FILE_NAME:${PROJECT_NAME}>
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/examples/elemx/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/$<TARGET_FILE_NAME:${PROJECT_NAME}>
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/examples/tasker/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/$<TARGET_FILE_NAME:${PROJECT_NAME}>
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/examples/slack/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>/$<TARGET_FILE_NAME:${PROJECT_NAME}>
             COMMENT "Copy library"
         )
     endif()

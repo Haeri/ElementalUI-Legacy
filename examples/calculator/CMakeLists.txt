@@ -1,9 +1,17 @@
 set(PROJECT_NAME calculator)
 project(${PROJECT_NAME})
 
+if(WIN32) 
+    set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/res/icon.rc")
+else()
+    set(APP_ICON_RESOURCE_WINDOWS "")
+endif()
+
 file(GLOB_RECURSE SOURCE_FILES
-        src/*.h
-        src/*.cpp)
+        src/*.hpp
+        src/*.cpp
+        ${APP_ICON_RESOURCE_WINDOWS}
+)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 

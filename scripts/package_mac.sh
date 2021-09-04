@@ -6,22 +6,22 @@ cd $(dirname "$0")
 cd ..
 if [ "$1" = "-static" ]; then
 	mkdir lib
-	cp ./build/libelem*.a ./lib/
+	cp ./build/Release/libelem*.a ./lib/
 
 	# ------ Package Examples ------
 
 	# Hello World
 	mkdir -p samples/calculator
 	cp -R ./build/examples/calculator/res ./samples/calculator
-	cp ./build/examples/calculator/calculator ./samples/calculator
+	cp ./build/examples/calculator/Release/calculator ./samples/calculator
 
 	# Overview
 	mkdir -p samples/slack
 	cp -R ./build/examples/slack/res ./samples/slack
-	cp ./build/examples/slack/slack ./samples/slack
+	cp ./build/examples/slack/Release/slack ./samples/slack
 else
 	mkdir bin
-	cp ./build/libelem*.dylib ./bin/
+	cp ./build/Release/libelem*.dylib ./bin/
 fi
 err=$?
 

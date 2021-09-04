@@ -10,7 +10,6 @@ Portable C++ GUI library.
 
 ## Build Requirements
 - [CMake 3.16^](https://cmake.org/download/) 
-- [Python 3^](https://www.python.org/downloads/)
 
 ## Setup
 
@@ -18,7 +17,7 @@ Portable C++ GUI library.
 ```cmd
 git clone https://github.com/Haeri/ElementalUI.git --recursive
 cd ElementalUI
-./tools/generate_project_win.bat
+./scripts/generate_project_win.bat
 ```
 ### <img height="16" src="https://image.flaticon.com/icons/svg/226/226772.svg"> Linux
 ```bash
@@ -26,12 +25,12 @@ git clone https://github.com/Haeri/ElementalUI.git --recursive
 cd ElementalUI
 sudo apt update
 sudo apt install -y libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev cmake curl unzip tar
-./tools/generate_project_linux.sh
+./scripts/generate_project_linux.sh
 ```
 
 ### <img height="16" src="https://image.flaticon.com/icons/svg/2/2235.svg"> Mac
 ```bash
 git clone https://github.com/Haeri/ElementalUI.git --recursive
 cd ElementalUI
-./tools/generate_project_mac.sh
+./scripts/generate_project_mac.sh
 ```
