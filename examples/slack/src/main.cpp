@@ -35,6 +35,7 @@ int main(void)
     elemd::WindowConfig winc = elemd::WindowConfig{ "Slack", WIDTH, HEIGHT };
     winc.decorated = false;
     winc.transparent = true;
+    winc.vsync = true;
     elemd::Window* window = elemd::Window::create(winc);
 
 
@@ -433,7 +434,7 @@ int main(void)
     add_item(&body_content, "Jim Carpenter", p1, "What did the janitor say when he jumped out of the closet? - Supplies!");
     add_item(&body_content, "Ella Bridger", p2, "Two kids were beating up a kid in an ally, so I stepped into help. He didn't stand a chance against the three of us.");
     add_item(&body_content, "Elizabeth Lee", p3, "What did the ocean say to the beach? - Nothing, it just waved");
-    add_item(&body_content, "Jim Carpenter", p1, "Why do seagulls fly over the ocean? - Because if they flew over the bay, we'd call them bagels. This one is great!");
+    add_item(&body_content, "Jim Carpenter", p1, "Why do seagulls fly over the ocean? - Because if they flew over the bay, we'd call them bagels. This one is great! Sed porttitor lectus nibh. Vivamus suscipit tortor eget felis porttitor volutpat. Nulla quis lorem ut libero malesuada feugiat. Curabitur aliquet quam id dui posuere blandit. Sed porttitor lectus nibh.");
     add_item(&body_content, "Ella Bridger", p2, "How do you get a squirrel to like you? Act like a nut.");
     add_item(&body_content, "Elizabeth Lee", p3, "If a child refuses to sleep during nap time, are they guilty of resisting a rest?");
     add_item(&body_content, "Ella Bridger", p2, "What did Baby Corn say to Mama Corn? - Where's Pop Corn?");
