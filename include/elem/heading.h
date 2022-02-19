@@ -13,12 +13,12 @@
 
 namespace elem
 {
-    class ELEM_API heading : public node
+    class ELEM_API Heading : public Node
     {
     public:
-        heading();
+        Heading();
 
-        void add_child(node* child) = delete;
+        void add_child(Node* child) = delete;
 
         //float layout(elemd::vec2 position, float width, float height) override;
         elemd::vec2 get_minimum_dimensions(float width, float height) override;

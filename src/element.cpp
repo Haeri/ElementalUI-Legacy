@@ -7,7 +7,7 @@
 namespace elem
 {
 
-	void element::paint(elemd::Context* ctx)
+	void Element::paint(elemd::Context* ctx)
 	{
 		elemd::color bg = style.background_color.is_set ? style.background_color.value : elemd::color(255, 255, 255, 0);
 		if (hover_style.background_color.is_set && (_state == HOVER || _state == INITIAL_HOVER || _state == HOVER_INITIAL) && style.background_color.value != hover_style.background_color.value) {
@@ -85,7 +85,7 @@ namespace elem
 				_width - (style.margin[3] + style.margin[1]),
 				_height - (style.margin[0] + style.margin[2]));
 		}
-		for (node* el : _children) {
+		for (Node* el : _children) {
 			el->paint(ctx);
 		}
 

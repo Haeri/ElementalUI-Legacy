@@ -2,11 +2,11 @@
 #include <elem/element.h>
 #include <elem/heading.h>
 
-elemd::font* lato_regular;
-elemd::font* lato_black;
-elemd::font* slack_icons;
+elemd::Font* lato_regular;
+elemd::Font* lato_black;
+elemd::Font* slack_icons;
 
-void add_item(elem::node*, std::string, elemd::image*, std::string);
+void add_item(elem::Node*, std::string, elemd::Image*, std::string);
 
 int main(void)
 {
@@ -63,7 +63,7 @@ int main(void)
 
 
     /* Style */
-    elem::node::Style sidebar_element_css;
+    elem::Node::Style sidebar_element_css;
     sidebar_element_css.padding[0] = 6;
     sidebar_element_css.padding[1] = 16;
     sidebar_element_css.padding[2] = 6;
@@ -73,33 +73,33 @@ int main(void)
 
 
 
-    elem::document doc(window);
-    elemd::image* _template = doc.load_image("./res/template.png");
-    elemd::image* p1 = doc.load_image("./res/p1.jfif");
-    elemd::image* p2 = doc.load_image("./res/p2.jfif");
-    elemd::image* p3 = doc.load_image("./res/p3.jfif");
+    elem::Document doc(window);
+    elemd::Image* _template = doc.load_image("./res/template.png");
+    elemd::Image* p1 = doc.load_image("./res/p1.jfif");
+    elemd::Image* p2 = doc.load_image("./res/p2.jfif");
+    elemd::Image* p3 = doc.load_image("./res/p3.jfif");
     lato_regular = doc.load_font("./res/font/Lato-Regular.ttf");
     lato_black = doc.load_font("./res/font/Lato-Black.ttf");
     slack_icons = doc.load_font("./res/font/slack-icons.ttf");
     //elemd::font* slack_icons = doc.load_font("./res/font/slack-icons.woff2");
 
-    elem::node* root = doc.get_root();    
+    elem::Node* root = doc.get_root();    
 
     //root->style.background_image = _template;
     //root->style.width.set_pixels(WIDTH);
     //root->style.height.set_pixels(HEIGHT);
 
 
-    elem::element title_bar;
+    elem::Element title_bar;
     title_bar.id = "title_bar";
     title_bar.style.background_color = title_dark;
     title_bar.style.padding[0] = 8;
     title_bar.style.padding[1] = 6;
     title_bar.style.padding[2] = 8;
     title_bar.style.padding[3] = 6;
+    title_bar.style.border_radius[2] = 6;
     title_bar.style.border_radius[3] = 6;
-    title_bar.style.border_radius[1] = 6;
-    title_bar.add_click_listener([&](elem::node::node_click_event event)
+    title_bar.add_click_listener([&](elem::Node::node_click_event event)
         {
             mouse_to_window_delta_x = event.event.x;
             mouse_to_window_delta_y = event.event.y;
@@ -108,8 +108,8 @@ int main(void)
         }
     );
 
-    elem::element close_btn;
-    close_btn.style.display = elem::node::INLINE;
+    elem::Element close_btn;
+    close_btn.style.display = elem::Node::INLINE;
     close_btn.style.background_color = title_red;
     close_btn.style.padding[0] = 6;
     close_btn.style.padding[1] = 6;
@@ -126,7 +126,7 @@ int main(void)
     close_btn.hover_style = close_btn.style;
     close_btn.hover_style.background_color = elemd::color("#ff726b");
     close_btn.style.transition_time = 0.2f;
-    close_btn.add_click_listener([&](elem::node::node_click_event event)
+    close_btn.add_click_listener([&](elem::Node::node_click_event event)
         {
             window->close();
             return false;
@@ -134,8 +134,8 @@ int main(void)
     );
 
 
-    elem::element min_btn;
-    min_btn.style.display = elem::node::INLINE;
+    elem::Element min_btn;
+    min_btn.style.display = elem::Node::INLINE;
     min_btn.style.background_color = title_green;
     min_btn.style.padding[0] = 6;
     min_btn.style.padding[1] = 6;
@@ -152,7 +152,7 @@ int main(void)
     min_btn.hover_style = min_btn.style;
     min_btn.hover_style.background_color = elemd::color("#5ddf71");
     min_btn.style.transition_time = 0.2f;
-    min_btn.add_click_listener([&](elem::node::node_click_event event)
+    min_btn.add_click_listener([&](elem::Node::node_click_event event)
         {
             move_drag = false;
             window->minimize();
@@ -160,8 +160,8 @@ int main(void)
         }
     );
 
-    elem::element max_btn;
-    max_btn.style.display = elem::node::INLINE;
+    elem::Element max_btn;
+    max_btn.style.display = elem::Node::INLINE;
     max_btn.style.background_color = title_yellow;
     max_btn.style.padding[0] = 6;
     max_btn.style.padding[1] = 6;
@@ -178,7 +178,7 @@ int main(void)
     max_btn.hover_style = max_btn.style;
     max_btn.hover_style.background_color = elemd::color("#ffdf3d");
     max_btn.style.transition_time = 0.2f;
-    max_btn.add_click_listener([&](elem::node::node_click_event event)
+    max_btn.add_click_listener([&](elem::Node::node_click_event event)
         {
             if (!maximized)
             {
@@ -200,19 +200,23 @@ int main(void)
     title_bar.add_child(&max_btn);
     title_bar.add_child(&min_btn);
 
-    elem::element body;
+    elem::Element body;
     //body.style.background_color = elemd::color(255, 30, 30);
+    body.style.border_radius[0] = 6;
+    body.style.border_radius[1] = 6;
+    body.style.border_radius[2] = 6;
+    body.style.border_radius[3] = 6;
     body.style.height.set_percent(93.5f);
     body.id = "body";
 
-    elem::element sidebar;
+    elem::Element sidebar;
     sidebar.id = "sidebar";
     sidebar.style.background_color = sidebar_blue;
     sidebar.style.width.set_percent(23);
     sidebar.style.height.set_percent(100);
     body.add_child(&sidebar);
 
-    elem::element workspace;
+    elem::Element workspace;
     workspace.id = "workspace";
     workspace.style.padding[0] = 12;
     workspace.style.padding[1] = 16;
@@ -220,12 +224,12 @@ int main(void)
     workspace.style.padding[3] = 16;
     sidebar.add_child(&workspace);
 
-    elem::element workspace_left;
+    elem::Element workspace_left;
     workspace_left.id = "workspace_left";
     //workspace_left.style.width.set_percent(80);
     workspace.add_child(&workspace_left);
 
-    elem::heading workspace_title;
+    elem::Heading workspace_title;
     workspace_title.id = "workspace_title";
     workspace_title.style.color = elemd::color("#ffffff");
     workspace_title.style.font_size = 15;
@@ -234,7 +238,7 @@ int main(void)
     workspace_title.set_text("Fiktion GmbH");
     workspace_left.add_child(&workspace_title);
 
-    elem::heading workspace_title_arrow;
+    elem::Heading workspace_title_arrow;
     workspace_title_arrow.id = "workspace_title_arrow";
     workspace_title_arrow.style.color = elemd::color("#ffffff");
     workspace_title_arrow.style.font_size = 18;
@@ -245,9 +249,9 @@ int main(void)
     workspace_left.add_child(&workspace_title_arrow);
     
 
-    elem::element workspace_user_status;
+    elem::Element workspace_user_status;
     workspace_user_status.id = "workspace_user_status";
-    workspace_user_status.style.display = elem::node::INLINE;
+    workspace_user_status.style.display = elem::Node::INLINE;
     workspace_user_status.style.background_color = elemd::color("#2aa772");
     workspace_user_status.style.padding[0] = 4;
     workspace_user_status.style.padding[1] = 4;
@@ -261,7 +265,7 @@ int main(void)
     workspace_user_status.style.margin[1] = 5;
     workspace_left.add_child(&workspace_user_status);
 
-    elem::heading workspace_user;
+    elem::Heading workspace_user;
     workspace_user.id = "workspace_user";
     workspace_user.style.color = elemd::color("#ffffff");
     workspace_user.style.font_size = 13;
@@ -270,26 +274,26 @@ int main(void)
     workspace_left.add_child(&workspace_user);
 
 
-    elem::element separator;
+    elem::Element separator;
     separator.style.background_color = elemd::color("#34393F");
     separator.style.padding[0] = 1;
     sidebar.add_child(&separator);
 
 
-    elem::element fixed_list;
+    elem::Element fixed_list;
     fixed_list.id = "fixed_list";
     fixed_list.style.padding[0] = 10;
     fixed_list.style.padding[2] = 10;
     sidebar.add_child(&fixed_list);
 
 
-    elem::element fixed_list_1;
+    elem::Element fixed_list_1;
     fixed_list_1.id = "fixed_list_1";
     fixed_list_1.style = sidebar_element_css;
     fixed_list_1.hover_style.background_color = title_dark;
     fixed_list.add_child(&fixed_list_1);
 
-    elem::heading fixed_list_1_icon;
+    elem::Heading fixed_list_1_icon;
     fixed_list_1_icon.id = "fixed_list_1_icon";
     fixed_list_1_icon.style.color = elemd::color("#D2D3D4");
     fixed_list_1_icon.style.font_size = 16;
@@ -298,7 +302,7 @@ int main(void)
     fixed_list_1_icon.set_text("\xee\x84\x83");
     fixed_list_1.add_child(&fixed_list_1_icon);
 
-    elem::heading fixed_list_1_title;
+    elem::Heading fixed_list_1_title;
     fixed_list_1_title.id = "fixed_list_1_title";
     fixed_list_1_title.style.color = elemd::color("#ffffff");
     fixed_list_1_title.style.font_size = 15;
@@ -308,13 +312,13 @@ int main(void)
 
 
 
-    elem::element fixed_list_2;
+    elem::Element fixed_list_2;
     fixed_list_2.id = "fixed_list_2";
     fixed_list_2.style = sidebar_element_css;
     fixed_list_2.hover_style.background_color = title_dark;
     fixed_list.add_child(&fixed_list_2);
 
-    elem::heading fixed_list_2_icon;
+    elem::Heading fixed_list_2_icon;
     fixed_list_2_icon.id = "fixed_list_2_icon";
     fixed_list_2_icon.style.color = elemd::color("#D2D3D4");
     fixed_list_2_icon.style.font_size = 16;
@@ -323,7 +327,7 @@ int main(void)
     fixed_list_2_icon.set_text("\xee\x85\xb1");
     fixed_list_2.add_child(&fixed_list_2_icon);
 
-    elem::heading fixed_list_2_title;
+    elem::Heading fixed_list_2_title;
     fixed_list_2_title.id = "fixed_list_2_title";
     fixed_list_2_title.style.color = elemd::color("#D2D3D4");
     fixed_list_2_title.style.font_size = 15;
@@ -334,13 +338,13 @@ int main(void)
 
 
 
-    elem::element fixed_list_3;
+    elem::Element fixed_list_3;
     fixed_list_2.id = "fixed_list_3";
     fixed_list_3.style = sidebar_element_css;
     fixed_list_3.hover_style.background_color = title_dark;
     fixed_list.add_child(&fixed_list_3);
 
-    elem::heading fixed_list_3_icon;
+    elem::Heading fixed_list_3_icon;
     fixed_list_3_icon.id = "fixed_list_3_icon";
     fixed_list_3_icon.style.color = elemd::color("#D2D3D4");
     fixed_list_3_icon.style.font_size = 16;
@@ -349,7 +353,7 @@ int main(void)
     fixed_list_3_icon.set_text("\xee\x80\x89");
     fixed_list_3.add_child(&fixed_list_3_icon);
 
-    elem::heading fixed_list_3_title;
+    elem::Heading fixed_list_3_title;
     fixed_list_3_title.id = "fixed_list_3_title";
     fixed_list_3_title.style.color = elemd::color("#D2D3D4");
     fixed_list_3_title.style.font_size = 15;
@@ -359,13 +363,13 @@ int main(void)
 
 
 
-    elem::element fixed_list_4;
+    elem::Element fixed_list_4;
     fixed_list_2.id = "fixed_list_4";
     fixed_list_4.style = sidebar_element_css;
     fixed_list_4.hover_style.background_color = title_dark;
     fixed_list.add_child(&fixed_list_4);
 
-    elem::heading fixed_list_4_icon;
+    elem::Heading fixed_list_4_icon;
     fixed_list_4_icon.id = "fixed_list_4_icon";
     fixed_list_4_icon.style.color = elemd::color("#D2D3D4");
     fixed_list_4_icon.style.font_size = 16;
@@ -374,7 +378,7 @@ int main(void)
     fixed_list_4_icon.set_text("\xee\x81\x99");
     fixed_list_4.add_child(&fixed_list_4_icon);
 
-    elem::heading fixed_list_4_title;
+    elem::Heading fixed_list_4_title;
     fixed_list_4_title.id = "fixed_list_4_title";
     fixed_list_4_title.style.color = elemd::color("#ffffff");
     fixed_list_4_title.style.font_size = 15;
@@ -384,13 +388,13 @@ int main(void)
 
 
 
-    elem::element fixed_list_5;
+    elem::Element fixed_list_5;
     fixed_list_2.id = "fixed_list_5";
     fixed_list_5.style = sidebar_element_css;
     fixed_list_5.hover_style.background_color = title_dark;
     fixed_list.add_child(&fixed_list_5);
 
-    elem::heading fixed_list_5_icon;
+    elem::Heading fixed_list_5_icon;
     fixed_list_5_icon.id = "fixed_list_5_icon";
     fixed_list_5_icon.style.color = elemd::color("#D2D3D4");
     fixed_list_5_icon.style.font_size = 16;
@@ -400,7 +404,7 @@ int main(void)
     fixed_list_5_icon.set_text("\xee\x85\x88");
     fixed_list_5.add_child(&fixed_list_5_icon);
 
-    elem::heading fixed_list_5_title;
+    elem::Heading fixed_list_5_title;
     fixed_list_5_title.id = "fixed_list_5_title";
     fixed_list_5_title.style.color = elemd::color("#D2D3D4");
     fixed_list_5_title.style.font_size = 15;
@@ -409,14 +413,14 @@ int main(void)
     fixed_list_5.add_child(&fixed_list_5_title);
 
 
-    elem::element separator2;
+    elem::Element separator2;
     separator2.style.background_color = elemd::color("#34393F");
     separator2.style.padding[0] = 1;
     sidebar.add_child(&separator2);
 
 
 
-    elem::element body_content;
+    elem::Element body_content;
     body_content.id = "body_content";
     body_content.style.background_color = elemd::color(255, 255, 255);
     body_content.style.width.set_percent(77);
@@ -496,16 +500,16 @@ int main(void)
 
 
 
-void add_item(elem::node* parent, std::string _name, elemd::image* img, std::string text)
+void add_item(elem::Node* parent, std::string _name, elemd::Image* img, std::string text)
 {
-    elem::element* item = new elem::element();
+    elem::Element* item = new elem::Element();
     item->style.padding[0] = 12;
     item->style.padding[1] = 20;
     item->style.padding[2] = 12;
     item->style.padding[3] = 20;
     item->hover_style.background_color = elemd::color(250, 250, 250);
 
-    elem::element* pic = new elem::element();
+    elem::Element* pic = new elem::Element();
     pic->style.background_image = img;
     pic->style.width.set_pixels(50);
     pic->style.height.set_pixels(50);
@@ -516,19 +520,19 @@ void add_item(elem::node* parent, std::string _name, elemd::image* img, std::str
     pic->style.border_radius[3] = 5;
     item->add_child(pic);
 
-    elem::element* item_body = new elem::element();
+    elem::Element* item_body = new elem::Element();
     item_body->style.width.set_percent(80);
     item->add_child(item_body);
 
-    elem::heading* name = new elem::heading();
-    name->style.display = elem::node::Display::BLOCK;
+    elem::Heading* name = new elem::Heading();
+    name->style.display = elem::Node::Display::BLOCK;
     name->style.font_size = 15;
     name->style.font_family = lato_black;
     name->style.padding[2] = 5;
     name->set_text(_name);
     item_body->add_child(name);
 
-    elem::heading* head = new elem::heading();
+    elem::Heading* head = new elem::Heading();
     head->style.font_size = 14;
     head->style.font_family = lato_regular;
     head->style.color = elemd::color(100, 100, 100);

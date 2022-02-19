@@ -11,14 +11,14 @@ namespace elem
     class ELEM_API elemx_parser
     {
     public:
-        std::unordered_map<std::string, element*> KEYWORDS = 
+        std::unordered_map<std::string, Element*> KEYWORDS = 
         {
 //            {"elem", }
         };
 
 
 
-        static element* parse_file(const std::string& file_path);
+        static Element* parse_file(const std::string& file_path);
     private:
         struct source_code {
             std::string text;

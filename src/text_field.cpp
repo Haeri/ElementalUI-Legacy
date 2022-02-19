@@ -7,12 +7,12 @@
 
 namespace elem
 {
-	text_field::text_field()
+	TextField::TextField()
 	{
 	}
-	void text_field::emit_key_event(elemd::key_event event)
+	void TextField::emit_key_event(elemd::key_event event)
 	{
-		node::emit_key_event(event);
+		Node::emit_key_event(event);
 	
 		if (event.action == elemd::ACTION_PRESS || event.action == elemd::ACTION_REPEAT)
 		{
@@ -54,17 +54,17 @@ namespace elem
 		}
 	}
 
-	void text_field::emit_char_event(elemd::char_event event)
+	void TextField::emit_char_event(elemd::char_event event)
 	{
-		node::emit_char_event(event);
+		Node::emit_char_event(event);
 
 		_content.insert(_cursor_pos, event.utf8);
 		++_cursor_pos;
 	}
 
-	void text_field::set_state(State state)
+	void TextField::set_state(State state)
 	{
-		node::set_state(state);
+		Node::set_state(state);
 		if (_state == HOVER || _state == INITIAL_HOVER)
 		{
 			_document->get_window()->set_cursor(elemd::CURSOR_TYPE::IBEAM_CURSOR);
@@ -93,13 +93,13 @@ namespace elem
 		return _height;
 	}*/
 
-	elemd::vec2 text_field::get_minimum_dimensions(float width, float height)
+	elemd::vec2 TextField::get_minimum_dimensions(float width, float height)
 	{
 		_formated_content = style.font_family->fit_substring(get_text(), width, style.font_size);
 		return style.font_family->measure_dimensions(_formated_content, style.font_size);
 	}
 
-	void text_field::paint(elemd::Context* ctx)
+	void TextField::paint(elemd::Context* ctx)
 	{
 		// Background
 		if (style.background_color.is_set && style.background_color.value.a() != 0)
@@ -142,13 +142,13 @@ namespace elem
 			debug_paint(ctx);
 	}
 
-	void text_field::set_text(std::string text)
+	void TextField::set_text(std::string text)
 	{
 		_content = text;
 		_cursor_pos = std::max(std::min(_cursor_pos, (unsigned int)_content.size()), (unsigned int)0);
 	}
 
-	std::string text_field::get_text()
+	std::string TextField::get_text()
 	{
 		return _content;
 	}

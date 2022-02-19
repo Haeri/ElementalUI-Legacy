@@ -12,10 +12,10 @@ int main(void)
 
 
 
-    elem::document doc(window);
-    elemd::font* font_urbanist = doc.load_font("./res/font/Urbanist-Regular.ttf");
+    elem::Document doc(window);
+    elemd::Font* font_urbanist = doc.load_font("./res/font/Urbanist-Regular.ttf");
 
-    elem::heading h1;
+    elem::Heading h1;
     //h1.set_text("Hello there\nline2");
     h1.set_text(std::string("Cras ultricies ligula sed magna dictum porta. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur aliquet quam id dui posuere blandit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Donec rutrum congue leo eget malesuada. Pellentesque in ipsum id orci porta dapibus. Pellentesque in ipsum id orci porta dapibus. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Pellentesque in ipsum id orci porta dapibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur aliquet quam id dui posuere blandit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin molestie malesuada. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Donec rutrum congue leo eget malesuada. Pellentesque in ipsum id orci porta dapibus. Pellentesque in ipsum id orci porta dapibus. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Pellentesque in ipsum id orci porta dapibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur aliquet quam id dui posuere blandit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin molestie malesuada. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Donec rutrum congue leo eget malesuada. Pellentesque in ipsum id orci porta dapibus. Pellentesque in ipsum id orci porta dapibus. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Pellentesque in ipsum id orci porta dapibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur aliquet quam id dui posuere blandit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin molestie malesuada.")
         + std::string("Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.Donec sollicitudin molestie malesuada.Pellentesque in ipsum id orci porta dapibus.Pellentesque in ipsum id orci porta dapibus.Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem.Donec rutrum congue leo eget malesuada.Curabitur aliquet quam id dui posuere blandit.Curabitur aliquet quam id dui posuere blandit.Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.")
@@ -35,7 +35,7 @@ int main(void)
     h1.style.font_size = 16;
     //h1.style.color = elemd::color("#fffff1");
 
-    elem::element wrapper;
+    elem::Element wrapper;
     wrapper.style.background_color = elemd::color(255, 255, 255);
     wrapper.add_child(&h1);
 

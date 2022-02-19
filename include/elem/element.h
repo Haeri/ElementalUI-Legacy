@@ -13,7 +13,7 @@
 
 namespace elem
 {
-    class ELEM_API element : public node
+    class ELEM_API Element : public Node
     {
     public:
 

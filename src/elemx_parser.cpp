@@ -6,7 +6,7 @@
 
 namespace elem
 {
-	element* elemx_parser::parse_file(const std::string& file_path)
+	Element* elemx_parser::parse_file(const std::string& file_path)
 	{
 		source_code sc;
 		std::ifstream inFile;

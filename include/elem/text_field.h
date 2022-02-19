@@ -13,12 +13,12 @@
 
 namespace elem
 {
-    class ELEM_API text_field : public node
+    class ELEM_API TextField : public Node
     {
     public:
-        text_field();
+        TextField();
 
-        void add_child(node* child) = delete;
+        void add_child(Node* child) = delete;
 
         void emit_key_event(elemd::key_event event) override;
         void emit_char_event(elemd::char_event event) override;

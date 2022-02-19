@@ -4,9 +4,9 @@
 
 namespace elem
 {
-    document::document(elemd::Window* window)
+    Document::Document(elemd::Window* window)
     {
-        _root = new element();
+        _root = new Element();
         _root->set_document(this);
 
         _width = window->get_width() / window->get_dpi_scale();
@@ -28,15 +28,15 @@ namespace elem
             _mouse_y = event.y;
 
             _root->bounds_check(elemd::vec2((float)event.x, (float)event.y));
-            node::finish_hover_event();
+            Node::finish_hover_event();
         });
 
         _window->add_mouse_click_listener([&](elemd::mouse_button_event event)
         {
             if (event.action == elemd::input_action::ACTION_PRESS && event.button == elemd::mouse_button::MOUSE_BUTTON_LEFT)
             {
-                node* node = _root->bounds_check(elemd::vec2((float)event.x, (float)event.y));
-                node::finish_hover_event();
+                Node* node = _root->bounds_check(elemd::vec2((float)event.x, (float)event.y));
+                Node::finish_hover_event();
 
                 if (_focused_node != nullptr)
                 {
@@ -55,8 +55,8 @@ namespace elem
 
         _window->add_scroll_listener([&](elemd::scroll_event event)
             {
-                node* node = _root->bounds_check(elemd::vec2(_mouse_x, _mouse_y));
-                node::finish_hover_event();
+                Node* node = _root->bounds_check(elemd::vec2(_mouse_x, _mouse_y));
+                Node::finish_hover_event();
 
                 elemd::scroll_event event_override = { event.xoffset * 10.f, event.yoffset * 10.f };
 
@@ -84,7 +84,7 @@ namespace elem
         _context->set_clear_color({ 0, 0, 0, 0 });
     }
 
-    document::~document()
+    Document::~Document()
     {
         for (auto& font : _fonts) {
             font->destroy();
@@ -98,19 +98,19 @@ namespace elem
         _window->destroy();
     }
 
-    void document::add_child(node* child)
+    void Document::add_child(Node* child)
     {
         _root->add_child(child);
         _root->set_document(this);
     }
 
-    node* document::get_root()
+    Node* Document::get_root()
     {
         return _root;
     }
 
 
-    void document::main_loop()
+    void Document::main_loop()
     {
         for (auto& font : _fonts) {
             _context->_tmp_register_font(font);
@@ -146,47 +146,48 @@ namespace elem
         }
     }
 
-    void document::request_high_frequency()
+    void Document::request_high_frequency()
     {
         _highFrequencyNext = true;
     }
 
-    elemd::font* document::load_font(const std::string& font_file)
+    elemd::Font* Document::load_font(const std::string& font_file)
     {
-        elemd::font* font = elemd::font::create(font_file);
+        elemd::Font* font = elemd::Font::create(font_file);
         _fonts.push_back(font);
 
         return font;
     }
 
-    elemd::image* document::load_image(const std::string& image)
+    elemd::Image* Document::load_image(const std::string& image)
     {
-        elemd::image* img = elemd::image::create(image);
+        elemd::Image* img = elemd::Image::create(image);
         _images.push_back(img);
 
         return img;
     }
 
-    int document::get_width()
+    int Document::get_width()
     {
         return _width;
     }
 
-    int document::get_height()
+    int Document::get_height()
     {
         return _height;
     }
 
-    elemd::Window* document::get_window()
+    elemd::Window* Document::get_window()
     {
         return _window;
     }
 
-    void document::paint()
+    void Document::paint()
     {
         _document_height = _root->layout(elemd::vec2(0, 0), _width, _height);
         _root->paint(_context);
 
         _context->draw_frame();
+        _context->present_frame();
     }
 }

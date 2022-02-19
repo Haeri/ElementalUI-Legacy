@@ -8,29 +8,29 @@
 
 namespace elem
 {
-	std::map<node*, int> node::_hover_map;
+	std::map<Node*, int> Node::_hover_map;
 
 
-	void node::add_child(node* child)
+	void Node::add_child(Node* child)
 	{
 		_children.push_back(child);
 		child->set_parent(this);
 		set_document(_document);
 	}
 
-	void node::remove_child(int index)
+	void Node::remove_child(int index)
 	{
-		node* elem = _children[index];
+		Node* elem = _children[index];
 		remove_child(elem);
 	}
 
-	void node::remove_child(node* child)
+	void Node::remove_child(Node* child)
 	{
 		_children.erase(std::remove(_children.begin(), _children.end(), child), _children.end());
 		child->set_parent(nullptr);
 	}
 
-	void node::set_state(State state)
+	void Node::set_state(State state)
 	{
 		_transition_progress = 0;
 
@@ -45,12 +45,12 @@ namespace elem
 		_state = state;
 	}
 
-	void node::set_focus(bool focus)
+	void Node::set_focus(bool focus)
 	{
 		_focused = focus;
 	}
 
-	void node::set_document(document* doc)
+	void Node::set_document(Document* doc)
 	{
 		_document = doc;
 		for (auto& child : _children)
@@ -59,32 +59,32 @@ namespace elem
 		}
 	}
 
-	void node::add_click_listener(std::function<bool(node_click_event)> callback)
+	void Node::add_click_listener(std::function<bool(node_click_event)> callback)
 	{
 		_click_event_callbacks.push_back(callback);
 	}
 
-	void node::add_scroll_listener(std::function<bool(node_scroll_event)> callback) 
+	void Node::add_scroll_listener(std::function<bool(node_scroll_event)> callback) 
 	{
 		_scroll_event_callbacks.push_back(callback);
 	}
 
-	int node::get_width()
+	int Node::get_width()
 	{
 		return _width;
 	}
 
-	int node::get_height()
+	int Node::get_height()
 	{
 		return _height;
 	}
 
-	elemd::vec2 node::get_position()
+	elemd::vec2 Node::get_position()
 	{
 		return _position;
 	}
 
-	void node::add_to_hover_list(node* node)
+	void Node::add_to_hover_list(Node* node)
 	{
 		auto find = _hover_map.find(node);
 		if (find == _hover_map.end()) {
@@ -93,7 +93,7 @@ namespace elem
 		_hover_map[node] = 2;
 	}
 
-	void node::finish_hover_event()
+	void Node::finish_hover_event()
 	{
 		for (auto it = _hover_map.begin(); it != _hover_map.end();)
 		{
@@ -110,7 +110,7 @@ namespace elem
 		}
 	}
 
-	void node::emit_click_event(elemd::mouse_button_event event)
+	void Node::emit_click_event(elemd::mouse_button_event event)
 	{
 		bool bubble = true;
 		for (auto& var : _click_event_callbacks)
@@ -124,7 +124,7 @@ namespace elem
 		}
 	}
 
-	void node::emit_scroll_event(elemd::scroll_event event)
+	void Node::emit_scroll_event(elemd::scroll_event event)
 	{
 		bool bubble = true;
 		
@@ -169,7 +169,7 @@ namespace elem
 		}
 	}
 
-	void node::emit_key_event(elemd::key_event event)
+	void Node::emit_key_event(elemd::key_event event)
 	{
 		bool bubble = true;
 		for (auto& var : _key_event_callbacks)
@@ -183,7 +183,7 @@ namespace elem
 		}
 	}
 
-	void node::emit_char_event(elemd::char_event event)
+	void Node::emit_char_event(elemd::char_event event)
 	{
 		bool bubble = true;
 		for (auto& var : _char_event_callbacks)
@@ -197,7 +197,7 @@ namespace elem
 		}
 	}
 
-	node* node::bounds_check(elemd::vec2 pos)
+	Node* Node::bounds_check(elemd::vec2 pos)
 	{
 		
 		//std::cout << "Node: p" << "(" << _position.get_x() << ", " << _position.get_y() << ") " << " w" << get_width() << " h" << get_height();
@@ -210,7 +210,7 @@ namespace elem
 			{
 				for (auto& el : _children)
 				{
-					node* ret = el->bounds_check(pos);
+					Node* ret = el->bounds_check(pos);
 					if (ret != nullptr) {
 						return ret;
 					}
@@ -229,7 +229,7 @@ namespace elem
 		return nullptr;
 	}
 
-	elemd::vec2 node::get_minimum_dimensions(float available_width, float available_height)
+	elemd::vec2 Node::get_minimum_dimensions(float available_width, float available_height)
 	{
 		elemd::vec2 child_pos = _position + elemd::vec2(style.margin[3] + style.padding[3], style.margin[0] + style.padding[0]);
 		
@@ -240,7 +240,7 @@ namespace elem
 		float calc_width = 0;
 		float calc_height = 0;
 
-		for (node* el : _children) {
+		for (Node* el : _children) {
 
 			//child_pos.y() += height_offset;
 
@@ -268,7 +268,7 @@ namespace elem
 		return elemd::vec2(calc_width, calc_height);
 	}
 
-	float node::layout(elemd::vec2 position, float width, float height)
+	float Node::layout(elemd::vec2 position, float width, float height)
 	{
 		_position = position;
 
@@ -279,11 +279,11 @@ namespace elem
 
 		switch (style.width.get_type())
 		{
-		case measure_value::Type::PERCENT:
+		case value::Type::PERCENT:
 			_width = width * (style.width.get_value() / 100.0f);
 			available_core_width = _width - (style.margin[1] + style.padding[1] + style.margin[3] + style.padding[3]);
 			break;
-		case measure_value::Type::PIXELS:
+		case value::Type::PIXELS:
 			available_core_width = style.width.get_value();
 			_width = available_core_width + style.margin[1] + style.padding[1] + style.margin[3] + style.padding[3];
 			break;
@@ -291,11 +291,11 @@ namespace elem
 
 		switch (style.height.get_type())
 		{
-		case measure_value::Type::PERCENT: // Percent defines the outer dimensions (This makes layouting much easier)
+		case value::Type::PERCENT: // Percent defines the outer dimensions (This makes layouting much easier)
 			_height = height * (style.height.get_value() / 100.0f);
 			available_core_height = _height - (style.margin[0] + style.padding[0] + style.margin[2] + style.padding[2]);
 			break; 
-		case measure_value::Type::PIXELS: // Pixels defines the inner dimensions
+		case value::Type::PIXELS: // Pixels defines the inner dimensions
 			available_core_height = style.height.get_value();
 			_height = available_core_height + style.margin[0] + style.padding[0] + style.margin[2] + style.padding[2];
 			break;
@@ -335,11 +335,11 @@ namespace elem
 
 
 
-		if (style.display == Display::BLOCK && style.width.get_type() == measure_value::Type::AUTO)
+		if (style.display == Display::BLOCK && style.width.get_type() == value::Type::AUTO)
 		{
 			_width = width;
 		}
-		else if (style.display == Display::INLINE && style.width.get_type() == measure_value::Type::AUTO)
+		else if (style.display == Display::INLINE && style.width.get_type() == value::Type::AUTO)
 		{
 			_width = _min_dims.x() + (style.margin[3] + style.padding[3]) + (style.margin[1] + style.padding[1]);
 		}
@@ -351,7 +351,7 @@ namespace elem
 
 		switch (style.height.get_type())
 		{
-		case measure_value::Type::AUTO:
+		case value::Type::AUTO:
 			_height = _min_dims.y() + (style.margin[0] + style.padding[0]) + (style.margin[2] + style.padding[2]);
 			break;
 		}
@@ -359,7 +359,7 @@ namespace elem
 		return _height;
 	}
 
-	void node::debug_paint(elemd::Context* ctx)
+	void Node::debug_paint(elemd::Context* ctx)
 	{
 		// DEBUG
 		if (false) {
@@ -398,12 +398,12 @@ namespace elem
 
 	}
 
-	void node::destroy()
+	void Node::destroy()
 	{
 		_should_destroy = true;
 	}
 
-	void node::destroy_immediately()
+	void Node::destroy_immediately()
 	{
 		for (auto& child : _children)
 		{
@@ -414,16 +414,16 @@ namespace elem
 		delete this;
 	}
 
-	void node::offset(float x, float y)
+	void Node::offset(float x, float y)
 	{
-		for (node* el : _children) 
+		for (Node* el : _children) 
 		{
 			el->_position = el->_position + elemd::vec2(x, y);
 			el->offset(x, y);
 		}
 	}
 
-	void node::set_parent(node* parent)
+	void Node::set_parent(Node* parent)
 	{
 		_parent = parent;
 

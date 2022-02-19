@@ -7,7 +7,7 @@
 
 namespace elem
 {
-    class ELEM_API measure_value
+    class ELEM_API value
     {
     public:
 
@@ -17,9 +17,9 @@ namespace elem
             AUTO
         };
 
-        measure_value() {}
-        measure_value(std::string value);
-        measure_value(float value, Type type);
+        value() {}
+        value(std::string value);
+        value(float value, Type type);
 
         void set_pixels(float pixels);
         void set_percent(float percent);

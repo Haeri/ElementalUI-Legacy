@@ -16,7 +16,7 @@
 
 namespace elem
 {
-    class document;
+    class Document;
 
     template <typename T>
     struct maybe {
@@ -30,7 +30,7 @@ namespace elem
         }
     };
 
-    class ELEM_API node
+    class ELEM_API Node
     {
     public:
         enum Display {
@@ -54,8 +54,8 @@ namespace elem
         // Style
         struct Style {
             Display display = Display::BLOCK;
-            measure_value width;
-            measure_value height;
+            value width;
+            value height;
             maybe<float> min_width;
             float min_height = -1;
             float max_width = std::numeric_limits<float>::max();
@@ -65,11 +65,11 @@ namespace elem
             float border_width[4] = { 0, 0, 0, 0 };
             maybe<elemd::color> background_color;
             elemd::color color = elemd::color(0, 0, 0, 255);
-            elemd::font* font_family = nullptr;
+            elemd::Font* font_family = nullptr;
             float font_size = 10;
             float border_radius[4] = { 0, 0, 0, 0 };
             elemd::color border_color = elemd::color(0, 0, 0, 255);
-            maybe<elemd::image*> background_image;
+            maybe<elemd::Image*> background_image;
             float transition_time;
             elemd::color scroll_bar_color = elemd::color(30, 30, 30, 100);
             Overflow overflow = Overflow::SCROLL;
@@ -77,19 +77,19 @@ namespace elem
 
 
         struct node_click_event {
-            class node* node;   // GCC needs help here. class declaration is required
+            class Node* node;   // GCC needs help here. class declaration is required
             elemd::mouse_button_event event;
         };
         struct node_scroll_event {
-            class node* node;
+            class Node* node;
             elemd::scroll_event event;
         };
         struct node_key_event {
-            class node* node;
+            class Node* node;
             elemd::key_event event;
         };
         struct node_char_event {
-            class node* node;
+            class Node* node;
             elemd::char_event event;
         };
 
@@ -101,13 +101,13 @@ namespace elem
         std::string id;
         std::string class_name;
 
-        void add_child(node* child);
+        void add_child(Node* child);
         void remove_child(int index);
-        void remove_child(node* child);
+        void remove_child(Node* child);
 
         virtual void set_state(State state);
         void set_focus(bool focus);
-        void set_document(document* doc);
+        void set_document(Document* doc);
         void add_click_listener(std::function<bool(node_click_event)> callback);
         void add_scroll_listener(std::function<bool(node_scroll_event)> callback);
 
@@ -115,7 +115,7 @@ namespace elem
         int get_height();
         elemd::vec2 get_position();
 
-        static void add_to_hover_list(node* node);
+        static void add_to_hover_list(Node* node);
         static void finish_hover_event();
 
         virtual void emit_click_event(elemd::mouse_button_event event);
@@ -123,7 +123,7 @@ namespace elem
         virtual void emit_key_event(elemd::key_event event);
         virtual void emit_char_event(elemd::char_event event);
 
-        virtual node* bounds_check(elemd::vec2 pos);
+        virtual Node* bounds_check(elemd::vec2 pos);
         virtual elemd::vec2 get_minimum_dimensions(float width, float height);
         virtual float layout(elemd::vec2 position, float width, float height);
         virtual void offset(float x, float y);
@@ -133,12 +133,12 @@ namespace elem
         void destroy_immediately();
 
     protected:
-        static std::map<node*, int> _hover_map;
-        document* _document;
+        static std::map<Node*, int> _hover_map;
+        Document* _document;
         bool _should_destroy = false;
 
-        node* _parent = nullptr;
-        std::vector<node*> _children;
+        Node* _parent = nullptr;
+        std::vector<Node*> _children;
         std::vector<std::function<bool(node_click_event)>> _click_event_callbacks;
         std::vector<std::function<bool(node_scroll_event)>> _scroll_event_callbacks;
         std::vector<std::function<bool(node_key_event)>> _key_event_callbacks;
@@ -157,7 +157,7 @@ namespace elem
         bool _scrollable_x = false;
         bool _scrollable_y = false;
 
-        void set_parent(node* parent);
+        void set_parent(Node* parent);
 
 
     };

@@ -2,7 +2,7 @@
 
 namespace elem
 {
-	heading::heading()
+	Heading::Heading()
 	{
 		style.display = Display::INLINE;
 	}
@@ -27,13 +27,13 @@ namespace elem
 		return _height;
 	}*/
 
-	elemd::vec2 heading::get_minimum_dimensions(float width, float height)
+	elemd::vec2 Heading::get_minimum_dimensions(float width, float height)
 	{
 		_formated_content = style.font_family->fit_substring(get_text(), width, style.font_size);
 		return style.font_family->measure_dimensions(_formated_content, style.font_size);
 	}
 
-	void heading::paint(elemd::Context* ctx)
+	void Heading::paint(elemd::Context* ctx)
 	{
 		// Background
 		if (style.background_color.is_set && style.background_color.value.a() != 0)
@@ -58,12 +58,12 @@ namespace elem
 			debug_paint(ctx);
 	}
 
-	void heading::set_text(std::string text)
+	void Heading::set_text(std::string text)
 	{
 		_content = text;
 	}
 
-	std::string heading::get_text()
+	std::string Heading::get_text()
 	{
 		return _content;
 	}

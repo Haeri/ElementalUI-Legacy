@@ -12,22 +12,22 @@
 
 namespace elem
 {
-    class ELEM_API document
+    class ELEM_API Document
     {
     public:
         float delta_time;
 
-        document(elemd::Window* window);
-        ~document();
+        Document(elemd::Window* window);
+        ~Document();
         
-        void add_child(node* child);
-        node* get_root();
+        void add_child(Node* child);
+        Node* get_root();
         void main_loop();
 
         void request_high_frequency();
 
-        elemd::font* load_font(const std::string& font_file);
-        elemd::image* load_image(const std::string& image);
+        elemd::Font* load_font(const std::string& font_file);
+        elemd::Image* load_image(const std::string& image);
 
         int get_width();
         int get_height();
@@ -43,15 +43,15 @@ namespace elem
 
         bool _highFrequencyNext = false;
 
-        node* _root = nullptr;
+        Node* _root = nullptr;
 
         elemd::Window* _window = nullptr;
         elemd::Context* _context = nullptr;
         
-        node* _focused_node = nullptr;
+        Node* _focused_node = nullptr;
         
-        std::vector<elemd::font*> _fonts;
-        std::vector<elemd::image*> _images;
+        std::vector<elemd::Font*> _fonts;
+        std::vector<elemd::Image*> _images;
         
         void paint();
     };
