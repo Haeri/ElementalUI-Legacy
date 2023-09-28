@@ -1,4 +1,4 @@
-# Elemental UI
+# Elemental UI (Legacy)
 
 ![C++ Builder](https://github.com/Haeri/ElementalUI/workflows/C++%20Builder/badge.svg)
 ![Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/Haeri/ElementalUI/master/vcpkg.json&label=version&query=$['version-string']&color=blue)
@@ -6,6 +6,10 @@
 ![Size](https://img.shields.io/github/languages/code-size/haeri/elementalui)
 
 Portable C++ GUI library.
+
+### Update
+This repo has been integrated into [elementalDraw](https://github.com/Haeri/elementalDraw) 
+
 
 
 ## Build Requirements
